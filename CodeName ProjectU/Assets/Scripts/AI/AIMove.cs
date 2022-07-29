@@ -5,19 +5,21 @@ public class AIMove : MonoBehaviour
 {
 	[SerializeField] private Transform _targetPoint;
 	[SerializeField] private float _walkSpeed = 0.04f;
+	[SerializeField] private SpriteRenderer[] _escordItemsX;
+	[SerializeField] private SpriteRenderer[] _escordItemsY;
 
 	private WayDirectrion _wayDirection;
-	private SpriteRenderer _spriteRenderer;
 	private int _direction = 1;
 
 	public bool IsMoving => !OnPosition() && _targetPoint != null;
+
 	public void GoToTarget()
 	{
 		if (_targetPoint != null)
 		{
 			Rotate(_targetPoint.position.x - transform.position.x > 0 ? 1 : -1);
 		}
-		else if (OnPosition() || IsPitInFront())
+		if (OnPosition() || IsPitInFront())
 		{
 			return;
 		}
@@ -31,21 +33,19 @@ public class AIMove : MonoBehaviour
 			throw new System.Exception($"Invalid value {direction}.\nIt must between -1 and 1");
 		}
 		_direction = direction;
-		if (_spriteRenderer != null)
+		foreach (SpriteRenderer var in _escordItemsX)
 		{
-			_spriteRenderer.flipX = _direction == -1;
+			var.flipX = _direction == -1;
+		}
+		foreach (SpriteRenderer var in _escordItemsY)
+		{
+			var.flipY = _direction == -1;
 		}
 	}
 	private void Awake()
 	{
 		_wayDirection = GetComponent<WayDirectrion>();
-		_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
-	private bool OnPosition() => _targetPoint != null ? true : Mathf.Round(_targetPoint.position.x) == Mathf.Round(transform.position.x);
+	private bool OnPosition() => (_targetPoint == null) ? true : (Mathf.Round(_targetPoint.position.x) == Mathf.Round(transform.position.x));
 	private bool IsPitInFront() => Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * _direction, transform.position.y), new Vector2(_direction * 0.1f, -0.5f),3).collider == null;
-
-	private void FixedUpdate()
-	{
-		GoToTarget();
-	}
 }

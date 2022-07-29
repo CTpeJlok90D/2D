@@ -14,12 +14,13 @@ public class AIShoot : MonoBehaviour
 	[Header("Reload and ammo")]
 	[SerializeField] private AudioClip _reloadSound;
 	[SerializeField] private float _reloadTime = 5f;
-	[SerializeField] private int _maxAmmoCount = 9;
-	[SerializeField] private int _ammoCount = 9;
+	[SerializeField] private int _magazineSize = 9;
 
 	[Space(5)]
 	[Header("Debug")]
 	[SerializeField] private Transform _target;
+
+	private int _ammoCount;
 	private float _cantShootNextSeconds = 0f;
 	private AudioSource _audioSource;
 	private AIMove _aiMove;
@@ -48,13 +49,16 @@ public class AIShoot : MonoBehaviour
 	}
 	public void Aim()
 	{
-		_aiMove.Rotate(_target.transform.position.x - _weapon.position.x > 0 ? 1 : -1);
+		if (Mathf.Round(transform.position.x) != Mathf.Round(_target.position.x))
+		{
+			_aiMove.Rotate(_target.transform.position.x - _weapon.position.x > 0 ? 1 : -1);
+		}
 		_weapon.right = _target.transform.position - _weapon.position;
 	}
 	public void Reload()
 	{
 		_cantShootNextSeconds += _reloadTime;
-		_ammoCount = _maxAmmoCount;
+		_ammoCount = _magazineSize;
 
 		_audioSource.clip = _reloadSound;
 		_audioSource.Play();
@@ -63,12 +67,8 @@ public class AIShoot : MonoBehaviour
 	{
 		_audioSource = GetComponent<AudioSource>();
 		_aiMove = GetComponent<AIMove>();
-	}
-	private void Update()
-	{
-		Aim();
-		Attack();
-	}
+		_ammoCount = _magazineSize;
+}
 	private void FixedUpdate()
 	{
 		if (_cantShootNextSeconds > 0)

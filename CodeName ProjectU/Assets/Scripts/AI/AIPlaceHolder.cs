@@ -14,6 +14,7 @@ public class AIPlaceHolder : MonoBehaviour
 	}
 	void FixedUpdate()
     {
-
+		_aiMove.GoToTarget();
+		_aiShoot.Aim();
     }
 }

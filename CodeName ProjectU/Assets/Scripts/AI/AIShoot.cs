@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource),typeof(AIMove))]
+[RequireComponent(typeof(AudioSource),typeof(SpriteRotator))]
 public class AIShoot : MonoBehaviour
 {
 	[Header("Shooting")]
@@ -20,10 +20,11 @@ public class AIShoot : MonoBehaviour
 	[Header("Debug")]
 	[SerializeField] private Transform _target;
 
+	private AudioSource _audioSource;
+	private SpriteRotator _spriteRotator;
+	private SpriteRenderer _weaponRenderer;
 	private int _ammoCount;
 	private float _cantShootNextSeconds = 0f;
-	private AudioSource _audioSource;
-	private AIMove _aiMove;
 	public void SetTarget(Transform target)
 	{
 		_target = target;
@@ -49,10 +50,8 @@ public class AIShoot : MonoBehaviour
 	}
 	public void Aim()
 	{
-		if (Mathf.Round(transform.position.x) != Mathf.Round(_target.position.x))
-		{
-			_aiMove.Rotate(_target.transform.position.x - _weapon.position.x > 0 ? 1 : -1);
-		}
+		_spriteRotator.RotateBody(_target.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
+		_weaponRenderer.flipY = _spriteRotator.Direction == Direction.Left;
 		_weapon.right = _target.transform.position - _weapon.position;
 	}
 	public void Reload()
@@ -66,7 +65,8 @@ public class AIShoot : MonoBehaviour
 	private void Awake()
 	{
 		_audioSource = GetComponent<AudioSource>();
-		_aiMove = GetComponent<AIMove>();
+		_weaponRenderer = _weapon.GetComponent<SpriteRenderer>();
+		_spriteRotator = GetComponent<SpriteRotator>();
 		_ammoCount = _magazineSize;
 }
 	private void FixedUpdate()

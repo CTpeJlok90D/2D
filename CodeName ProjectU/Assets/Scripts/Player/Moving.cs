@@ -21,7 +21,6 @@ public class Moving : MonoBehaviour
     private SpriteRotator _spriteRotator;
     private Direction _direction = Direction.Right;
 
-
     private void Awake()
     {
         _way = GetComponent<WayDirectrion>();
@@ -77,8 +76,7 @@ public class Moving : MonoBehaviour
         {
             _correctSpeed = _speed;
         }
-        Debug.Log(move);
-        _rigidbody2D.velocity = new Vector2(move, 0) * Time.fixedDeltaTime;
+        _rigidbody2D.position = Vector3.MoveTowards(_rigidbody2D.position, new Vector2(move, 0), Time.fixedDeltaTime * _correctSpeed);
     }
     private void Jump()
     {
@@ -87,7 +85,6 @@ public class Moving : MonoBehaviour
             _correctJumpState += 0.01f;
             _hight = transform.position.y;
         }
-
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

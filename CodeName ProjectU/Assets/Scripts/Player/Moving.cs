@@ -54,6 +54,7 @@ public class Moving : MonoBehaviour
         float move = Input.GetAxis("Horizontal");
         if (move == 0)
         {
+            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             _correctSpeed = 0;
             return;
         }
@@ -77,8 +78,7 @@ public class Moving : MonoBehaviour
         {
             _correctSpeed = _speed;
         }
-        Debug.Log(move);
-        _rigidbody2D.velocity = new Vector2(move, 0) * Time.fixedDeltaTime;
+        _rigidbody2D.velocity = new Vector2(move, _rigidbody2D.velocity.y) * Time.fixedDeltaTime * _speed;
     }
     private void Jump()
     {

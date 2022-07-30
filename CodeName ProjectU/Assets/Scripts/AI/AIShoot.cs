@@ -1,58 +1,49 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource),typeof(SpriteRotator))]
+[RequireComponent(typeof(AudioSource), typeof(SpriteRotator))]
 public class AIShoot : MonoBehaviour
 {
 	[Header("Shooting")]
-	[SerializeField] private AudioClip _shootSound;
 	[SerializeField] private Bullet _bullet;
-	[SerializeField] private Transform _weapon;
 	[SerializeField] private Transform _bulletSpawner;
 	[SerializeField] private float _timeBetweenShoots = 1f;
 
-	[Space(3)]
-	[Header("Reload and ammo")]
+	[Space(3)][Header("Reload and ammo")]
 	[SerializeField] private AudioClip _reloadSound;
 	[SerializeField] private float _reloadTime = 5f;
 	[SerializeField] private int _magazineSize = 9;
 
-	[Space(5)]
-	[Header("Debug")]
-	[SerializeField] private Transform _target;
-
-	private AudioSource _audioSource;
-	private SpriteRotator _spriteRotator;
-	private SpriteRenderer _weaponRenderer;
 	private int _ammoCount;
 	private float _cantShootNextSeconds = 0f;
+	private AudioSource _audioSource;
+	private SpriteRotator _spriteRotator;
+	private Transform _target;
+
 	public void SetTarget(Transform target)
 	{
 		_target = target;
 	}
+	public void Attack(Transform target)
+	{
+		_target = target;
+		Attack();
+	}
 	public void Attack()
 	{
-		if (_cantShootNextSeconds > 0)
-		{
-			return;
-		}
 		if (_ammoCount <= 0)
 		{
 			Reload();
+			return;
+		}
+		Aim();
+		if (_cantShootNextSeconds > 0)
+		{
 			return;
 		}
 
 		_ammoCount -= 1;
 		_cantShootNextSeconds = _timeBetweenShoots;
 		Instantiate(_bullet, _bulletSpawner.position, _bulletSpawner.rotation);
-
-		_audioSource.clip = _shootSound;
-		_audioSource.Play();
-	}
-	public void Aim()
-	{
-		_spriteRotator.RotateBody(_target.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
-		_weaponRenderer.flipY = _spriteRotator.Direction == Direction.Left;
-		_weapon.right = _target.transform.position - _weapon.position;
 	}
 	public void Reload()
 	{
@@ -62,10 +53,14 @@ public class AIShoot : MonoBehaviour
 		_audioSource.clip = _reloadSound;
 		_audioSource.Play();
 	}
+	private void Aim()
+	{
+		_spriteRotator.RotateAll(_target.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
+		_spriteRotator.RotateItems(_target);
+	}
 	private void Awake()
 	{
 		_audioSource = GetComponent<AudioSource>();
-		_weaponRenderer = _weapon.GetComponent<SpriteRenderer>();
 		_spriteRotator = GetComponent<SpriteRotator>();
 		_ammoCount = _magazineSize;
 }

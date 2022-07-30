@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class SpriteRotator : MonoBehaviour
 {
+	[Header("Escord items")]
 	[SerializeField] private SpriteRenderer[] _bodyItemsX;
-	[SerializeField] private SpriteRenderer _weapon;
-
+	[SerializeField] private SpriteRenderer[] _lookingItemsView;
+	[SerializeField] private Transform[] _invertingItems;
+	
 	private Direction _direction = Direction.Right;
 
 	public Direction Direction => _direction;
@@ -12,7 +14,8 @@ public class SpriteRotator : MonoBehaviour
 	{
 		_direction = direction;
 		RotateBody(direction);
-		RotateWeapon(direction);
+		RotateItems(direction);
+		InvertItems(direction);
 	}
 	public void RotateBody(Direction direction)
 	{
@@ -22,8 +25,25 @@ public class SpriteRotator : MonoBehaviour
 			var.flipX = _direction == Direction.Left;
 		}
 	}
-	private void RotateWeapon(Direction direction)
+	public void RotateItems(Direction direction)
 	{
-		_weapon.flipX = _direction == Direction.Left;
+		foreach (SpriteRenderer item in _lookingItemsView)
+		{
+			item.flipY = direction == Direction.Left;
+		}
+	}
+	public void RotateItems(Transform target)
+	{
+		foreach (SpriteRenderer item in _lookingItemsView)
+		{
+			item.transform.right = target.transform.position - item.transform.position;
+		}
+	}
+	public void InvertItems(Direction direction)
+	{
+		foreach (Transform item in _invertingItems)
+		{
+			item.localScale = new Vector2(DirectionConvert.ToInt(direction), item.localScale.y);
+		}
 	}
 }

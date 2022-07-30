@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Collider2D),typeof(Rigidbody2D))]
 public class WayDirectrion : MonoBehaviour
 {
 	[SerializeField] private bool _showWays;

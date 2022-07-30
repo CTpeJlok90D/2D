@@ -1,17 +1,29 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(WayDirectrion),typeof(SpriteRotator))]
 public class AIMove : MonoBehaviour
 {
-	[SerializeField] private Transform _targetPoint;
+	public readonly UnityEvent OnPoint = new UnityEvent();
 	[SerializeField] private float _walkSpeed = 0.04f;
 
 	private WayDirectrion _wayDirection;
 	private SpriteRotator _spriteRotator;
+	private Transform _targetPoint;
 
 	public bool IsMoving => !OnPosition() && _targetPoint != null;
+	public bool IsOnPosition => OnPosition();
 
-	public void GoToTarget()
+	public void SetTarget(Transform point)
+	{
+		_targetPoint = point;
+	}
+	public void GoTo(Transform point)
+	{
+		_targetPoint = point;
+		GoTo();
+	}
+	public void GoTo()
 	{
 		if (_targetPoint != null)
 		{
@@ -19,6 +31,8 @@ public class AIMove : MonoBehaviour
 		}
 		if (OnPosition() || IsPitInFront())
 		{
+			_targetPoint = null;
+			OnPoint.Invoke();
 			return;
 		}
 		Vector2 moveDirection = _wayDirection.GetDirection(_spriteRotator.Direction);

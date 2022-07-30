@@ -2,7 +2,6 @@ public enum Direction
 {
 	Right,
 	Left,
-
 }
 public static class DirectionConvert
 {

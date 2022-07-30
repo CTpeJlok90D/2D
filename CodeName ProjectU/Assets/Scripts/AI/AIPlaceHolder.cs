@@ -4,8 +4,18 @@ using UnityEngine;
 [RequireComponent(typeof(AIMove),typeof(AIShoot))]
 public class AIPlaceHolder : MonoBehaviour
 {
+	[SerializeField] private bool Shooting;
+	[SerializeField] private bool Moving;
+	[SerializeField] private Transform _targetToMove;
+	[SerializeField] private Transform _targetToShoot;
+
     private AIMove _aiMove;
     private AIShoot _aiShoot;
+
+	public void SetShoot(bool value)
+	{
+		Shooting = value;
+	}
 	
 	private void Awake()
 	{
@@ -14,7 +24,13 @@ public class AIPlaceHolder : MonoBehaviour
 	}
 	void FixedUpdate()
     {
-		_aiMove.GoToTarget();
-		_aiShoot.Aim();
+		if (Moving) 
+		{
+			_aiMove.GoTo(_targetToMove); 
+		}
+		if (Shooting)
+		{
+			_aiShoot.Attack(_targetToShoot); 
+		}
     }
 }

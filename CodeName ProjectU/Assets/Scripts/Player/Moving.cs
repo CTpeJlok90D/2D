@@ -21,6 +21,7 @@ public class Moving : MonoBehaviour
     private SpriteRotator _spriteRotator;
     private Direction _direction = Direction.Right;
 
+
     private void Awake()
     {
         _way = GetComponent<WayDirectrion>();
@@ -53,6 +54,7 @@ public class Moving : MonoBehaviour
         float move = Input.GetAxis("Horizontal");
         if (move == 0)
         {
+            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             _correctSpeed = 0;
             return;
         }
@@ -76,7 +78,7 @@ public class Moving : MonoBehaviour
         {
             _correctSpeed = _speed;
         }
-        _rigidbody2D.position = Vector3.MoveTowards(_rigidbody2D.position, new Vector2(move, 0), Time.fixedDeltaTime * _correctSpeed);
+        _rigidbody2D.velocity = new Vector2(move, _rigidbody2D.velocity.y) * Time.fixedDeltaTime * _speed;
     }
     private void Jump()
     {
@@ -85,6 +87,7 @@ public class Moving : MonoBehaviour
             _correctJumpState += 0.01f;
             _hight = transform.position.y;
         }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

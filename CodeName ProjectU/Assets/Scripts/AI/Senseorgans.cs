@@ -30,7 +30,7 @@ public class Senseorgans : MonoBehaviour
 	{
 		foreach (RaycastHit2D visibleObject in Eye())
 		{
-			if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out Player player))
+			if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out AIPlaceHolder player))
 			{
 				_seePlayer.Invoke();
 			}

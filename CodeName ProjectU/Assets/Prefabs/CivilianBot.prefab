@@ -5010,6 +5010,7 @@ GameObject:
   - component: {fileID: 4249424306073252286}
   - component: {fileID: 260074007348377706}
   - component: {fileID: 5138027977406926805}
+  - component: {fileID: 9052767702702033581}
   - component: {fileID: 5334206026117515804}
   - component: {fileID: 7351414943462972946}
   m_Layer: 7
@@ -5170,7 +5171,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!114 &8186260946466154290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5199,8 +5200,7 @@ MonoBehaviour:
   _bodyItemsX:
   - {fileID: 7774190207963586145}
   _lookingItemsView: []
-  _invertingItems:
-  - {fileID: 2251001993242237488}
+  _invertingItems: []
 --- !u!114 &4249424306073252286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5213,7 +5213,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98abe27655f32f247b710a9a6c2c1bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 0.04
+  _speed: 1
+  _minDistanceToTarget: 0.5
+  _jumpTraectory:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0002593994
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _defualtMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _onPoint:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &260074007348377706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5226,8 +5257,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fb58ee0e9eab4c851d3b399521ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _priority: 2
+  _priority: 20
   _points:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -5244,9 +5276,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1fcc14dfecbc4408e8858fe3184bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _priority: 1
+  _priority: 10
   _workPosition: {fileID: 0}
   _visualWork: {fileID: 2000884561}
+--- !u!114 &9052767702702033581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189295068224909100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786ad368a905b9e4498a6152604315ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _priority: 1
 --- !u!114 &5334206026117515804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5262,9 +5307,6 @@ MonoBehaviour:
   _tasks:
   - {fileID: 5138027977406926805}
   - {fileID: 260074007348377706}
-  seePlayer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7351414943462972946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5277,13 +5319,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1185dfafc70cf468bb9ad51f6cfaf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visionDistance: 100
+  _visionDistance: 15
   _eyes:
   - {fileID: 5639046822103050723}
   - {fileID: 5738461641934323912}
   - {fileID: 2806318716971969500}
   - {fileID: 6645842743059795945}
   - {fileID: 7822652603400845009}
+  _seeScreaObject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8826160848715043733
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AIMove))]
 public class RunAway : Task
 {
-	private Transform _awayFrom;
+	[SerializeField] private Transform _shelter;
+	private AIMove _aiMove;
 
 	public override void DoIt()
 	{
-		throw new System.NotImplementedException();
+		_aiMove.GoTo(_shelter);
+	}
+	protected override void Awake()
+	{
+		base.Awake();
+		_aiMove = GetComponent<AIMove>();
 	}
 }

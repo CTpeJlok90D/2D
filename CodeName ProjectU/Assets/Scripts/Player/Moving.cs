@@ -18,7 +18,6 @@ public class Moving : MonoBehaviour
     private float _correctJumpState;
     private bool _onGround;
 
-
     private PlayerInput _input;
     private WayDirectrion _way;
     private SpriteRotator _spriteRotator;

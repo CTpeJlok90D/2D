@@ -8,7 +8,7 @@ public class Senseorgans : MonoBehaviour
 	[Header("Vision settings")]
 	[SerializeField] private float _visionDistance = 10f;
 	[SerializeField] private Transform[] _eyes;
-	[SerializeField] private UnityEvent _seePlayer = new UnityEvent();
+	[SerializeField] private UnityEvent _seeScreamObject = new UnityEvent();
 
 	private SpriteRotator _spriteRotator;
 
@@ -17,6 +17,7 @@ public class Senseorgans : MonoBehaviour
 		List<RaycastHit2D> result = new List<RaycastHit2D>();
 		foreach (Transform eye in _eyes)
 		{
+			Debug.DrawRay(new Vector2(eye.position.x, eye.position.y), DirectionConvert.ToInt(_spriteRotator.Direction) * eye.right, Color.red, _visionDistance);
 			result.Add(Physics2D.Raycast(new Vector2(eye.position.x, eye.position.y), DirectionConvert.ToInt(_spriteRotator.Direction) * eye.right, _visionDistance));
 		}
 		return result;
@@ -30,9 +31,9 @@ public class Senseorgans : MonoBehaviour
 	{
 		foreach (RaycastHit2D visibleObject in Eye())
 		{
-			if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out AIPlaceHolder player))
+			if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out ScremObject _))
 			{
-				_seePlayer.Invoke();
+				_seeScreamObject.Invoke();
 			}
 		}
 	}

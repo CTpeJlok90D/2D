@@ -1,18 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(WayDirectrion),typeof(SpriteRotator))]
+[RequireComponent(typeof(WayDirectrion),typeof(SpriteRotator),typeof(Rigidbody2D))]
 public class AIMove : MonoBehaviour
 {
-	public readonly UnityEvent OnPoint = new UnityEvent();
-	[SerializeField] private float _walkSpeed = 0.04f;
+	[SerializeField] private float _speed = 1f;
+	[SerializeField] private float _minDistanceToTarget = 1f;
+	[SerializeField] private AnimationCurve _jumpTraectory;
+	[SerializeField] private LayerMask _defualtMask;
+	[Space(10)]
+	[SerializeField] private UnityEvent _onPoint = new UnityEvent();
 
 	private WayDirectrion _wayDirection;
 	private SpriteRotator _spriteRotator;
 	private Transform _targetPoint;
+	private Rigidbody2D _rigidbody2D;
+	private bool _onGround;
+	private float _jumpState;
 
 	public bool IsMoving => !OnPosition() && _targetPoint != null;
 	public bool IsOnPosition => OnPosition();
+	public UnityEvent OnPoint => _onPoint;
 
 	public void SetTarget(Transform point)
 	{
@@ -29,20 +38,56 @@ public class AIMove : MonoBehaviour
 		{
 			_spriteRotator.RotateAll(_targetPoint.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
 		}
+		if (_onGround == false)
+		{
+			return;
+		}
 		if (OnPosition() || IsPitInFront())
 		{
 			_targetPoint = null;
-			OnPoint.Invoke();
+			_onPoint.Invoke();
 			return;
 		}
+		//if (IsJumpingWallInFront())
+		//{
+		//	Jump();
+		//}
 		Vector2 moveDirection = _wayDirection.GetDirection(_spriteRotator.Direction);
-		transform.position = new Vector2(transform.position.x + _walkSpeed * moveDirection.x, transform.position.y + _walkSpeed * moveDirection.y);
+		_rigidbody2D.velocity = new Vector2(_speed * moveDirection.x, _rigidbody2D.velocity.y + _speed * 0.3f * moveDirection.y);
+	}
+	private void Jump()
+	{
+		StartCoroutine("JumpState");
+	}
+	private IEnumerator JumpState()
+	{
+		for (float state = 0; state < _jumpTraectory.keys[_jumpTraectory.keys.Length - 1].time; state += 0.1f)
+		{
+			_jumpState = _jumpTraectory.Evaluate(state);
+			_rigidbody2D.velocity = new Vector2(_speed, _jumpState);
+			yield return null;
+		}
 	}
 	private void Awake()
 	{
 		_wayDirection = GetComponent<WayDirectrion>();
 		_spriteRotator = GetComponent<SpriteRotator>();
+		_rigidbody2D = GetComponent<Rigidbody2D>();
 	}
-	private bool OnPosition() => (_targetPoint == null) ? true : (Mathf.Round(_targetPoint.position.x) == Mathf.Round(transform.position.x));
-	private bool IsPitInFront() => Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * (_spriteRotator.Direction == Direction.Right ? 1 : -1), transform.position.y), new Vector2((_spriteRotator.Direction == Direction.Right ? 1 : -1) * 0.1f, -0.5f),3).collider == null;
+	private bool IsJumpingWallInFront() => 
+		IsWallInFront() && Physics2D.Raycast(transform.position + new Vector3(0, transform.localScale.y / 2), new Vector2(DirectionConvert.ToInt(_spriteRotator.Direction),0), 0.5f) == false;
+	private bool IsWallInFront() => 
+		Physics2D.RaycastAll(transform.position, new Vector2(DirectionConvert.ToInt(_spriteRotator.Direction),0), 0.5f).Length > 1;
+	private bool OnPosition() => 
+		(_targetPoint == null) ? true : (Mathf.Abs(_targetPoint.position.x - transform.position.x) < _minDistanceToTarget);
+	private bool IsPitInFront() => 
+		Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * (_spriteRotator.Direction == Direction.Right ? 1 : -1), transform.position.y), new Vector2((_spriteRotator.Direction == Direction.Right ? 1 : -1) * 0.1f, -0.5f),3).collider == null;
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		_onGround = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), Vector3.down, 0.1f).collider != null;
+	}
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		_onGround = false;
+	}
 }

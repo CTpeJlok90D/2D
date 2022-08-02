@@ -55,7 +55,7 @@ public class AIShoot : MonoBehaviour
 	}
 	private void Aim()
 	{
-		_spriteRotator.RotateAll(_target.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
+		_spriteRotator.RotateAll(_target.position.x - transform.position.x);
 		_spriteRotator.RotateItems(_target);
 	}
 	private void Awake()

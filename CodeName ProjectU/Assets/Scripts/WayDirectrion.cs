@@ -6,11 +6,15 @@ public class WayDirectrion : MonoBehaviour
 	[SerializeField] private bool _showWays;
 
 	private Vector2 _averageÒormal;
-	public Vector2 GetDirection(Direction lookDirectionX)
+	public Vector2 GetDirection(int lookDirectionX)
 	{
-		int multiply = lookDirectionX == Direction.Left ? -1 : 1;
-		return new Vector2(_averageÒormal.y * multiply, -_averageÒormal.x * multiply);
+		lookDirectionX = lookDirectionX > 0 ? 1 : -1;
+		return new Vector2(_averageÒormal.y * lookDirectionX, -_averageÒormal.x * lookDirectionX);
 	}
+	public Vector2 GetDirection(float lookDirectionX)
+    {
+		return GetDirection(lookDirectionX > 0 ? 1 : -1);
+    }
 	private void OnCollisionStay2D(Collision2D collision)
 	{
 		UpdateNormal(collision);
@@ -33,8 +37,8 @@ public class WayDirectrion : MonoBehaviour
 	{
 		if (_showWays)
 		{
-			Vector2 way1 = GetDirection(Direction.Right);
-			Vector2 way2 = GetDirection(Direction.Left);
+			Vector2 way1 = GetDirection(1);
+			Vector2 way2 = GetDirection(-1);
 			Gizmos.color = Color.red;
 			Gizmos.DrawLine(transform.position, new Vector2(way1.x * 2 + transform.position.x, way1.y * 2 + transform.position.y));
 			Gizmos.color = Color.yellow;

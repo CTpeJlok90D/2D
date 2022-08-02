@@ -36,7 +36,7 @@ public class AIMove : MonoBehaviour
 	{
 		if (_targetPoint != null)
 		{
-			_spriteRotator.RotateAll(_targetPoint.position.x - transform.position.x > 0 ? Direction.Right : Direction.Left);
+			_spriteRotator.RotateAll(_targetPoint.position.x - transform.position.x);
 		}
 		if (_onGround == false)
 		{
@@ -61,7 +61,7 @@ public class AIMove : MonoBehaviour
 	}
 	private IEnumerator JumpState()
 	{
-		for (float state = 0; state < _jumpTraectory.keys[_jumpTraectory.keys.Length - 1].time; state += 0.1f)
+		for (float state = 0; state < _jumpTraectory.keys[_jumpTraectory.keys.Length - 1].time; state += Time.deltaTime)
 		{
 			_jumpState = _jumpTraectory.Evaluate(state);
 			_rigidbody2D.velocity = new Vector2(_speed, _jumpState);
@@ -75,13 +75,13 @@ public class AIMove : MonoBehaviour
 		_rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 	private bool IsJumpingWallInFront() => 
-		IsWallInFront() && Physics2D.Raycast(transform.position + new Vector3(0, transform.localScale.y / 2), new Vector2(DirectionConvert.ToInt(_spriteRotator.Direction),0), 0.5f) == false;
+		IsWallInFront() && Physics2D.Raycast(transform.position + new Vector3(0, transform.localScale.y / 2), new Vector2(_spriteRotator.Direction, 0), 0.5f) == false;
 	private bool IsWallInFront() => 
-		Physics2D.RaycastAll(transform.position, new Vector2(DirectionConvert.ToInt(_spriteRotator.Direction),0), 0.5f).Length > 1;
+		Physics2D.RaycastAll(transform.position, new Vector2(_spriteRotator.Direction,0), 0.5f).Length > 1;
 	private bool OnPosition() => 
 		(_targetPoint == null) ? true : (Mathf.Abs(_targetPoint.position.x - transform.position.x) < _minDistanceToTarget);
 	private bool IsPitInFront() => 
-		Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * (_spriteRotator.Direction == Direction.Right ? 1 : -1), transform.position.y), new Vector2((_spriteRotator.Direction == Direction.Right ? 1 : -1) * 0.1f, -0.5f),3).collider == null;
+		Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * _spriteRotator.Direction, transform.position.y), new Vector2(_spriteRotator.Direction * 0.1f, -0.5f),3).collider == null;
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		_onGround = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), Vector3.down, 0.1f).collider != null;

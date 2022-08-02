@@ -601,6 +601,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
+    gravitySource: 0
     maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
@@ -3985,6 +3986,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minVertexDistance: 0.2
     textureMode: 0
+    textureScale: {x: 1, y: 1}
     ribbonCount: 1
     shadowBias: 0.5
     worldSpace: 0
@@ -5013,6 +5015,7 @@ GameObject:
   - component: {fileID: 9052767702702033581}
   - component: {fileID: 5334206026117515804}
   - component: {fileID: 7351414943462972946}
+  - component: {fileID: 1914764359505290246}
   m_Layer: 7
   m_Name: CivilianBot
   m_TagString: Untagged
@@ -5200,7 +5203,8 @@ MonoBehaviour:
   _bodyItemsX:
   - {fileID: 7774190207963586145}
   _lookingItemsView: []
-  _invertingItems: []
+  _invertingItems:
+  - {fileID: 2251001993242237488}
 --- !u!114 &4249424306073252286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5213,7 +5217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98abe27655f32f247b710a9a6c2c1bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
   _minDistanceToTarget: 0.5
   _jumpTraectory:
     serializedVersion: 2
@@ -5239,9 +5242,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _defualtMask:
-    serializedVersion: 2
-    m_Bits: 256
   _onPoint:
     m_PersistentCalls:
       m_Calls: []
@@ -5292,6 +5292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priority: 1
+  _shelter: {fileID: 0}
 --- !u!114 &5334206026117515804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5307,6 +5308,7 @@ MonoBehaviour:
   _tasks:
   - {fileID: 5138027977406926805}
   - {fileID: 260074007348377706}
+  - {fileID: 9052767702702033581}
 --- !u!114 &7351414943462972946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5319,16 +5321,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1185dfafc70cf468bb9ad51f6cfaf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visionDistance: 15
+  _visionDistance: 50
   _eyes:
   - {fileID: 5639046822103050723}
   - {fileID: 5738461641934323912}
   - {fileID: 2806318716971969500}
   - {fileID: 6645842743059795945}
   - {fileID: 7822652603400845009}
-  _seeScreaObject:
+  _seeScreamObject:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9052767702702033581}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: AddPriority
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1914764359505290246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189295068224909100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cabb8e1d04be2418a2d32819cf8fb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  _health: 10
+  _death:
     m_PersistentCalls:
       m_Calls: []
+  _speed: 1
 --- !u!1 &8826160848715043733
 GameObject:
   m_ObjectHideFlags: 0

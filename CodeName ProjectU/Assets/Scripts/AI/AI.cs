@@ -5,9 +5,8 @@ using System.Collections.Generic;
 public class AI : MonoBehaviour
 {
 	[SerializeField] private Task[] _tasks;
-
-	private Senseorgans _senseorgans;
 	private Task _correctTask;
+	public Task[] Tasks => _tasks;
 
 	public void GetNextTask()
 	{
@@ -19,7 +18,6 @@ public class AI : MonoBehaviour
 	private void Awake()
 	{
 		GetNextTask();
-		_senseorgans = GetComponent<Senseorgans>();
 	}
 	private void FixedUpdate()
 	{

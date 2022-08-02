@@ -12,6 +12,10 @@ public class RunAway : Task
 	{
 		_aiMove.GoTo(_shelter);
 	}
+	public void SetShelter(Transform shelter)
+    {
+		_shelter = shelter;
+	}
 	protected override void Awake()
 	{
 		base.Awake();

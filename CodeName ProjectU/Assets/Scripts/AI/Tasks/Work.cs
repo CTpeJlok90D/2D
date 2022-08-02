@@ -9,14 +9,13 @@ public class Work : Task
 	private AIMove _aiMove;
 	public override void DoIt()
 	{
-		_aiMove.SetTarget(_workPosition);
 		_visualWork.SetActive(_aiMove.IsOnPosition);
 
 		if (_aiMove.IsOnPosition)
 		{
 			return;
 		}
-		_aiMove.GoTo();
+		_aiMove.GoTo(_workPosition);
 	}
 	protected override void Awake()
 	{

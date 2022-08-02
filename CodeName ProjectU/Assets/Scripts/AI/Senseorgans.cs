@@ -6,18 +6,18 @@ using System.Collections.Generic;
 public class Senseorgans : MonoBehaviour
 {
 	[Header("Vision settings")]
-	[SerializeField] private float _visionDistance = 10f;
+	[SerializeField] private float _visionDistance = 100f;
 	[SerializeField] private Transform[] _eyes;
 	[SerializeField] private UnityEvent _seeScreamObject = new UnityEvent();
 
 	private SpriteRotator _spriteRotator;
+	private bool _seePlayer = false;
 
 	public List<RaycastHit2D> Eye()
 	{
 		List<RaycastHit2D> result = new List<RaycastHit2D>();
 		foreach (Transform eye in _eyes)
 		{
-			Debug.DrawRay(new Vector2(eye.position.x, eye.position.y), _spriteRotator.Direction * eye.right, Color.red, _visionDistance);
 			result.Add(Physics2D.Raycast(new Vector2(eye.position.x, eye.position.y), _spriteRotator.Direction * eye.right, _visionDistance));
 		}
 		return result;
@@ -29,11 +29,16 @@ public class Senseorgans : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		foreach (RaycastHit2D visibleObject in Eye())
+		if (_seePlayer == false)
 		{
-			if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out ScremObject _))
+			foreach (RaycastHit2D visibleObject in Eye())
 			{
-				_seeScreamObject.Invoke();
+				if (visibleObject.collider != null && visibleObject.collider.gameObject.TryGetComponent(out ScremObject _))
+				{
+					_seeScreamObject.Invoke();
+					_seePlayer = true;
+					break;
+				}
 			}
 		}
 	}

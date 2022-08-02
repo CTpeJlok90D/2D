@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 7743278932075830248}
   - component: {fileID: 3470757763488812457}
   - component: {fileID: 3081218863896173345}
+  - component: {fileID: 1874702243021681775}
   m_Layer: 7
   m_Name: Bot
   m_TagString: Untagged
@@ -240,7 +241,7 @@ Transform:
   - {fileID: 8981259766333182622}
   - {fileID: 6414800848638867602}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &954563022939969861
 CapsuleCollider2D:
@@ -400,7 +401,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98abe27655f32f247b710a9a6c2c1bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 0.04
+  _minDistanceToTarget: 1
+  _jumpTraectory:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _onPoint:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7743278932075830248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,11 +477,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyItemsX:
   - {fileID: 145733786983139394}
-  _inversedItems:
-  - {fileID: 3393455900666424633}
-  _haveWeapon: 1
   _lookingItemsView:
   - {fileID: 3393455900666424633}
+  _invertingItems: []
+--- !u!114 &1874702243021681775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5966406348503943622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cabb8e1d04be2418a2d32819cf8fb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  _health: 10
+  _death:
+    m_PersistentCalls:
+      m_Calls: []
+  _speed: 1
 --- !u!1 &6174475695172767671
 GameObject:
   m_ObjectHideFlags: 0

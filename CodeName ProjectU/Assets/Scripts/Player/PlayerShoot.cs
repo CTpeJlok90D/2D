@@ -19,6 +19,7 @@ public class PlayerShoot : MonoBehaviour
     {
         _spriteRotator = GetComponent<SpriteRotator>();
         Cursor.SetCursor(_aimCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.visible = false;
 
         _playerInput = new PlayerMove();
         _playerInput.Enable();
@@ -53,7 +54,7 @@ public class PlayerShoot : MonoBehaviour
     }
     public void Shoot()
     {
-        if (_weapon.CanShoot())
+        if (_weapon.CanShoot)
         {
             _scope.AddRecoilPower(_weapon.Recoil);
         }

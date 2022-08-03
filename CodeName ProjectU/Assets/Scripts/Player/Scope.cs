@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Scope : MonoBehaviour
 {
     [SerializeField] private Transform _mainCharacter;
-    [SerializeField] private WeaponSpecifications _specifications;
+    [SerializeField] private Weapon _specifications;
     [SerializeField] protected Vector3 _offcet = Vector3.zero;
     [SerializeField] private float _recoilPower = 0f;
     [SerializeField] protected bool x = true;

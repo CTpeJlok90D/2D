@@ -7,30 +7,40 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Texture2D _aimCursor;
     [SerializeField] private Scope _scope;
     [SerializeField] private SmoothCopyTransform _camera;
-    [SerializeField] private WeaponSpecifications _weaponSpecifications;
+    [SerializeField] private Weapon _weapon;
 
-    private PlayerShootInput _playerShoot;
+    private PlayerMove _playerInput;
     private InputAction _aim;
+    private InputAction _shoot;
+    private InputAction _reload;
 
     private SpriteRotator _spriteRotator;
-    private Specifications _specifications;
     private void Awake()
     {
         _spriteRotator = GetComponent<SpriteRotator>();
-        _specifications = GetComponent<Specifications>();
         Cursor.SetCursor(_aimCursor, Vector2.zero, CursorMode.Auto);
 
-        _playerShoot = new PlayerShootInput();
-        _playerShoot.Enable();
-        _aim = _playerShoot.Player.Aim;
+        _playerInput = new PlayerMove();
+        _playerInput.Enable();
+        _aim = _playerInput.Player.Aim;
+        _shoot = _playerInput.Player.Shoot;
+        _reload = _playerInput.Player.Reload;
     }
     private void Update()
     {
         Aim();
+        if (_shoot.ReadValue<float>() > 0)
+        {
+            Shoot();
+        }
+        if (_reload.ReadValue<float>() > 0)
+        {
+            Reload();
+        }
     }
     private void Aim()
     {
-        _spriteRotator.RotateItems(_scope.transform, _weaponSpecifications.Accusity);
+        _spriteRotator.RotateItems(_scope.transform, _weapon.Accusity);
         _spriteRotator.RotateAll(_scope.transform.position.x - transform.position.x);
         if (_aim.ReadValue<float>() > 0)
         {
@@ -41,16 +51,16 @@ public class PlayerShoot : MonoBehaviour
             _camera.SetTarget(transform);
         }
     }
-    public void Shoot(InputAction.CallbackContext context)
+    public void Shoot()
     {
-        _weaponSpecifications.Shoot();
-        if (_weaponSpecifications.CanShoot())
+        if (_weapon.CanShoot())
         {
-            _scope.AddRecoilPower(_weaponSpecifications.Recoil);
+            _scope.AddRecoilPower(_weapon.Recoil);
         }
+        _weapon.Shoot();
     }
-    public void Reload(InputAction.CallbackContext context)
+    public void Reload()
     {
-        _weaponSpecifications.Reload();
+        _weapon.Reload();
     }
 }

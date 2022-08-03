@@ -4,7 +4,7 @@ using UnityEngine;
 public class AIShoot : MonoBehaviour
 {
 	[Header("Shooting")]
-	[SerializeField] private Bullet _bullet;
+	[SerializeField] private TimedObject _bullet;
 	[SerializeField] private Transform _bulletSpawner;
 	[SerializeField] private float _timeBetweenShoots = 1f;
 
@@ -17,7 +17,7 @@ public class AIShoot : MonoBehaviour
 	private float _cantShootNextSeconds = 0f;
 	private AudioSource _audioSource;
 	private SpriteRotator _spriteRotator;
-	private Transform _target;
+	[SerializeField] private Transform _target;
 
 	public void SetTarget(Transform target)
 	{
@@ -66,6 +66,7 @@ public class AIShoot : MonoBehaviour
 }
 	private void FixedUpdate()
 	{
+		Attack();
 		if (_cantShootNextSeconds > 0)
 		{
 			_cantShootNextSeconds -= Time.fixedDeltaTime;

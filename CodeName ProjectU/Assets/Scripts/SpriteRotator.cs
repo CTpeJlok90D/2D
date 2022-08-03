@@ -6,7 +6,8 @@ public class SpriteRotator : MonoBehaviour
 	[SerializeField] private SpriteRenderer[] _bodyItemsX;
 	[SerializeField] private SpriteRenderer[] _bodyItemsY;
 	[SerializeField] private Transform[] _lookingItemsView;
-	[SerializeField] private Transform[] _invertingItems;
+	[SerializeField] private Transform[] _invertingItemsX;
+	[SerializeField] private Transform[] _invertingItemsY;
 	
 	private int _direction = 1;
 
@@ -46,9 +47,13 @@ public class SpriteRotator : MonoBehaviour
 	}
 	public void InvertItems(int direction)
 	{
-		foreach (Transform item in _invertingItems)
+		foreach (Transform item in _invertingItemsX)
 		{
 			item.localScale = new Vector2(direction, item.localScale.y);
+		}		
+		foreach (Transform item in _invertingItemsY)
+		{
+			item.localScale = new Vector2(item.localScale.x, direction);
 		}
 	}
 }

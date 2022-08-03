@@ -3497,7 +3497,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3470757763488812457, guid: 3f04e21f3bf04f846a51fdf421ade3b8, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f04e21f3bf04f846a51fdf421ade3b8, type: 3}
 --- !u!114 &686064116 stripped

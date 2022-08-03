@@ -4,7 +4,8 @@ public class SpriteRotator : MonoBehaviour
 {
 	[Header("Escord items")]
 	[SerializeField] private SpriteRenderer[] _bodyItemsX;
-	[SerializeField] private SpriteRenderer[] _lookingItemsView;
+	[SerializeField] private SpriteRenderer[] _bodyItemsY;
+	[SerializeField] private Transform[] _lookingItemsView;
 	[SerializeField] private Transform[] _invertingItems;
 	
 	private int _direction = 1;
@@ -14,7 +15,6 @@ public class SpriteRotator : MonoBehaviour
 	{
 		_direction = direction;
 		RotateBody(direction);
-		RotateItems(direction);
 		InvertItems(direction);
 	}
 	public void RotateAll(float direction)
@@ -28,23 +28,20 @@ public class SpriteRotator : MonoBehaviour
 		{
 			var.flipX = _direction == -1;
 		}
+		foreach (SpriteRenderer var in _bodyItemsY)
+		{
+			var.flipY = _direction == -1;
+		}
 	}
 	public void RotateBody(float direction)
     {
 		RotateBody(direction > 0 ? 1 : -1);
     }
-	public void RotateItems(int direction)
+	public void RotateItems(Transform target, float accusity = 1f)
 	{
-		foreach (SpriteRenderer item in _lookingItemsView)
+		foreach (Transform item in _lookingItemsView)
 		{
-			item.flipY = direction == -1;
-		}
-	}
-	public void RotateItems(Transform target)
-	{
-		foreach (SpriteRenderer item in _lookingItemsView)
-		{
-			item.transform.right = target.transform.position - item.transform.position;
+			item.right = Vector2.MoveTowards(item.transform.right, target.transform.position - item.transform.position, accusity);
 		}
 	}
 	public void InvertItems(int direction)

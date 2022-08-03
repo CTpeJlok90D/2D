@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SmoothCopyTransform : CopyTransform
 {
-	[SerializeField] private float SmoothStrenth = 0.01f;
+	[SerializeField] protected float SmoothStrenth = 0.01f;
 	protected override void Update()
 	{
 		transform.position = new Vector3(

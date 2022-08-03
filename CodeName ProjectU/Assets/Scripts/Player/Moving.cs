@@ -14,7 +14,7 @@ public class Moving : MonoBehaviour
     private float _cantJumpSec;
     private bool _onGround;
 
-    private PlayerInput _input;
+    private PlayerMove _input;
     private InputAction _move;
     private InputAction _jump;
     private InputAction _sprint;
@@ -28,7 +28,7 @@ public class Moving : MonoBehaviour
         _spriteRotator = GetComponent<SpriteRotator>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
 
-        _input = new PlayerInput();
+        _input = new PlayerMove();
         GetContol();
         _move.Enable();
         _jump.Enable();
@@ -62,7 +62,7 @@ public class Moving : MonoBehaviour
             _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             return;
         }
-        _spriteRotator.RotateBody(inputAxe);
+        //_spriteRotator.RotateBody(inputAxe);
         _correctSpeed = CalculateSpeed(inputSprint);
         if (_onGround == false)
         {

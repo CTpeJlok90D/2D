@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Interaction",
+                    "type": "Button",
+                    "id": "5a03d02e-afb6-4232-8c73-f7e6c0784ecb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InteractInventory",
+                    "type": "Button",
+                    "id": "6b8c7824-2157-4527-9cb8-28a01666fcf7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -168,6 +186,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f2522b28-3f28-4d54-99bf-6d10d253e137",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e11ed54c-6b6c-4951-9139-fd08ab70b027",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "Tap(duration=0.005,pressPoint=0.3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractInventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

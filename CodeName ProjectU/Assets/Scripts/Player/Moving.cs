@@ -29,12 +29,12 @@ public class Moving : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
 
         _input = new PlayerMove();
-        GetContol();
+        GetControl();
         _move.Enable();
         _jump.Enable();
         _sprint.Enable();
     }
-    private void GetContol()
+    private void GetControl()
     {
         _move = _input.Player.Move;
         _jump = _input.Player.Jump;
@@ -62,7 +62,7 @@ public class Moving : MonoBehaviour
             _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             return;
         }
-        //_spriteRotator.RotateBody(inputAxe);
+        _spriteRotator.RotateBody(inputAxe);
         _correctSpeed = CalculateSpeed(inputSprint);
         if (_onGround == false)
         {

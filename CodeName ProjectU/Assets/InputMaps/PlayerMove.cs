@@ -80,6 +80,24 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a03d02e-afb6-4232-8c73-f7e6c0784ecb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InteractInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b8c7824-2157-4527-9cb8-28a01666fcf7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +210,28 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2522b28-3f28-4d54-99bf-6d10d253e137"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e11ed54c-6b6c-4951-9139-fd08ab70b027"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": ""Tap(duration=0.005,pressPoint=0.3)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +246,8 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_InteractInventory = m_Player.FindAction("InteractInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +313,8 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_InteractInventory;
     public struct PlayerActions
     {
         private @PlayerMove m_Wrapper;
@@ -281,6 +325,8 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @InteractInventory => m_Wrapper.m_Player_InteractInventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -308,6 +354,12 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
                 @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Interaction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @Interaction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @Interaction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @InteractInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractInventory;
+                @InteractInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractInventory;
+                @InteractInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractInventory;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -330,6 +382,12 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @Interaction.started += instance.OnInteraction;
+                @Interaction.performed += instance.OnInteraction;
+                @Interaction.canceled += instance.OnInteraction;
+                @InteractInventory.started += instance.OnInteractInventory;
+                @InteractInventory.performed += instance.OnInteractInventory;
+                @InteractInventory.canceled += instance.OnInteractInventory;
             }
         }
     }
@@ -342,5 +400,7 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
+        void OnInteractInventory(InputAction.CallbackContext context);
     }
 }

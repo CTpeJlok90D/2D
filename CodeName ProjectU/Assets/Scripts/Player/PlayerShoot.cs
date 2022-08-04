@@ -4,12 +4,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(SpriteRotator), typeof(Specifications))]
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] private Texture2D _aimCursor;
     [SerializeField] private Scope _scope;
     [SerializeField] private SmoothCopyTransform _camera;
     [SerializeField] private Weapon _weapon;
-
-    [SerializeField] private float _aimRecoilMultiply = 0.5f;
 
     private PlayerMove _playerInput;
     private InputAction _aim;
@@ -17,12 +14,14 @@ public class PlayerShoot : MonoBehaviour
     private InputAction _reload;
 
     private SpriteRotator _spriteRotator;
+    private Specifications _specifications;
 
     public bool Aiming => _aim.ReadValue<float>() > 0;
 
     private void Awake()
     {
         _spriteRotator = GetComponent<SpriteRotator>();
+        _specifications = GetComponent<Specifications>();
         Cursor.visible = false;
 
         _playerInput = new PlayerMove();
@@ -45,8 +44,8 @@ public class PlayerShoot : MonoBehaviour
     }
     private void Aim()
     {
-        _spriteRotator.RotateItems(_scope.transform, _weapon.Accusity);
-        _spriteRotator.RotateAll(_scope.transform.position.x - transform.position.x);
+        _spriteRotator.RotateItems(_scope.transform.position, _weapon.Accusity);
+        _spriteRotator.RotateBody(_scope.transform.position.x - transform.position.x);
         if (Aiming)
         {
             _camera.SetTarget(_scope.transform);
@@ -60,7 +59,8 @@ public class PlayerShoot : MonoBehaviour
     {
         if (_weapon.CanShoot)
         {
-            _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _aimRecoilMultiply : 1f));
+            Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
+            _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _specifications.AimRecoilMultiply : 1f));
         }
         _weapon.Shoot();
     }

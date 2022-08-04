@@ -94,10 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1577155916513773270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47613371fc61dc449226ac5403e19a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 64222f1355d702c499f75f7f5eacc389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifeTime: 0.05
+  _lifeTime: 0.02
 --- !u!1 &4565835996561819795
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,8 +268,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3160537119235125056}
-  - component: {fileID: 8801817642366523394}
   - component: {fileID: 2246084072348277708}
+  - component: {fileID: 1460547657299374470}
   m_Layer: 0
   m_Name: Automatic rifle bullet
   m_TagString: Untagged
@@ -295,19 +295,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8801817642366523394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6636871710993764542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47613371fc61dc449226ac5403e19a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lifeTime: 10
 --- !u!82 &2246084072348277708
 AudioSource:
   m_ObjectHideFlags: 0
@@ -404,6 +391,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1460547657299374470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636871710993764542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64222f1355d702c499f75f7f5eacc389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeTime: 6
 --- !u!1 &7612081125426831533
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,10 +446,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7612081125426831533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47613371fc61dc449226ac5403e19a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 64222f1355d702c499f75f7f5eacc389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifeTime: 0.05
+  _lifeTime: 0.02
 --- !u!114 &625944781861600100
 MonoBehaviour:
   m_ObjectHideFlags: 0

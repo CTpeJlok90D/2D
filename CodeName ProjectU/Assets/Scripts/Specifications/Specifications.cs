@@ -9,11 +9,16 @@ public class Specifications : MonoBehaviour
     [SerializeField] private UnityEvent _death;
     [Header("Speed")]
     [SerializeField] private float _speed = 1f;
+    [Header("Shooting")]
+    [SerializeField] private float _aimRecoilMultiply = 0.5f;
+    [SerializeField] private float _aimSkill = 1f;
 
     public int MaxHealth => _maxHealth;
     public int Health => _health;  
     public UnityEvent Death => _death;   
     public float Speed => _speed;
+    public float AimRecoilMultiply => _aimRecoilMultiply;
+    public float AimSkill => _aimSkill;
 
     public void MultiplyBaseSpeed(float Multiply)
     {

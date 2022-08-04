@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(Collider2D))]
-public class Pellet : Bullet
+public class Pellet : TimedObject
 {
 	[SerializeField] private float _startSpeed;
 	[SerializeField] private int _damage;

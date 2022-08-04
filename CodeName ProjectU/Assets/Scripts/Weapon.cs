@@ -28,6 +28,9 @@ public class Weapon : MonoBehaviour
     public float AimMaxDistanse => _aimMaxDistanse;
     public float Recoil => _recoil;
     public bool CanShoot => _correctAmmoCount > 0 && _cantShootNextSeconds <= 0;
+    public int AmmoCount => _correctAmmoCount;
+    public Vector2 CameraImpact => _cameraImpact;
+    public RaycastHit2D[] OnGunPoint => Physics2D.RaycastAll(_bulletSpawner.transform.position, _bulletSpawner.transform.right, _shootDistace);
 
     private void Awake()
     {
@@ -39,12 +42,11 @@ public class Weapon : MonoBehaviour
         {
             _cantShootNextSeconds += _timeBetweenShoots;
             _correctAmmoCount -= 1;
-            Camera.main.transform.position += new Vector3(-_cameraImpact.x * _spriteRotator.Direction, 0, 0);
             Instantiate(_bullet, _bulletSpawner.transform.position, _bulletSpawner.transform.rotation);
             RaycastHit2D raycastHit2D = Physics2D.Raycast(_bulletSpawner.transform.position, _bulletSpawner.transform.right, _shootDistace);
-            if (raycastHit2D)
+            foreach (RaycastHit2D hit in OnGunPoint)
             {
-                Instantiate(_hitEffect, raycastHit2D.point, new Quaternion(raycastHit2D.normal.x, raycastHit2D.normal.y, 0, 0));
+                Instantiate(_hitEffect, hit.point, new Quaternion(raycastHit2D.normal.x, raycastHit2D.normal.y, 0, 0));
             }
             return;
         }
@@ -56,7 +58,7 @@ public class Weapon : MonoBehaviour
     }
     public void Reload()
     {
-        if (_reloading && _correctAmmoCount == _magazineSize)
+        if (_reloading || _correctAmmoCount == _magazineSize)
         {
             return;
         }

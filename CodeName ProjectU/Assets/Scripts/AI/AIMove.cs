@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(WayDirectrion),typeof(SpriteRotator),typeof(Rigidbody2D)),RequireComponent(typeof(Specifications))]
+[RequireComponent(typeof(WayDirectrion),typeof(SpriteRotator),typeof(Rigidbody2D)),RequireComponent(typeof(BotSpecifications))]
 public class AIMove : MonoBehaviour
 {
 	[SerializeField] private float _minDistanceToTarget = 1f;

@@ -1,23 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource), typeof(SpriteRotator))]
+[RequireComponent(typeof(SpriteRotator),typeof(BotSpecifications))]
 public class AIShoot : MonoBehaviour
 {
-	[Header("Shooting")]
-	[SerializeField] private TimedObject _bullet;
-	[SerializeField] private Transform _bulletSpawner;
-	[SerializeField] private float _timeBetweenShoots = 1f;
-
-	[Space(3)][Header("Reload and ammo")]
-	[SerializeField] private AudioClip _reloadSound;
-	[SerializeField] private float _reloadTime = 5f;
-	[SerializeField] private int _magazineSize = 9;
-
-	private int _ammoCount;
-	private float _cantShootNextSeconds = 0f;
-	private AudioSource _audioSource;
-	private SpriteRotator _spriteRotator;
+	[SerializeField] private Weapon _weapon;
 	[SerializeField] private Transform _target;
+
+	private SpriteRotator _spriteRotator;
+	private BotSpecifications _specifications;
+	private float _correctRecoil = 0f;
+	private float _aimingTime = 0f;
 
 	public void SetTarget(Transform target)
 	{
@@ -30,46 +22,52 @@ public class AIShoot : MonoBehaviour
 	}
 	public void Attack()
 	{
-		if (_ammoCount <= 0)
+		bool isTarget = false;
+		foreach (RaycastHit2D hit in _weapon.OnGunPoint)
+        {
+			if (hit.collider.gameObject == _target.gameObject)
+            {
+				isTarget = true;
+				break;
+            }
+        }
+		Aim();
+		if (isTarget == false)
+		{
+			_aimingTime += _specifications.AimTime;
+		}
+		if (isTarget && _aimingTime <= 0 && _weapon.CanShoot)
+		{
+			_weapon.Shoot();
+			_correctRecoil += _weapon.Recoil * _specifications.AimRecoilMultiply;
+			return;
+		}
+		if (_weapon.AmmoCount == 0)
 		{
 			Reload();
-			return;
 		}
-		Aim();
-		if (_cantShootNextSeconds > 0)
-		{
-			return;
-		}
-
-		_ammoCount -= 1;
-		_cantShootNextSeconds = _timeBetweenShoots;
-		Instantiate(_bullet, _bulletSpawner.position, _bulletSpawner.rotation);
 	}
 	public void Reload()
 	{
-		_cantShootNextSeconds += _reloadTime;
-		_ammoCount = _magazineSize;
-
-		_audioSource.clip = _reloadSound;
-		_audioSource.Play();
+		_weapon.Reload();
 	}
 	private void Aim()
 	{
-		_spriteRotator.RotateAll(_target.position.x - transform.position.x);
-		_spriteRotator.RotateItems(_target);
+		_spriteRotator.InvertItems(_target.position.x - transform.position.x);
+		_spriteRotator.RotateItems(_target.position + new Vector3(0, _correctRecoil), _weapon.Accusity * _specifications.AimSkill);
 	}
 	private void Awake()
 	{
-		_audioSource = GetComponent<AudioSource>();
 		_spriteRotator = GetComponent<SpriteRotator>();
-		_ammoCount = _magazineSize;
-}
-	private void FixedUpdate()
-	{
+		_specifications = GetComponent<BotSpecifications>();
+	}
+    private void Update()
+    {
 		Attack();
-		if (_cantShootNextSeconds > 0)
-		{
-			_cantShootNextSeconds -= Time.fixedDeltaTime;
-		}
+	}
+    private void FixedUpdate()
+	{
+		_correctRecoil = Mathf.Clamp(_correctRecoil - Time.fixedDeltaTime, 0, Mathf.Infinity);
+		_aimingTime = Mathf.Clamp(_aimingTime - Time.fixedDeltaTime, 0, _specifications.AimTime);
 	}
 }

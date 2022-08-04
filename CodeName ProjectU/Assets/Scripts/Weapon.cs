@@ -5,18 +5,18 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform _bullet;
     [SerializeField] private Transform _bulletSpawner;
-    [SerializeField] private SpriteRotator _spriteRotator;
     [SerializeField] private AudioClip _reloadSound;
     [SerializeField] private AudioClip _noAmmoSound;
     [SerializeField] private GameObject _hitEffect;
+    [SerializeField] private SpriteRotator _spriteRotator;
 
     [SerializeField] private Vector2 _cameraImpact = new Vector2(0.2f,0);
-    [SerializeField] private float _recoil = 1f;
+    [SerializeField] private float _recoil = 0.1f;
     [SerializeField] private float _accusity = 1f;
     [SerializeField] private float _aimMaxDistanse = 10f;
     [SerializeField] private float _timeBetweenShoots = 0.1f;
-    [SerializeField] private float _reloadTime = 3f;
-    [SerializeField] private float _shootDistace = Mathf.Infinity;
+    [SerializeField] private float _reloadTime = 2f;
+    [SerializeField] private float _shootDistace = 15;
     [SerializeField] private int _magazineSize = 30;
 
     private AudioSource _audioSource;
@@ -69,7 +69,6 @@ public class Weapon : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Debug.DrawRay(_bulletSpawner.transform.position, _bulletSpawner.transform.right, Color.red, _shootDistace);
         _cantShootNextSeconds = Mathf.Clamp(_cantShootNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
         if (_reloading)
         {

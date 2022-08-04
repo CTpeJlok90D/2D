@@ -5,10 +5,11 @@ public class Scope : MonoBehaviour
 {
     [SerializeField] private Transform _mainCharacter;
     [SerializeField] private Weapon _specifications;
-    [SerializeField] private float _recoilPower = 0f;
     [SerializeField] protected bool x = true;
     [SerializeField] protected bool y = true;
     [SerializeField] protected bool z = false;
+
+    private float _recoilPower = 0f;
 
     public void AddRecoilPower(float power)
     {

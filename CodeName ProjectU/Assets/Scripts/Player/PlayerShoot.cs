@@ -9,16 +9,20 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private SmoothCopyTransform _camera;
     [SerializeField] private Weapon _weapon;
 
+    [SerializeField] private float _aimRecoilMultiply = 0.5f;
+
     private PlayerMove _playerInput;
     private InputAction _aim;
     private InputAction _shoot;
     private InputAction _reload;
 
     private SpriteRotator _spriteRotator;
+
+    public bool Aiming => _aim.ReadValue<float>() > 0;
+
     private void Awake()
     {
         _spriteRotator = GetComponent<SpriteRotator>();
-        Cursor.SetCursor(_aimCursor, Vector2.zero, CursorMode.Auto);
         Cursor.visible = false;
 
         _playerInput = new PlayerMove();
@@ -43,7 +47,7 @@ public class PlayerShoot : MonoBehaviour
     {
         _spriteRotator.RotateItems(_scope.transform, _weapon.Accusity);
         _spriteRotator.RotateAll(_scope.transform.position.x - transform.position.x);
-        if (_aim.ReadValue<float>() > 0)
+        if (Aiming)
         {
             _camera.SetTarget(_scope.transform);
         }
@@ -56,7 +60,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (_weapon.CanShoot)
         {
-            _scope.AddRecoilPower(_weapon.Recoil);
+            _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _aimRecoilMultiply : 1f));
         }
         _weapon.Shoot();
     }

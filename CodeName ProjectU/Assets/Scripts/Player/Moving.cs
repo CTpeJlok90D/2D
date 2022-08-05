@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-[RequireComponent(typeof(WayDirectrion), typeof(SpriteRotator), typeof(Rigidbody2D))]
+[RequireComponent(typeof(WayDirectrion), typeof(Rigidbody2D))]
 public class Moving : MonoBehaviour
 {
     [SerializeField] private float _maxSpeed = 4f;
@@ -13,98 +13,67 @@ public class Moving : MonoBehaviour
     private float _correctSpeed;
     private float _cantJumpSec;
     private bool _onGround;
+    private bool _sprinting;
+    private float _jumpState;
+    [SerializeField] private int _walkDirection;
 
-    private PlayerMove _input;
-    private InputAction _move;
-    private InputAction _jump;
-    private InputAction _sprint;
     private WayDirectrion _way;
-    private SpriteRotator _spriteRotator;
     private Rigidbody2D _rigidbody2D;
 
-    private void Awake()
+    public void Move(InputAction.CallbackContext context)
     {
-        _way = GetComponent<WayDirectrion>();
-        _spriteRotator = GetComponent<SpriteRotator>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-
-        _input = new PlayerMove();
-        GetContol();
-        _move.Enable();
-        _jump.Enable();
-        _sprint.Enable();
-    }
-    private void GetContol()
-    {
-        _move = _input.Player.Move;
-        _jump = _input.Player.Jump;
-        _sprint = _input.Player.Sprint;
-    }
-    private void OnDisable()
-    {
-        _move.Disable();
-        _jump.Disable();
-        _sprint.Disable();
-    }
-    private void FixedUpdate()
-    {
-        Walk(_move.ReadValue<Vector2>().x, _sprint.ReadValue<float>());
-        ReduceCooldowns();
-    }
-    private void Update()
-    {
-        Jump(_jump.ReadValue<float>());
-    }
-    private void Walk(float inputAxe, float inputSprint)
-    {
-        if (inputAxe == 0)
+        _walkDirection = 0;
+        if (context.performed)
         {
-            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
-            return;
+            _walkDirection = Mathf.RoundToInt(context.ReadValue<Vector2>().x);
         }
-        //_spriteRotator.RotateBody(inputAxe);
-        _correctSpeed = CalculateSpeed(inputSprint);
-        if (_onGround == false)
-        {
-            Vector2 airTargetVelocity = new Vector2(_correctSpeed * inputAxe * Time.fixedDeltaTime, _rigidbody2D.velocity.y);
-            _rigidbody2D.velocity = airTargetVelocity;
-            return;
-        }
-        _rigidbody2D.velocity = CalculateVelocity(inputAxe, _correctSpeed * Time.fixedDeltaTime);
     }
-    private Vector2 CalculateVelocity(float inputAxe, float speed)
+    public void Sprint(InputAction.CallbackContext context)
     {
-        Vector2 direction = _way.GetDirection(inputAxe);
-        return new Vector2(direction.x * Mathf.Abs(speed), direction.y * Mathf.Abs(speed));
+        _sprinting = context.performed;
     }
-    private float CalculateSpeed(float inputSprint)
+    public void Jump(InputAction.CallbackContext context)
     {
-        float result = _correctSpeed;
-        if (inputSprint > 0)
+        if (_cantJumpSec <= 0 && context.started && _onGround)
         {
-            result = _maxSpeed;
-        }
-        else
-        {
-            result = _speed;
-        }
-        return result;
-    }
-    private void Jump(float input)
-    {
-        if (_cantJumpSec <= 0 && input > 0 && _onGround)
-        {
-            StartCoroutine("JumpTimers");
+            StartCoroutine(nameof(JumpCorutine));
             _cantJumpSec = _jumpCooldown;
         }
     }
-    private IEnumerator JumpTimers()
+    private IEnumerator JumpCorutine()
 	{
         for(float state = 0; state < _jumpTraectory.keys[_jumpTraectory.keys.Length - 1].time; state += Time.deltaTime)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpTraectory.Evaluate(state));
+            _jumpState = _jumpTraectory.Evaluate(state);
             yield return null;
         }
+        _jumpState = 0;
+    }
+    private void ApplyVelocity()
+    {
+        if (_walkDirection == 0)
+        {
+            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y + _jumpState);
+            return;
+        }
+        _correctSpeed = CalculateSpeed();
+        if (_onGround == false)
+        {
+            Vector2 airTargetVelocity = new Vector2(_correctSpeed * _walkDirection * Time.fixedDeltaTime, _rigidbody2D.velocity.y + _jumpState);
+            _rigidbody2D.velocity = airTargetVelocity;
+            return;
+        }
+        Vector2 direction = _way.GetDirection(_walkDirection);
+        _rigidbody2D.velocity = new Vector2(direction.x * _correctSpeed * Time.fixedDeltaTime, direction.y * _correctSpeed * Time.fixedDeltaTime + _jumpState);
+    }
+    private float CalculateSpeed()
+    {
+        float result = _correctSpeed;
+        if (_sprinting)
+        {
+            return _maxSpeed;
+        }
+        return _speed;
     }
     private void ReduceCooldowns()
     {
@@ -120,5 +89,16 @@ public class Moving : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         _onGround = false;
+    }
+    private void Awake()
+    {
+        _way = GetComponent<WayDirectrion>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+
+    }
+    private void FixedUpdate()
+    {
+        ApplyVelocity();
+        ReduceCooldowns();
     }
 }

@@ -45,7 +45,7 @@ public class PlayerShoot : MonoBehaviour
     private void Aim()
     {
         _spriteRotator.RotateItems(_scope.transform.position, _weapon.Accusity);
-        _spriteRotator.RotateBody(_scope.transform.position.x - transform.position.x);
+        _spriteRotator.InvertItems(_scope.transform.position.x - transform.position.x);
         if (Aiming)
         {
             _camera.SetTarget(_scope.transform);

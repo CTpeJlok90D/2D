@@ -56,10 +56,6 @@ public class SpriteRotator : MonoBehaviour
 	{
 		InvertItems(direction > 0 ? 1 : -1);
 	}
-	public void RotateBody(float direction)
-	{
-		RotateBody(direction > 0 ? 1 : -1);
-	}
 	public void RotateItems(float direction)
     {
 		RotateItems(direction > 0 ? 1 : -1);

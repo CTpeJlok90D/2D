@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRotator),typeof(BotSpecifications))]
 public class AIShoot : MonoBehaviour
 {
 	[SerializeField] private Weapon _weapon;
 	[SerializeField] private Transform _target;
+	[SerializeField] private UnityEvent _shot;
+	[SerializeField] private UnityEvent _objectGoFar;
 
 	private SpriteRotator _spriteRotator;
 	private BotSpecifications _specifications;
@@ -15,12 +18,12 @@ public class AIShoot : MonoBehaviour
 	{
 		_target = target;
 	}
-	public void Attack(Transform target)
+	public void Shoot(Transform target)
 	{
 		_target = target;
-		Attack();
+		Shoot();
 	}
-	public void Attack()
+	public void Shoot()
 	{
 		bool isTarget = false;
 		foreach (RaycastHit2D hit in _weapon.OnGunPoint)
@@ -39,17 +42,9 @@ public class AIShoot : MonoBehaviour
 		if (isTarget && _aimingTime <= 0 && _weapon.CanShoot)
 		{
 			_weapon.Shoot();
-			_correctRecoil += _weapon.Recoil * _specifications.AimRecoilMultiply;
-			return;
+			_shot.Invoke();
+			_correctRecoil += _weapon.Recoil * (Vector2.Distance(transform.position, _target.position) * _specifications.AimRecoilMultiply);
 		}
-		if (_weapon.AmmoCount == 0)
-		{
-			Reload();
-		}
-	}
-	public void Reload()
-	{
-		_weapon.Reload();
 	}
 	private void Aim()
 	{
@@ -61,13 +56,14 @@ public class AIShoot : MonoBehaviour
 		_spriteRotator = GetComponent<SpriteRotator>();
 		_specifications = GetComponent<BotSpecifications>();
 	}
-    private void Update()
-    {
-		Attack();
-	}
     private void FixedUpdate()
 	{
 		_correctRecoil = Mathf.Clamp(_correctRecoil - Time.fixedDeltaTime, 0, Mathf.Infinity);
 		_aimingTime = Mathf.Clamp(_aimingTime - Time.fixedDeltaTime, 0, _specifications.AimTime);
+
+		if (Mathf.Abs(Vector2.Distance(transform.position, _target.position)) > _weapon.ShootDistance)
+		{
+			_objectGoFar.Invoke();
+		}
 	}
 }

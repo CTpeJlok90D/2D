@@ -15,7 +15,7 @@ public class Work : Task
 		{
 			return;
 		}
-		_aiMove.GoTo(_workPosition);
+		_aiMove.GoTo(_workPosition.position);
 	}
 	protected override void Awake()
 	{

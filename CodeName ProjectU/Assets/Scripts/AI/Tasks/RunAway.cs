@@ -10,7 +10,7 @@ public class RunAway : Task
 
 	public override void DoIt()
 	{
-		_aiMove.GoTo(_shelter);
+		_aiMove.GoTo(_shelter.position);
 	}
 	public void SetShelter(Transform shelter)
     {

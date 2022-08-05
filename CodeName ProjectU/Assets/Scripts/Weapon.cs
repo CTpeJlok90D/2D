@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 public class Weapon : MonoBehaviour
@@ -18,10 +19,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _reloadTime = 2f;
     [SerializeField] private float _shootDistace = 15;
     [SerializeField] private int _magazineSize = 30;
+    [SerializeField] private UnityEvent _ammoIsOut;
 
     private AudioSource _audioSource;
     private bool _reloading = false;
-    private int _correctAmmoCount;
+    private int _correctAmmoCount = 0;
     private float _cantShootNextSeconds = 0f;
 
     public float Accusity => _accusity;
@@ -30,11 +32,17 @@ public class Weapon : MonoBehaviour
     public bool CanShoot => _correctAmmoCount > 0 && _cantShootNextSeconds <= 0;
     public int AmmoCount => _correctAmmoCount;
     public Vector2 CameraImpact => _cameraImpact;
+    public float ShootDistance => _shootDistace;
     public RaycastHit2D[] OnGunPoint => Physics2D.RaycastAll(_bulletSpawner.transform.position, _bulletSpawner.transform.right, _shootDistace);
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+
+        if (_correctAmmoCount <= 0)
+        {
+            _ammoIsOut.Invoke();
+        }
     }
     public void Shoot()
     {
@@ -43,17 +51,21 @@ public class Weapon : MonoBehaviour
             _cantShootNextSeconds += _timeBetweenShoots;
             _correctAmmoCount -= 1;
             Instantiate(_bullet, _bulletSpawner.transform.position, _bulletSpawner.transform.rotation);
-            RaycastHit2D raycastHit2D = Physics2D.Raycast(_bulletSpawner.transform.position, _bulletSpawner.transform.right, _shootDistace);
             foreach (RaycastHit2D hit in OnGunPoint)
             {
-                Instantiate(_hitEffect, hit.point, new Quaternion(raycastHit2D.normal.x, raycastHit2D.normal.y, 0, 0));
+                Instantiate(_hitEffect, hit.point, new Quaternion(hit.normal.x, hit.normal.y, 0, 0));
+            }
+            if (_correctAmmoCount <= 0)
+            {
+                _ammoIsOut.Invoke();
             }
             return;
         }
-        if (_correctAmmoCount == 0)
+        if (_correctAmmoCount <= 0)
         {
             _audioSource.clip = _noAmmoSound;
             _audioSource.Play();
+            _ammoIsOut.Invoke();
         }
     }
     public void Reload()

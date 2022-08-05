@@ -3,8 +3,6 @@ using UnityEngine;
 public class SpriteRotator : MonoBehaviour
 {
 	[Header("Escord items")]
-	[SerializeField] private SpriteRenderer[] _bodyItemsX;
-	[SerializeField] private SpriteRenderer[] _bodyItemsY;
 	[SerializeField] private Transform[] _lookingItemsView;
 	[SerializeField] private Transform[] _invertingItemsX;
 	[SerializeField] private Transform[] _invertingItemsY;
@@ -12,29 +10,6 @@ public class SpriteRotator : MonoBehaviour
 	private int _direction = 1;
 
 	public int Direction => _direction;
-	public void RotateAll(int direction)
-	{
-		_direction = direction;
-		RotateBody(direction);
-		InvertItems(direction);
-		RotateItems(direction);
-	}
-	public void RotateAll(float direction)
-    {
-		RotateAll(direction > 0 ? 1 : -1);
-    }
-	public void RotateBody(int direction)
-	{
-		_direction = direction;
-		foreach (SpriteRenderer var in _bodyItemsX)
-		{
-			var.flipX = _direction == -1;
-		}
-		foreach (SpriteRenderer var in _bodyItemsY)
-		{
-			var.flipY = _direction == -1;
-		}
-	}
 	public void RotateItems(Vector3 targetPostion, float accusity = 1f)
 	{
 		foreach (Transform item in _lookingItemsView)
@@ -56,6 +31,7 @@ public class SpriteRotator : MonoBehaviour
 	}
 	public void InvertXItems(int direction)
     {
+		_direction = direction;
 		foreach (Transform item in _invertingItemsX)
 		{
 			item.localScale = new Vector2(direction, item.localScale.y);

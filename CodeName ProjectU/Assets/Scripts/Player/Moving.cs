@@ -23,7 +23,7 @@ public class Moving : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         _walkDirection = 0;
-        if (context.performed)
+        if (context.performed || context.started)
         {
             _walkDirection = Mathf.RoundToInt(context.ReadValue<Vector2>().x);
         }
@@ -68,7 +68,6 @@ public class Moving : MonoBehaviour
     }
     private float CalculateSpeed()
     {
-        float result = _correctSpeed;
         if (_sprinting)
         {
             return _maxSpeed;

@@ -109,7 +109,7 @@ public partial class @PlayerMove : IInputActionCollection2, IDisposable
                     ""name"": ""KeyBoard"",
                     ""id"": ""789469d9-8d0d-4862-93bc-98cc588f1a96"",
                     ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",

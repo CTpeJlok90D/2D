@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UIInventory : MonoBehaviour
+public class UIInventory : Container
 {
-    [SerializeField] private GameObject _panel;
     private PlayerMove _input;
     private InputAction _interactInventory;
     private bool _inventoryIsOpen = false;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _input = new PlayerMove();
         _interactInventory = _input.Player.InteractInventory;
         _interactInventory.Enable();
@@ -17,27 +17,27 @@ public class UIInventory : MonoBehaviour
 
     public void OpenInventory()
     {
-        _panel.SetActive(true);
-        _inventoryIsOpen = true;
+        SetInventoryActive(true);
     }
     public void CloseInventory()
     {
-        _panel.SetActive(false);
-        _inventoryIsOpen = false;
+        SetInventoryActive(false);
+    }
+    public void InvertInventory()
+    {
+        SetInventoryActive(!_inventoryIsOpen);
+    }
+    public void Input(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            InvertInventory();
+        }
     }
 
-    private void Update()
+    private void SetInventoryActive(bool state)
     {
-        if (_interactInventory.ReadValue<float>() == 1f)
-        {
-            if (_inventoryIsOpen)
-            {
-                CloseInventory();
-            }
-            else
-            {
-                OpenInventory();
-            }
-        }
+        _backgroundPanel.SetActive(state);
+        _inventoryIsOpen = state;
     }
 }

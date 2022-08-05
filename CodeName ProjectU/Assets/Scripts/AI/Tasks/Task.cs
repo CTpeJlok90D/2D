@@ -21,4 +21,8 @@ public abstract class Task : MonoBehaviour
 		_priority = Mathf.Clamp(_priority + value, MinPriority, MaxPriority);
 		_ai.GetNextTask();
 	}
+    private void OnValidate()
+    {
+		_priority = Mathf.Clamp(_priority, MinPriority, MaxPriority);
+    }
 }

@@ -12,7 +12,7 @@ public class Patrol : Task
 
 	public override void DoIt()
 	{
-		_aiMove.GoTo(_points[_correctPointIndex]);
+		_aiMove.GoTo(_points[_correctPointIndex].position);
 	}
 	protected override void Awake()
 	{

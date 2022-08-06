@@ -9,13 +9,14 @@ public class Moving : MonoBehaviour
     [SerializeField] private float _speed = 1f;
     [SerializeField] private float _jumpCooldown = 0.1f;
     [SerializeField] private AnimationCurve _jumpTraectory;
+    [SerializeField] private Vector2 _onGroundOffcet;
 
     private float _correctSpeed;
     private float _cantJumpSec;
     private bool _onGround;
     private bool _sprinting;
     private float _jumpState;
-    [SerializeField] private int _walkDirection;
+    private int _walkDirection;
 
     private WayDirectrion _way;
     private Rigidbody2D _rigidbody2D;
@@ -83,7 +84,7 @@ public class Moving : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _onGround = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), Vector3.down, 0.1f).collider != null;
+        _onGround = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + _onGroundOffcet, Vector2.down, 0.1f).collider != null;
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -99,5 +100,11 @@ public class Moving : MonoBehaviour
     {
         ApplyVelocity();
         ReduceCooldowns();
+    }
+    private void OnDrawGizmos()
+    {
+        Vector2 vector = new Vector2(transform.position.x, transform.position.y);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(vector + _onGroundOffcet, vector + _onGroundOffcet + Vector2.down);
     }
 }

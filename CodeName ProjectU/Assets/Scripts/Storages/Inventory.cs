@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class Inventory : Container
 {
-    [SerializeField] private Item testItem;
+    [SerializeField] private Item _testItem;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-        _space[0][0].AddItem(testItem);
+        TryAddItem(_testItem.UIItem, Vector2Int.zero);
+        TryAddItem(_testItem.UIItem, new Vector2Int(0,1));
     }
 }

@@ -33,14 +33,6 @@ public class PlayerShoot : MonoBehaviour
     private void Update()
     {
         Aim();
-        if (_shoot.ReadValue<float>() > 0)
-        {
-            Shoot();
-        }
-        if (_reload.ReadValue<float>() > 0)
-        {
-            Reload();
-        }
     }
     private void Aim()
     {
@@ -55,17 +47,21 @@ public class PlayerShoot : MonoBehaviour
             _camera.SetTarget(transform);
         }
     }
-    public void Shoot()
+    public void Shoot(InputAction.CallbackContext context)
     {
-        if (_weapon.CanShoot)
+        if (_weapon.CanShoot && (context.started || context.performed))
         {
             Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
             _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _specifications.AimRecoilMultiply : 1f));
         }
         _weapon.Shoot();
     }
-    public void Reload()
+    public void Reload(InputAction.CallbackContext context)
     {
+        if (!context.started)
+        {
+            return;
+        }
         _weapon.Reload();
     }
 }

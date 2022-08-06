@@ -2234,4 +2234,4 @@ MonoBehaviour:
   _height: 10
   _wight: 10
   _cell: {fileID: 4130961175169334687, guid: 3fffa52a84e2a2d48a351185b9fa71bb, type: 3}
-  testItem: {fileID: 0}
+  testItem: {fileID: 8072927481736973612, guid: 6506dd7711aa6a54eac5ac266db89d81, type: 3}

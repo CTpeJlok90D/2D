@@ -2,13 +2,26 @@
 
 public class Cell : MonoBehaviour
 {
-    public UIItem Item;
-    [SerializeField] private Vector2Int _position = Vector2Int.zero;
-    [SerializeField] private Container _container;
+    private Vector2Int _position = Vector2Int.zero;
+    private Container _container;
 
     public void Init(Vector2Int position, Container container)
     {
         _position = position;
         _container = container;
+    }
+    [HideInInspector] public UIItem Item;
+
+    private void OnDrawGizmos()
+    {
+        if (Item != null)
+        {
+            Gizmos.color = Color.red;
+        }
+        else
+        {
+            Gizmos.color = Color.white;
+        }
+        Gizmos.DrawSphere(transform.position, 15f);
     }
 }

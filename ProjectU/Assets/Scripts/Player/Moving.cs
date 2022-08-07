@@ -21,6 +21,10 @@ public class Moving : MonoBehaviour
     private WayDirectrion _way;
     private Rigidbody2D _rigidbody2D;
 
+    public void StopMoving()
+    {
+        _walkDirection = 0;
+    }
     public void Move(InputAction.CallbackContext context)
     {
         _walkDirection = 0;

@@ -60,18 +60,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaction",
+                    "name": "OpenInventory",
                     "type": "Button",
-                    "id": "5a03d02e-afb6-4232-8c73-f7e6c0784ecb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InteractInventory",
-                    "type": "Button",
-                    "id": "6b8c7824-2157-4527-9cb8-28a01666fcf7",
+                    "id": "7a913840-ea45-46e0-a557-32a43dc91cf4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -169,23 +160,12 @@
                 },
                 {
                     "name": "",
-                    "id": "f2522b28-3f28-4d54-99bf-6d10d253e137",
-                    "path": "<Keyboard>/e",
+                    "id": "77cdc615-9dea-44d7-a510-ae83b64e04aa",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e11ed54c-6b6c-4951-9139-fd08ab70b027",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "Tap(duration=0.005,pressPoint=0.3)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InteractInventory",
+                    "action": "OpenInventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -212,6 +192,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RotateItem",
+                    "type": "Button",
+                    "id": "1af3bed7-a37c-4535-850f-f35df453c4b5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseInventory",
+                    "type": "Button",
+                    "id": "89e12b94-6ada-4ee1-b6eb-688f8dc89273",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ForceItem",
+                    "type": "Button",
+                    "id": "b4a5a587-aa49-4c72-8df3-5c9823b4444e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -234,6 +241,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e65265e9-b5ee-4b13-9026-f96fc660bb7a",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97850fea-23da-4f7c-ae31-1933fade2418",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "714037a1-becc-4686-8807-6c19b3ab3aa9",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ForceItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

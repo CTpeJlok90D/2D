@@ -8,31 +8,38 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private SmoothCopyTransform _camera;
     [SerializeField] private Weapon _weapon;
 
-    private PlayerMove _playerInput;
-    private InputAction _aim;
-    private InputAction _shoot;
-    private InputAction _reload;
-
+    private bool _aiming = false;
+    private bool _shooting = false;
     private SpriteRotator _spriteRotator;
     private Specifications _specifications;
 
-    public bool Aiming => _aim.ReadValue<float>() > 0;
+    public bool Aiming => _aiming;
 
-    private void Awake()
+    public void Aim(InputAction.CallbackContext context)
     {
-        _spriteRotator = GetComponent<SpriteRotator>();
-        _specifications = GetComponent<Specifications>();
-        Cursor.visible = false;
-
-        _playerInput = new PlayerMove();
-        _playerInput.Enable();
-        _aim = _playerInput.Player.Aim;
-        _shoot = _playerInput.Player.Shoot;
-        _reload = _playerInput.Player.Reload;
+        if (context.canceled)
+        {
+            _aiming = false;
+            return;
+        }
+        _aiming = true;
     }
-    private void Update()
+    public void Shoot(InputAction.CallbackContext context)
     {
-        Aim();
+        if (context.canceled)
+        {
+            _shooting = false;
+            return;
+        }
+        _shooting = true;
+    }
+    public void Reload(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+        _weapon.Reload();
     }
     private void Aim()
     {
@@ -47,21 +54,24 @@ public class PlayerShoot : MonoBehaviour
             _camera.SetTarget(transform);
         }
     }
-    public void Shoot(InputAction.CallbackContext context)
+    private void Shoot()
     {
-        if (_weapon.CanShoot && (context.started || context.performed))
+        if (_weapon.CanShoot && _shooting)
         {
             Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
             _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _specifications.AimRecoilMultiply : 1f));
+            _weapon.Shoot();
         }
-        _weapon.Shoot();
     }
-    public void Reload(InputAction.CallbackContext context)
+    private void Awake()
     {
-        if (!context.started)
-        {
-            return;
-        }
-        _weapon.Reload();
+        _spriteRotator = GetComponent<SpriteRotator>();
+        _specifications = GetComponent<Specifications>();
+        Cursor.visible = false;
+    }
+    private void Update()
+    {
+        Aim();
+        Shoot();
     }
 }

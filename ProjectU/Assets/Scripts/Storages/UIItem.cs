@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class UIItem : MonoBehaviour
 {
-    public Vector2Int CorectCords;
+    [HideInInspector] public Vector2Int CorectCords;
     [Header("Simple form")]
     [SerializeField] private bool _isRactangle = true;
     [SerializeField] private int _height = 1;
@@ -33,7 +33,10 @@ public class UIItem : MonoBehaviour
     }
     public void PickUp()
     {
-        Destroy(_worldItem.gameObject);
+        if (_worldItem != null)
+        {
+            Destroy(_worldItem.gameObject);
+        }
     }
     public void Drop(Vector3 dropPos)
     {
@@ -43,7 +46,7 @@ public class UIItem : MonoBehaviour
     public void Rotate()
     {
         _rotated = !_rotated;
-        transform.Rotate(new Vector3(0,0, _rotated ? -90 : 90));
+        transform.Rotate(new Vector3(0,0, _rotated ? 90 : -90));
         _mouseFollowOffcet = new Vector2(Mathf.Abs(_mouseFollowOffcet.y), -_mouseFollowOffcet.x);
         for (int i = 0; i < _occupiedSpace.Count; i++)
         {
@@ -53,18 +56,9 @@ public class UIItem : MonoBehaviour
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        _mouseFollowOffcet = new Vector2(_rectTransform.sizeDelta.x - _cellSize/2, 0);
-    }
-    private void OnValidate()
-    {
-        if (_isRactangle && _occupiedSpace.Count != 0)
-        {
-            CalculateOccupiedSpace();
-        }
-        else
-        {
-            CalculateParametrs(); 
-        }
+        _mouseFollowOffcet = new Vector2(_rectTransform.sizeDelta.x/2f - _cellSize/2f, 0);
+        _rectTransform.pivot = new Vector2(1, 0.5f);
+        _rectTransform.localPosition = Vector3.zero;
     }
     private void CalculateOccupiedSpace()
     {
@@ -91,6 +85,20 @@ public class UIItem : MonoBehaviour
             {
                 _wight = var.x;
             }
+        }
+    }
+    private void OnValidate()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _rectTransform.pivot = new Vector2(1, 0.5f);
+        _rectTransform.localPosition = Vector3.zero;
+        if (_isRactangle && _occupiedSpace.Count != 0)
+        {
+            CalculateOccupiedSpace();
+        }
+        else
+        {
+            CalculateParametrs();
         }
     }
 }

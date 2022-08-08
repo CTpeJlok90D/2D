@@ -26,12 +26,12 @@ public class GroundedItemsPanel : Container
     }
     public override void MouseClick(InputAction.CallbackContext context)
     {
-        base.MouseClick(context);
-        UpdateItemsView();
-        if (context.started && _selectedItem != null && _mouseOnPanel)
+        TrySelectItem(_mouseCellOn);
+        if (context.canceled && _selectedItem != null && _mouseOnPanel)
         {
             _selectedItem.PickUp();
         }
+        UpdateItemsView();
     }
     protected override void FillSpace()
     {

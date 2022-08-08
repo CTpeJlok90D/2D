@@ -94,7 +94,7 @@ MonoBehaviour:
   _height: 1
   _wight: 5
   _worldItemPrefab: {fileID: 3462764284935987546, guid: f182d03c63b595d4aa147655083fd577, type: 3}
-  _cellSize: 0
+  _cellSize: 40
   _occupiedSpace:
   - {x: 0, y: 0}
   - {x: 1, y: 0}

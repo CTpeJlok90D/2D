@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Inventory : Container
 {
     [SerializeField] private UIItem[] _testItem;
+    [SerializeField] private RectTransform trashPanel;
 
     public void RotateSelectedItem(InputAction.CallbackContext context)
     {
-        if (_selectedItem != null)
+        if (context.started && _selectedItem != null)
         {
             _selectedItem.Rotate();
             SelectedItemFollowMouse();

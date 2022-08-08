@@ -766,6 +766,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1391086881, guid: 71f4e1d3dce080d41b1039c913975738, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391086881, guid: 71f4e1d3dce080d41b1039c913975738, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 708604901635267109, guid: 71f4e1d3dce080d41b1039c913975738, type: 3}
       propertyPath: _death.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -936,6 +944,11 @@ Transform:
   m_Father: {fileID: 1177015855}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1026429848 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 641965646591275427, guid: 71f4e1d3dce080d41b1039c913975738, type: 3}
+  m_PrefabInstance: {fileID: 554020067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1032569777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3178,7 +3191,7 @@ MonoBehaviour:
         m_MethodName: SetDanguresObject
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1026429848}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -3190,7 +3203,7 @@ MonoBehaviour:
         m_MethodName: SetTarget
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1026429848}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -3298,7 +3311,7 @@ MonoBehaviour:
         m_MethodName: SetDanguresObject
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1026429848}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0

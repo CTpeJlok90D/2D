@@ -20,7 +20,7 @@ public abstract class Container : MonoBehaviour
     protected UnityEvent _mouseWentOnPanel = new();
     protected UnityEvent _mouseLeftPanel = new();
     protected bool _mouseOnPanel = false;
-    private Vector2Int _mouseCellOn;
+    protected Vector2Int _mouseCellOn;
     private Vector2 _mouseCanvasPosition;
     private RectTransform _rectTransform;
 
@@ -41,20 +41,32 @@ public abstract class Container : MonoBehaviour
     }
     public virtual void MouseClick(InputAction.CallbackContext context)
     {
-        if (context.started && _mouseOnPanel)
+        if (context.canceled && _mouseOnPanel)
         {
-            if (_mouseOnPanel && _selectedItem == null && GetCellByVector(_mouseCellOn).Item != null)
+            if (TrySelectItem(_mouseCellOn))
             {
-                TakeSelectedItemInCursor();
                 return;
             }
-            if (_selectedItem != null && CanPlaceItHere(_selectedItem, _mouseCellOn))
+            if (_selectedItem != null && TryPutItem(_selectedItem, _mouseCellOn))
             {
-                PutItem(_selectedItem, _mouseCellOn);
                 _selectedItem = null;
-                return;
             }
         }
+    }
+    protected void SelectItem(Vector2Int cell)
+    {
+        _selectedItem = GetCellByVector(cell).Item;
+        _selectedItem.transform.SetParent(_selectedItemPlace.transform);
+        TakeSelectedItemInCursor();
+    }
+    protected bool TrySelectItem(Vector2Int cell)
+    {
+        if (_mouseOnPanel && _selectedItem == null && GetCellByVector(cell).Item != null)
+        {
+            SelectItem(cell);
+            return true;
+        }
+        return false;
     }
     protected virtual bool TryAddItem(UIItem item, Vector2Int cellCords)
     {
@@ -143,8 +155,6 @@ public abstract class Container : MonoBehaviour
     }
     private void TakeSelectedItemInCursor()
     {
-        _selectedItem = GetCellByVector(_mouseCellOn).Item;
-        _selectedItem.transform.SetParent(_selectedItemPlace.transform);
         SelectedItemFollowMouse();
 
         foreach (Vector2Int cord in _selectedItem.OccupiedSpace)

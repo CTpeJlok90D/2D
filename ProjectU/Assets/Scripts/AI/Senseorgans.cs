@@ -18,9 +18,7 @@ public class Senseorgans : MonoBehaviour
 		List<RaycastHit2D> result = new List<RaycastHit2D>();
 		foreach (Transform eye in _eyes)
 		{
-			result.Add(Physics2D.Raycast(new Vector2(eye.position.x, eye.position.y), _spriteRotator.Direction * eye.right, _visionDistance));
-
-			Debug.DrawRay(new Vector2(eye.position.x, eye.position.y), _spriteRotator.Direction * eye.right, Color.red);
+			result.Add(Physics2D.Raycast(new Vector2(eye.position.x, eye.position.y), eye.right, _visionDistance));
 		}
 		return result;
 	}

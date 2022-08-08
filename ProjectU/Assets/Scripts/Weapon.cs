@@ -19,7 +19,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _reloadTime = 2f;
     [SerializeField] private float _shootDistace = 15;
     [SerializeField] private int _magazineSize = 30;
-    [SerializeField] private UnityEvent _ammoIsOut;
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private UnityEvent _ammoIsOut = new();
 
     private AudioSource _audioSource;
     private bool _reloading = false;
@@ -38,7 +39,9 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-
+    }
+    private void Start()
+    {
         if (_correctAmmoCount <= 0)
         {
             _ammoIsOut.Invoke();
@@ -54,6 +57,10 @@ public class Weapon : MonoBehaviour
             foreach (RaycastHit2D hit in OnGunPoint)
             {
                 Instantiate(_hitEffect, hit.point, new Quaternion(hit.normal.x, hit.normal.y, 0, 0));
+                if (hit.transform.TryGetComponent(out Specifications specification))
+                {
+                    specification.ApplyHealthValue(-_damage);
+                }
             }
             if (_correctAmmoCount <= 0)
             {

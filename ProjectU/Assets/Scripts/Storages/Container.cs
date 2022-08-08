@@ -30,7 +30,7 @@ public abstract class Container : MonoBehaviour
     {
         _shift = context.started || context.performed;
     }
-    public virtual void MouseMove(InputAction.CallbackContext context)
+    public void MouseMove(InputAction.CallbackContext context)
     {
         UpdateMouseCellPosition(context);
         UpdateMouseOnPanel();

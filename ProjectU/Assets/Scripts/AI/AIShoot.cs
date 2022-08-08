@@ -61,7 +61,7 @@ public class AIShoot : MonoBehaviour
 		_correctRecoil = Mathf.Clamp(_correctRecoil - Time.fixedDeltaTime, 0, Mathf.Infinity);
 		_aimingTime = Mathf.Clamp(_aimingTime - Time.fixedDeltaTime, 0, _specifications.AimTime);
 
-		if (Mathf.Abs(Vector2.Distance(transform.position, _target.position)) > _weapon.ShootDistance)
+		if (_target != null && Mathf.Abs(Vector2.Distance(transform.position, _target.position)) > _weapon.ShootDistance)
 		{
 			_objectGoFar.Invoke();
 		}

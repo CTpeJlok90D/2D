@@ -33,7 +33,7 @@ public class Specifications : MonoBehaviour
         }
         _speed = 0;
     }
-    public void Heal(int healPointCount)
+    public void ApplyHealthValue(int healPointCount)
     {
         _health = Mathf.Clamp(_health + healPointCount, 0, _maxHealth);
         if (_health <= 0)

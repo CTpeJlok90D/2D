@@ -32,6 +32,10 @@ public class KeepDistance : Task
         }
         _onDistanse.Invoke();
     }
+    public void SetTarget(Transform target)
+    {
+        _target = target;
+    }
 
     protected override void Awake()
     {

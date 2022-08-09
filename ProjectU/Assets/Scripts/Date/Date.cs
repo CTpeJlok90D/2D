@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Date
 {
-    public const int SecondsInMinut = 100;
-    public const int MinutsInHour = 100;
-    public const int HoursInDay = 25;
+    public const int SecondsInMinut = 60;
+    public const int MinutsInHour = 60;
+    public const int HoursInDay = 24;
     public const int DaysInMonth = 25;
 
     private float _seconds;

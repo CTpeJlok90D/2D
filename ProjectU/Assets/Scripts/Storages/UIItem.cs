@@ -1,104 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-
-[RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(RectTransform),typeof(Image))]
 public class UIItem : MonoBehaviour
 {
     [HideInInspector] public Vector2Int CorectCords;
-    [Header("Simple form")]
-    [SerializeField] private bool _isRactangle = true;
-    [SerializeField] private int _height = 1;
-    [SerializeField] private int _wight = 1;
-    [Space(10)]
-    [SerializeField] private Item _worldItemPrefab;
-    [Space(10)]
-    [SerializeField] private float _cellSize = 40f;
-    [SerializeField] private List<Vector2Int> _occupiedSpace;
 
+    [SerializeField] private Item _item;
+
+    private List<Vector2Int> _occupiedSpace;
     private bool _rotated = false;
     private RectTransform _rectTransform;
-    private Vector2 _mouseFollowOffcet = Vector2.zero;
-    private Item _worldItem = null;
 
-    public int Height => _height;
-    public int Wight => _wight;
+    public int Height => _item.Height;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
-    public Vector2 MouseFollowOffcet => _mouseFollowOffcet;
 
-    public void SetWorldItemPTR(Item item)
-    {
-        _worldItem = item;
-    }
-    public void PickUp()
-    {
-        if (_worldItem != null)
-        {
-            Destroy(_worldItem.gameObject);
-        }
-    }
-    public void Drop(Vector3 dropPos)
-    {
-        Instantiate(_worldItemPrefab, dropPos, Quaternion.identity);
-        Destroy(gameObject);
-    }
     public void Rotate()
     {
         _rotated = !_rotated;
+        _rectTransform.pivot = _rotated ? new Vector2(0,1) : new Vector2(0, 0f);
         transform.Rotate(new Vector3(0,0, _rotated ? 90 : -90));
-        _mouseFollowOffcet = new Vector2(Mathf.Abs(_mouseFollowOffcet.y), -_mouseFollowOffcet.x);
         for (int i = 0; i < _occupiedSpace.Count; i++)
         {
             _occupiedSpace[i] = new Vector2Int(_occupiedSpace[i].y, _occupiedSpace[i].x);
         }
     }
+    public UIItem Init(Item item)
+    {
+        _item = item;
+        _occupiedSpace = _item.OccupiedSpace;
+        GetComponent<Image>().sprite = _item.Sprite;
+        _rectTransform.sizeDelta = new Vector2(_item.Wight, _item.Height) * Container.CellSize;
+
+        return this;
+    }
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        _mouseFollowOffcet = new Vector2(_rectTransform.sizeDelta.x/2f - _cellSize/2f, 0);
-        _rectTransform.pivot = new Vector2(1, 0.5f);
-        _rectTransform.localPosition = Vector3.zero;
-    }
-    private void CalculateOccupiedSpace()
-    {
-        _occupiedSpace.Clear();
-        for (int i = 0; i < _wight; i++)
-        {
-            for (int j = 0; j < _height; j++)
-            {
-                _occupiedSpace.Add(new Vector2Int(i, j));
-            }
-        }
-    }
-    private void CalculateParametrs()
-    {
-        _height = 0;
-        _wight = 0;
-        foreach (Vector2Int var in _occupiedSpace)
-        {
-            if (_height < var.y)
-            {
-                _height = var.y;
-            }
-            if (_wight < var.x)
-            {
-                _wight = var.x;
-            }
-        }
-    }
-    private void OnValidate()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-        _rectTransform.pivot = new Vector2(1, 0.5f);
-        _rectTransform.localPosition = Vector3.zero;
-        if (_isRactangle && _occupiedSpace.Count != 0)
-        {
-            CalculateOccupiedSpace();
-        }
-        else
-        {
-            CalculateParametrs();
-        }
+        _rectTransform.pivot = new Vector2(0, 0f);
     }
 }

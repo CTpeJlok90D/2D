@@ -7,15 +7,17 @@ using UnityEngine.Events;
 [RequireComponent(typeof(RectTransform))]
 public abstract class Container : MonoBehaviour
 {
+    public const int CellSize = 20;
+
     [SerializeField] protected int _height;
     [SerializeField] protected int _wight;
     [SerializeField] protected GameObject _character;
-    [SerializeField] private int _cellSize = 40;
     [SerializeField] private Cell _cell;
-    [SerializeField] private GameObject _selectedItemPlace;
+    [SerializeField] private Transform _selectedItemPlace;
+    [SerializeField] private Transform _itemsPlace;
+    [SerializeField] private UIItem uiItemPrefab;
 
     static protected UIItem _selectedItem;
-    static protected bool _shift = false;
     protected List<List<Cell>> _space = new List<List<Cell>>();
     protected UnityEvent _mouseWentOnPanel = new();
     protected UnityEvent _mouseLeftPanel = new();
@@ -26,10 +28,6 @@ public abstract class Container : MonoBehaviour
 
     static public UIItem SelectedItem => _selectedItem;
     
-    public virtual void ShiftUpdate(InputAction.CallbackContext context) 
-    {
-        _shift = context.started || context.performed;
-    }
     public void MouseMove(InputAction.CallbackContext context)
     {
         UpdateMouseCellPosition(context);
@@ -57,7 +55,12 @@ public abstract class Container : MonoBehaviour
     {
         _selectedItem = GetCellByVector(cell).Item;
         _selectedItem.transform.SetParent(_selectedItemPlace.transform);
-        TakeSelectedItemInCursor();
+        SelectedItemFollowMouse();
+
+        foreach (Vector2Int cord in _selectedItem.OccupiedSpace)
+        {
+            GetCellByVector(_selectedItem.CorectCords + cord).SetItem(null);
+        }
     }
     protected bool TrySelectItem(Vector2Int cell)
     {
@@ -68,22 +71,14 @@ public abstract class Container : MonoBehaviour
         }
         return false;
     }
-    protected virtual bool TryAddItem(UIItem item, Vector2Int cellCords)
+    protected virtual bool TryGiveItem(Item item, Vector2Int cellCords)
     {
-        if (CanPlaceItHere(item, cellCords) == false)
+        if (CanPlaceItHere(item, cellCords))
         {
-            return false;
+            GiveNewItem(item, cellCords);
+            return true;
         }
-        GiveNewItem(item, cellCords);
-        return true;
-    }
-    protected virtual UIItem GiveNewItem(UIItem item, Vector2Int cellCords)
-    {
-        Vector2Int _lastCell = item.OccupiedSpace[item.OccupiedSpace.Count - 1];
-        UIItem uiItem = Instantiate(item, GetCellByVector(_lastCell + cellCords).transform);
-
-        PutItem(uiItem, cellCords);
-        return uiItem;
+        return false;
     }
     protected virtual bool TryPutItem(UIItem item, Vector2Int cellCords)
     {
@@ -96,18 +91,40 @@ public abstract class Container : MonoBehaviour
     }
     protected virtual void PutItem(UIItem item, Vector2Int cellCords)
     {
-        Vector2Int _lastCell = item.OccupiedSpace[item.OccupiedSpace.Count - 1];
-
-        item.CorectCords = _lastCell + cellCords;
-        item.transform.SetParent(GetCellByVector(item.CorectCords).transform);
-        item.transform.localPosition = Vector3.zero;
+        item.CorectCords = cellCords;
+        item.transform.position = GetCellByVector(cellCords).transform.position;
+        item.transform.SetParent(_itemsPlace);
 
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            GetCellByVector(cord + cellCords).Item = item;
+            GetCellByVector(cord + cellCords).SetItem(item);
         }
     }
-    protected virtual bool CanPlaceItHere(UIItem item, Vector2Int cellCords)
+    protected virtual void Awake()
+    {
+        FillSpace();
+        _rectTransform = GetComponent<RectTransform>();
+        _rectTransform.pivot = new Vector2(0, 0);
+    }
+    protected UIItem GiveNewItem(Item item, Vector2Int cellCords)
+    {
+        UIItem uiItem = Instantiate(uiItemPrefab, _itemsPlace.transform).Init(item);
+
+        PutItem(uiItem, cellCords);
+        return uiItem;
+    }
+    protected bool CanPlaceItHere(UIItem item, Vector2Int cellCords)
+    {
+        foreach (Vector2Int cord in item.OccupiedSpace)
+        {
+            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).Item != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    protected bool CanPlaceItHere(Item item, Vector2Int cellCords)
     {
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
@@ -132,7 +149,7 @@ public abstract class Container : MonoBehaviour
             }
         }
     }
-    protected virtual void RemoveAllCells()
+    private void RemoveAllCells()
     {
         foreach (List<Cell> listCell in _space)
         {
@@ -143,24 +160,9 @@ public abstract class Container : MonoBehaviour
         }
         _space.Clear();
     }
-    protected virtual void SelectedItemFollowMouse()
+    private void SelectedItemFollowMouse()
     {
-        _selectedItem.transform.position = _mouseCanvasPosition + _selectedItem.MouseFollowOffcet;
-    }
-    protected virtual void Awake()
-    {
-        FillSpace();
-        _rectTransform = GetComponent<RectTransform>();
-        _rectTransform.pivot = new Vector2(0,1);
-    }
-    private void TakeSelectedItemInCursor()
-    {
-        SelectedItemFollowMouse();
-
-        foreach (Vector2Int cord in _selectedItem.OccupiedSpace)
-        {
-            GetCellByVector(_selectedItem.CorectCords - cord).Item = null;
-        }
+        _selectedItem.transform.position = _mouseCanvasPosition;
     }
     private Cell GetCellByVector(Vector2Int _vector)
     {
@@ -188,8 +190,13 @@ public abstract class Container : MonoBehaviour
     private void UpdateMouseCellPosition(InputAction.CallbackContext context)
     {
         _mouseCanvasPosition = context.ReadValue<Vector2>();
-        Vector2 mousePosition = (_mouseCanvasPosition - new Vector2(_rectTransform.position.x, _rectTransform.position.y)) / _cellSize;
-        _mouseCellOn = new Vector2Int((int)mousePosition.x, (int)mousePosition.y * -1);
+        Vector2 mousePosition = (_mouseCanvasPosition - new Vector2(_rectTransform.position.x, _rectTransform.position.y)) / CellSize;
+        _mouseCellOn = new Vector2Int((int)mousePosition.x, (int)mousePosition.y);
         _mouseCellOn = ItCellOnSpace(_mouseCellOn) ? _mouseCellOn : new Vector2Int(-1, -1);
+    }
+    private void OnValidate()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _rectTransform.pivot = new Vector2(0, 0);
     }
 }

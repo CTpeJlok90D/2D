@@ -8,18 +8,12 @@ public class Cell : MonoBehaviour
     [SerializeField] private Color _fullColor;
     [SerializeField] private UIItem _item;
 
-    private Vector2Int _position = Vector2Int.zero;
-    private Container _container;
     private RawImage _image;
 
-    public void Init(Vector2Int position, Container container)
-    {
-        _position = position;
-        _container = container;
-    }
     public UIItem Item => _item;
     public void SetItem(UIItem item) 
     {
+        _image = GetComponent<RawImage>();
         _item = item;
         if (_item == null)
         {

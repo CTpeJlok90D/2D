@@ -7,8 +7,16 @@ public class ItemScanner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.TryGetComponent(out GroundItem item))
+        {
+            _itemsPanel.AddItem(item);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.TryGetComponent(out GroundItem item))
+        {
+            _itemsPanel.RemoveItem(item);
+        }
     }
 }

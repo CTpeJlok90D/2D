@@ -9,11 +9,13 @@ public class UIItem : MonoBehaviour
     [HideInInspector] public Vector2Int CorectCords;
 
     [SerializeField] private Item _item;
+    [SerializeField] private GroundItem _groundItem;
 
     private List<Vector2Int> _occupiedSpace;
     private bool _rotated = false;
     private RectTransform _rectTransform;
-
+    
+    public GroundItem GroundItem => _groundItem;
     public int Height => _item.Height;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
 

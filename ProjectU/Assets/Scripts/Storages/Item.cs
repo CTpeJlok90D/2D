@@ -7,12 +7,16 @@ public class Item : ScriptableObject
     [SerializeField] private Sprite _sprite;
     [SerializeField] private int _height = 1;
     [SerializeField] private int _wight = 1;
+    [SerializeField] private Vector2 _localScale = Vector2.one;
+    [SerializeField] private Vector2 _colliderScale = Vector2.one;
     private List<Vector2Int> _occupiedSpace = new();
 
     public int Height => _height;
     public int Wight => _wight;
     public Sprite Sprite => _sprite;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
+    public Vector2 LocalScale => _localScale;
+    public Vector2 ColliderScale => _colliderScale;
 
     private void OnValidate()
     {

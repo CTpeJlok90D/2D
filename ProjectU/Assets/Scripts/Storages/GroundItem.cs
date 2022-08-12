@@ -35,8 +35,4 @@ public class GroundItem : MonoBehaviour
     {
         Init(_item);
     }
-    private void FixedUpdate()
-    {
-
-    }
 }

@@ -18,14 +18,16 @@ public class GroundedItemsPanel : Container
     }
     public override void MouseClick(InputAction.CallbackContext context)
     {
-        if (context.started && MouseOnPanel)
+        if (context.started && MouseOnPanel && _selectedItem == null)
         {
             UIItem item = GetCellByVector(MouseCellOn).Item;
+            TrySelectItem(MouseCellOn);
+            _uiItems.Remove(item);
             if (item != null)
             {
                 item.GroundItem.PickUpBy();
             }
-            TrySelectItem(MouseCellOn);
+            FillSpace();
         }
     }
     protected override void FillSpace()
@@ -49,9 +51,10 @@ public class GroundedItemsPanel : Container
         int height = 0;
         foreach (GroundItem groundItem in _groundItems)
         {
-            UIItem goundUIItem = Instantiate(UIItemPrefub).Init(groundItem.Item);
-            TryPutItem(goundUIItem, new Vector2Int(0, height));
-            _height += groundItem.Item.Height;
+            UIItem goundUIItem = Instantiate(UIItemPrefub).Init(groundItem.Item, groundItem);
+            PutItem(goundUIItem, new Vector2Int(0, height));
+            _uiItems.Add(goundUIItem);
+            height += groundItem.Item.Height;
         }
     }
 }

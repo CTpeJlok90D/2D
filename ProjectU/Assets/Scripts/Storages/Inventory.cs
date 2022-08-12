@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class Inventory : Container
 {
-    [SerializeField] private Item[] _testItem;
-    [SerializeField] private RectTransform trashPanel;
+    [SerializeField] private GroundItem _groundItemPrefab;
+    [SerializeField] private Transform _owner;
+    [SerializeField] private Item[] _startItems;
 
     public void RotateSelectedItem(InputAction.CallbackContext context)
     {
@@ -14,11 +14,21 @@ public class Inventory : Container
             _selectedItem.Rotate();
         }
     }
+    public void DropSelectedItem()
+    {
+        if (_selectedItem != null)
+        {
+            Instantiate(_groundItemPrefab, _owner.transform.position, new Quaternion()).Init(_selectedItem.Item);
+            Destroy(_selectedItem.gameObject);
+        }
+    }
     private void Start()
     {
-        for (int i = 0; i < _testItem.Length; i++)
+        int height = 0;
+        for (int i = 0; i < _startItems.Length; i++)
         {
-            TryGiveItem(_testItem[i], new Vector2Int(0, i));
+            TryGiveItem(_startItems[i], new Vector2Int(0, height));
+            height += _startItems[i].Height;
         }
     }
 }

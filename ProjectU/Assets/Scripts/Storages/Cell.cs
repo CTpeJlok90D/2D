@@ -1,32 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RawImage))]
+[RequireComponent(typeof(Image))]
 public class Cell : MonoBehaviour
 {
     [SerializeField] private Color _emptyColor;
     [SerializeField] private Color _fullColor;
-    [SerializeField] private UIItem _item;
+    [SerializeField] private Sprite _fullSprite;
+    [SerializeField] private Sprite _emptySprite;
+    private UIItem _item;
 
-    private RawImage _image;
+    private Image _image;
 
     public UIItem Item => _item;
     public void SetItem(UIItem item) 
     {
-        _image = GetComponent<RawImage>();
+        _image = GetComponent<Image>();
         _item = item;
         if (_item == null)
         {
             _image.color = _emptyColor;
+            _image.sprite = _emptySprite;
         }
         else
         {
             _image.color = _fullColor;
+            _image.sprite = _fullSprite;
         }
     }
     private void Awake()
     {
-        _image = GetComponent<RawImage>();
+        _image = GetComponent<Image>();
     }
     private void OnDrawGizmos()
     {

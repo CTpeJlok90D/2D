@@ -14,7 +14,7 @@ public class Item : ScriptableObject
     public int Height => _height;
     public int Wight => _wight;
     public Sprite Sprite => _sprite;
-    public List<Vector2Int> OccupiedSpace => _occupiedSpace;
+    public List<Vector2Int> OccupiedSpace => new(_occupiedSpace);
     public Vector2 LocalScale => _localScale;
     public Vector2 ColliderScale => _colliderScale;
 

@@ -18,6 +18,7 @@ public class UIItem : MonoBehaviour
     public GroundItem GroundItem => _groundItem;
     public int Height => _item.Height;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
+    public Item Item => _item;
 
     public void Rotate()
     {
@@ -29,12 +30,14 @@ public class UIItem : MonoBehaviour
             _occupiedSpace[i] = new Vector2Int(_occupiedSpace[i].y, _occupiedSpace[i].x);
         }
     }
-    public UIItem Init(Item item)
+    public UIItem Init(Item item, GroundItem groundItem = null)
     {
         _item = item;
         _occupiedSpace = _item.OccupiedSpace;
         GetComponent<Image>().sprite = _item.Sprite;
-        _rectTransform.sizeDelta = new Vector2(_item.Wight, _item.Height) * Container.CellSize;
+        _rectTransform.sizeDelta = new Vector2(Container.CellSize, Container.CellSize);
+        _rectTransform.localScale = new Vector2(_item.Wight, _item.Height);
+        _groundItem = groundItem;
 
         return this;
     }

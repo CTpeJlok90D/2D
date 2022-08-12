@@ -58,7 +58,7 @@ public abstract class Container : MonoBehaviour
     }
     protected virtual bool TrySelectItem(Vector2Int cell)
     {
-        if (CanSelectItemOnCell(cell))
+        if (_mouseOnPanel && CanSelectItemOnCell(cell))
         {
             SelectItem(cell);
             return true;
@@ -106,9 +106,16 @@ public abstract class Container : MonoBehaviour
     }
     protected Cell GetCellByVector(Vector2Int _vector)
     {
-        return _space[_vector.y][_vector.x];
+        try
+        {
+            return _space[_vector.y][_vector.x];
+        }
+        catch
+        {
+            throw new System.Exception($"Cell not found -> {_vector}.\n{gameObject.name}");
+        }
     }
-    private void PutItem(UIItem item, Vector2Int cellCords)
+    protected void PutItem(UIItem item, Vector2Int cellCords)
     {
         item.CorectCords = cellCords;
         item.transform.SetParent(_itemsPlace);
@@ -184,9 +191,5 @@ public abstract class Container : MonoBehaviour
         Vector2 mousePosition = (_mouseCanvasPosition - new Vector2(transform.position.x, transform.position.y)) / CellSize;
         _mouseCellOn = new Vector2Int((int)mousePosition.x, (int)mousePosition.y);
         _mouseCellOn = ItCellOnSpace(_mouseCellOn) ? _mouseCellOn : new Vector2Int(-1, -1);
-    }
-    private void OnValidate()
-    {
-        GetComponent<RectTransform>().pivot = new Vector2(0, 0);
     }
 }

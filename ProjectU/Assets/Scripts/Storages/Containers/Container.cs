@@ -7,19 +7,22 @@ public abstract class Container : MonoBehaviour
 {
     public const int CellSize = 20;
 
-    [SerializeField] protected int _height;
-    [SerializeField] protected int _wight;
+    [SerializeField] protected Vector2Int _size;
     [SerializeField] protected GameObject _character;
-    [SerializeField] private Cell _cell;
     [SerializeField] private Transform _selectedItemPlace;
     [SerializeField] private Transform _itemsPlace;
-    [SerializeField] private UIItem _uiItemPrefab;
+    [SerializeField] private ContainerSettings _settings;
+    [SerializeField] private OneItemCellRootParametrs[] _oneItemCells;
+
+    private UIItem _uiItemPrefab;
+    private Cell _cell;
 
     static protected UIItem _selectedItem;
     private List<List<Cell>> _space = new List<List<Cell>>();
     private bool _mouseOnPanel = false;
     private Vector2Int _mouseCellOn;
     private Vector2 _mouseCanvasPosition;
+    private List<OneItemCellRoot> _oneItemCellRoots = new();
 
     static public UIItem SelectedItem => _selectedItem;
     protected Vector2Int MouseCellOn => _mouseCellOn;
@@ -49,6 +52,7 @@ public abstract class Container : MonoBehaviour
             }
         }
     }
+
     protected virtual UIItem GiveNewItem(Item item, Vector2Int cellCords)
     {
         UIItem uiItem = Instantiate(_uiItemPrefab, _itemsPlace.transform).Init(item);
@@ -67,7 +71,7 @@ public abstract class Container : MonoBehaviour
     }
     protected bool CanSelectItemOnCell(Vector2Int cell)
     {
-        return _mouseOnPanel && _selectedItem == null && GetCellByVector(cell).Item != null;
+        return _mouseOnPanel && _selectedItem == null && GetCellByVector(cell).UIItem != null;
     }
     protected virtual bool TryGiveItem(Item item, Vector2Int cellCords)
     {
@@ -87,17 +91,13 @@ public abstract class Container : MonoBehaviour
         }
         return false;
     }
-    protected virtual void Awake()
-    {
-        FillSpace();
-    }
     protected virtual void FillSpace()
     {
         RemoveAllCells();
-        for (int i = 0; i < _height; i++)
+        for (int i = 0; i < _size.y; i++)
         {
             _space.Add(new List<Cell>());
-            for (int j = 0; j < _wight; j++)
+            for (int j = 0; j < _size.x; j++)
             {
                 Cell cell = Instantiate(_cell, transform);
                 _space[i].Add(cell);
@@ -106,14 +106,7 @@ public abstract class Container : MonoBehaviour
     }
     protected Cell GetCellByVector(Vector2Int _vector)
     {
-        try
-        {
-            return _space[_vector.y][_vector.x];
-        }
-        catch
-        {
-            throw new System.Exception($"Cell not found -> {_vector}.\n{gameObject.name}");
-        }
+        return _space[_vector.y][_vector.x];
     }
     protected void PutItem(UIItem item, Vector2Int cellCords)
     {
@@ -128,7 +121,7 @@ public abstract class Container : MonoBehaviour
     }
     private void SelectItem(Vector2Int cell)
     {
-        _selectedItem = GetCellByVector(cell).Item;
+        _selectedItem = GetCellByVector(cell).UIItem;
         _selectedItem.transform.SetParent(_selectedItemPlace.transform);
         SelectedItemFollowMouse();
 
@@ -141,7 +134,7 @@ public abstract class Container : MonoBehaviour
     {
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).Item != null)
+            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).UIItem != null)
             {
                 return false;
             }
@@ -152,7 +145,7 @@ public abstract class Container : MonoBehaviour
     {
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).Item != null)
+            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).UIItem != null)
             {
                 return false;
             }
@@ -176,7 +169,7 @@ public abstract class Container : MonoBehaviour
     }
     private bool ItCellOnSpace(Vector2Int cellCord)
     {
-        return (cellCord.x < _wight && cellCord.x >= 0) && (cellCord.y < _height && cellCord.y >= 0);
+        return (cellCord.x < _size.x && cellCord.x >= 0) && (cellCord.y < _size.y && cellCord.y >= 0);
     }
     private void UpdateMouseOnPanel()
     {
@@ -191,5 +184,27 @@ public abstract class Container : MonoBehaviour
         Vector2 mousePosition = (_mouseCanvasPosition - new Vector2(transform.position.x, transform.position.y)) / CellSize;
         _mouseCellOn = new Vector2Int((int)mousePosition.x, (int)mousePosition.y);
         _mouseCellOn = ItCellOnSpace(_mouseCellOn) ? _mouseCellOn : new Vector2Int(-1, -1);
+    }
+    private void Awake()
+    {
+        _uiItemPrefab = _settings.UIItemPrefab;
+        _cell = _settings.Cell;
+        FillSpace();
+        GenerateOneItemCell();
+    }
+    private void GenerateOneItemCell()
+    {
+        foreach(OneItemCellRootParametrs parametr in _oneItemCells)
+        {
+            List<Cell> cells = new();
+            for(int x = 0; x < parametr.Size.x; x++)
+            {
+                for (int y = 0; y < parametr.Size.y; y++)
+                {
+                    cells.Add(GetCellByVector(parametr.Position + new Vector2Int(x, y)));
+                }
+            }
+            _oneItemCellRoots.Add(new OneItemCellRoot(cells));
+        }
     }
 }

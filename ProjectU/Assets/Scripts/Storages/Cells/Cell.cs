@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
@@ -9,14 +10,21 @@ public class Cell : MonoBehaviour
     [SerializeField] private Sprite _fullSprite;
     [SerializeField] private Sprite _emptySprite;
     private UIItem _item;
+    private UnityEvent _onItemChange = new();
 
     private Image _image;
 
-    public UIItem Item => _item;
-    public void SetItem(UIItem item) 
+    public UIItem UIItem => _item;
+    public UnityEvent OnItemChange => _onItemChange;
+
+    public void SetItem(UIItem item, bool InvokeIvent = true) 
     {
         _image = GetComponent<Image>();
         _item = item;
+        if (InvokeIvent)
+        { 
+            _onItemChange.Invoke(); 
+        }
         if (_item == null)
         {
             _image.color = _emptyColor;

@@ -20,7 +20,7 @@ public class GroundedItemsPanel : Container
     {
         if (context.started && MouseOnPanel && _selectedItem == null)
         {
-            UIItem item = GetCellByVector(MouseCellOn).Item;
+            UIItem item = GetCellByVector(MouseCellOn).UIItem;
             TrySelectItem(MouseCellOn);
             _uiItems.Remove(item);
             if (item != null)
@@ -32,10 +32,10 @@ public class GroundedItemsPanel : Container
     }
     protected override void FillSpace()
     {
-        _height = 0;
+        _size.y = 0;
         foreach (GroundItem groundItem in _groundItems)
         {
-            _height += groundItem.Item.Height;
+            _size.y += groundItem.Item.Height;
         }
         base.FillSpace();
         UpdateUIItemList();

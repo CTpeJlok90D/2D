@@ -17,14 +17,18 @@ public class Cell : MonoBehaviour
     public UIItem UIItem => _item;
     public UnityEvent OnItemChange => _onItemChange;
 
-    public void SetItem(UIItem item, bool InvokeIvent = true) 
+    public void SetItemInvoke(UIItem item) 
     {
-        _image = GetComponent<Image>();
-        _item = item;
-        if (InvokeIvent)
-        { 
-            _onItemChange.Invoke(); 
+        SetItem(item);
+        _onItemChange.Invoke();
+    }
+    public void SetItem(UIItem item)
+    {
+        if (_image == null)
+        {
+            _image = GetComponent<Image>();
         }
+        _item = item;
         if (_item == null)
         {
             _image.color = _emptyColor;

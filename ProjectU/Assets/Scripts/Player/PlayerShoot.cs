@@ -14,6 +14,7 @@ public class PlayerShoot : MonoBehaviour
     private Specifications _specifications;
 
     public bool Aiming => _aiming;
+    public bool Armed => _weapon != null;
 
     public void Aim(InputAction.CallbackContext context)
     {
@@ -71,7 +72,10 @@ public class PlayerShoot : MonoBehaviour
     }
     private void Update()
     {
-        Aim();
-        Shoot();
+        if (Armed)
+        {
+            Aim();
+            Shoot();
+        }
     }
 }

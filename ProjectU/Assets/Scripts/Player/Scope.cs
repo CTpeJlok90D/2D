@@ -6,6 +6,9 @@ public class Scope : MonoBehaviour
     [SerializeField] private Transform _mainCharacter;
     [SerializeField] private Weapon _specifications;
 
+    private float accusity;
+    private float maxDistance;
+
     private float _recoilPower = 0f;
 
     public void AddRecoilPower(float power)
@@ -13,11 +16,11 @@ public class Scope : MonoBehaviour
         _recoilPower = power + _recoilPower > 0 ? power + _recoilPower : 0;
     }
 
-    private void Update()
+    private void Cursor()
     {
         Vector3 target = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Vector2 _positiveMaxPosition = new Vector2(_mainCharacter.position.x + _specifications.AimMaxDistanse, _mainCharacter.position.y + _specifications.AimMaxDistanse);
-        Vector2 _negativeMaxPosition = new Vector2(_mainCharacter.position.x - _specifications.AimMaxDistanse, _mainCharacter.position.y - _specifications.AimMaxDistanse);
+        Vector2 _positiveMaxPosition = new Vector2(_mainCharacter.position.x + maxDistance, _mainCharacter.position.y + maxDistance);
+        Vector2 _negativeMaxPosition = new Vector2(_mainCharacter.position.x - maxDistance, _mainCharacter.position.y - maxDistance);
         for (int i = 0; i < 2; i++)
         {
             if (target[i] > _positiveMaxPosition[i] || target[i] < _negativeMaxPosition[i])
@@ -25,8 +28,18 @@ public class Scope : MonoBehaviour
                 target[i] = target[i] > _positiveMaxPosition[i] ? _positiveMaxPosition[i] : _negativeMaxPosition[i];
             }
         }
-        Vector3 _targetPosition = Vector3.MoveTowards(transform.position, target, _specifications.Accusity);
+        Vector3 _targetPosition = Vector3.MoveTowards(transform.position, target, accusity);
         transform.position = new Vector3(_targetPosition.x, _targetPosition.y + _recoilPower, transform.position.z);
-        _recoilPower = _recoilPower - Time.deltaTime > 0 ? _recoilPower - Time.deltaTime : 0;
+    }
+    private void Update()
+    {
+        Cursor();
+
+        _recoilPower = Mathf.Clamp(_recoilPower - Time.deltaTime, 0, Mathf.Infinity);
+    }
+    private void Awake()
+    {
+        accusity = _specifications == null ? 0.9f : _specifications.Accusity;
+        maxDistance = _specifications == null ? 1f : _specifications.AimMaxDistanse;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+
 [RequireComponent(typeof(AI))]
 public abstract class Task : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public abstract class Task : MonoBehaviour
 	}
 
 	public abstract void DoIt();
+
 	public void AddPriority(int value)
 	{
 		_priority = Mathf.Clamp(_priority + value, MinPriority, MaxPriority);

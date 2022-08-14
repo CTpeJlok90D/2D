@@ -8,7 +8,6 @@ public abstract class Container : MonoBehaviour
     public const int CellSize = 20;
 
     [SerializeField] protected Vector2Int _size;
-    [SerializeField] protected GameObject _character;
     [SerializeField] private Transform _selectedItemPlace;
     [SerializeField] private Transform _itemsPlace;
     [SerializeField] private ContainerSettings _settings;
@@ -17,7 +16,7 @@ public abstract class Container : MonoBehaviour
     private UIItem _uiItemPrefab;
     private Cell _cell;
 
-    static protected UIItem _selectedItem;
+    static private UIItem _selectedItem;
     private List<List<Cell>> _space = new List<List<Cell>>();
     private bool _mouseOnPanel = false;
     private Vector2Int _mouseCellOn;
@@ -28,6 +27,7 @@ public abstract class Container : MonoBehaviour
     protected Vector2Int MouseCellOn => _mouseCellOn;
     protected bool MouseOnPanel => _mouseOnPanel;
     protected UIItem UIItemPrefub => _uiItemPrefab;
+    protected ContainerSettings Settings => _settings;
 
     public void MouseMove(InputAction.CallbackContext context)
     {
@@ -116,7 +116,7 @@ public abstract class Container : MonoBehaviour
 
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            GetCellByVector(cord + cellCords).SetItem(item);
+            GetCellByVector(cord + cellCords).SetItemInvoke(item);
         }
     }
     private void SelectItem(Vector2Int cell)
@@ -127,7 +127,7 @@ public abstract class Container : MonoBehaviour
 
         foreach (Vector2Int cord in _selectedItem.OccupiedSpace)
         {
-            GetCellByVector(_selectedItem.CorectCords + cord).SetItem(null);
+            GetCellByVector(_selectedItem.CorectCords + cord).SetItemInvoke(null);
         }
     }
     private bool CanPlaceItHere(UIItem item, Vector2Int cellCords)
@@ -169,7 +169,7 @@ public abstract class Container : MonoBehaviour
     }
     private bool ItCellOnSpace(Vector2Int cellCord)
     {
-        return (cellCord.x < _size.x && cellCord.x >= 0) && (cellCord.y < _size.y && cellCord.y >= 0);
+        return cellCord.x < _size.x && cellCord.x >= 0 && cellCord.y < _size.y && cellCord.y >= 0;
     }
     private void UpdateMouseOnPanel()
     {
@@ -181,23 +181,16 @@ public abstract class Container : MonoBehaviour
     private void UpdateMouseCellPosition(InputAction.CallbackContext context)
     {
         _mouseCanvasPosition = context.ReadValue<Vector2>();
-        Vector2 mousePosition = (_mouseCanvasPosition - new Vector2(transform.position.x, transform.position.y)) / CellSize;
+        Vector2 mousePosition = (_mouseCanvasPosition - (Vector2)transform.position) / CellSize;
         _mouseCellOn = new Vector2Int((int)mousePosition.x, (int)mousePosition.y);
         _mouseCellOn = ItCellOnSpace(_mouseCellOn) ? _mouseCellOn : new Vector2Int(-1, -1);
     }
-    private void Awake()
+    private void GenerateOneItemCells()
     {
-        _uiItemPrefab = _settings.UIItemPrefab;
-        _cell = _settings.Cell;
-        FillSpace();
-        GenerateOneItemCell();
-    }
-    private void GenerateOneItemCell()
-    {
-        foreach(OneItemCellRootParametrs parametr in _oneItemCells)
+        foreach (OneItemCellRootParametrs parametr in _oneItemCells)
         {
             List<Cell> cells = new();
-            for(int x = 0; x < parametr.Size.x; x++)
+            for (int x = 0; x < parametr.Size.x; x++)
             {
                 for (int y = 0; y < parametr.Size.y; y++)
                 {
@@ -206,5 +199,12 @@ public abstract class Container : MonoBehaviour
             }
             _oneItemCellRoots.Add(new OneItemCellRoot(cells));
         }
+    }
+    private void Awake()
+    {
+        _uiItemPrefab = _settings.UIItem;
+        _cell = _settings.Cell;
+        FillSpace();
+        GenerateOneItemCells();
     }
 }

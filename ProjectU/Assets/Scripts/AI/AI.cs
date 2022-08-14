@@ -11,6 +11,7 @@ public class AI : MonoBehaviour
 	public void GetNextTask()
 	{
 		System.Random random = new System.Random(Mathf.RoundToInt(Time.time));
+
 		List<Task> pryorityTasks = GetMaxPryorityTasks();
 		int randomValue = random.Next(0, pryorityTasks.Count);
 		_correctTask = pryorityTasks[randomValue];

@@ -83,6 +83,7 @@ public class AIMove : MonoBehaviour
 	private bool IsWallInFront() => Physics2D.RaycastAll(transform.position, new Vector2(_spriteRotator.Direction,0), 0.5f).Length > 1;
 	private bool OnPosition() => (_targetPoint == null) ? true : (Mathf.Abs(_targetPoint.x - transform.position.x) < _minDistanceToTarget);
 	private bool IsPitInFront() => Physics2D.Raycast(new Vector2(transform.position.x + 0.3f * _spriteRotator.Direction, transform.position.y), new Vector2(_spriteRotator.Direction * 0.1f, -0.5f),3).collider == null;
+
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		_onGround = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), Vector3.down, 0.1f).collider != null;

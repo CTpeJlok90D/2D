@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c0e773bc4f2c04b9de3c77c0bb5849, type: 3}
   m_Name: StandartContainer
   m_EditorClassIdentifier: 
-  _uiItemPrefab: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
+  _uiItem: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
   _cell: {fileID: -1278337621428780501, guid: 3fffa52a84e2a2d48a351185b9fa71bb, type: 3}
+  _groundItem: {fileID: -5802723276981870988, guid: e9c2ae80f1bd0b74395f19629a4d4499, type: 3}

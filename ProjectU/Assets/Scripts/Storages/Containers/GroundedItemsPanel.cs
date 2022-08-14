@@ -18,14 +18,14 @@ public class GroundedItemsPanel : Container
     }
     public override void MouseClick(InputAction.CallbackContext context)
     {
-        if (context.started && MouseOnPanel && _selectedItem == null)
+        if (context.started && MouseOnPanel && SelectedItem == null)
         {
             UIItem item = GetCellByVector(MouseCellOn).UIItem;
             TrySelectItem(MouseCellOn);
             _uiItems.Remove(item);
             if (item != null)
             {
-                item.GroundItem.PickUpBy();
+                item.GroundItem.PickUp();
             }
             FillSpace();
         }
@@ -39,7 +39,6 @@ public class GroundedItemsPanel : Container
         }
         base.FillSpace();
         UpdateUIItemList();
-
     }
     private void UpdateUIItemList()
     {
@@ -48,6 +47,7 @@ public class GroundedItemsPanel : Container
             Destroy(uiItem.gameObject);
         }
         _uiItems.Clear();
+
         int height = 0;
         foreach (GroundItem groundItem in _groundItems)
         {

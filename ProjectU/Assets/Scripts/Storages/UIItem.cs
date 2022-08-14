@@ -46,4 +46,14 @@ public class UIItem : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
         _rectTransform.pivot = new Vector2(0, 0f);
     }
+    private void OnValidate()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        if (_item != null)
+        {
+            Init(_item);
+            return;
+        }
+
+    }
 }

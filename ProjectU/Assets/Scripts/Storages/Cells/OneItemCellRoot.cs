@@ -19,7 +19,7 @@ public class OneItemCellRoot
     {
         _cells.ForEach((cell) =>
         {
-            cell.SetItem(item, false);
+            cell.SetItem(item);
         });
     }
 }

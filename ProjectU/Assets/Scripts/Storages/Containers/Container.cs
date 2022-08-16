@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public abstract class Container : MonoBehaviour
@@ -12,18 +13,23 @@ public abstract class Container : MonoBehaviour
     [SerializeField] private Transform _itemsPlace;
     [SerializeField] private ContainerSettings _settings;
     [SerializeField] private OneItemCellRootParametrs[] _oneItemCells;
-
-    private UIItem _uiItemPrefab;
-    private Cell _cell;
+    [Header("Style")]
+    [SerializeField] private Color _backGround;
+    [SerializeField] private Color _frameColor;
+    [SerializeField] private int _frameThickness = 1;
+    [SerializeField] private Image _image;
 
     static private UIItem _selectedItem;
-    private List<List<Cell>> _space = new List<List<Cell>>();
+    private List<UIItem> _items = new();
     private bool _mouseOnPanel = false;
     private Vector2Int _mouseCellOn;
     private Vector2 _mouseCanvasPosition;
     private List<OneItemCellRoot> _oneItemCellRoots = new();
+    private UIItem _uiItemPrefab;
+    private ImageDrawer _imageDrawer;
 
-    static public UIItem SelectedItem => _selectedItem;
+    static protected UIItem SelectedItem => _selectedItem;
+    public Vector2Int Size => _size;
     protected Vector2Int MouseCellOn => _mouseCellOn;
     protected bool MouseOnPanel => _mouseOnPanel;
     protected UIItem UIItemPrefub => _uiItemPrefab;
@@ -52,7 +58,10 @@ public abstract class Container : MonoBehaviour
             }
         }
     }
-
+    protected void DropItem(UIItem item)
+    {
+        _items.Remove(item);
+    }
     protected virtual UIItem GiveNewItem(Item item, Vector2Int cellCords)
     {
         UIItem uiItem = Instantiate(_uiItemPrefab, _itemsPlace.transform).Init(item);
@@ -71,7 +80,7 @@ public abstract class Container : MonoBehaviour
     }
     protected bool CanSelectItemOnCell(Vector2Int cell)
     {
-        return _mouseOnPanel && _selectedItem == null && GetCellByVector(cell).UIItem != null;
+        return _mouseOnPanel && _selectedItem == null && GetUIItemByVector(cell) != null;
     }
     protected virtual bool TryGiveItem(Item item, Vector2Int cellCords)
     {
@@ -91,50 +100,38 @@ public abstract class Container : MonoBehaviour
         }
         return false;
     }
-    protected virtual void FillSpace()
+    protected UIItem GetUIItemByVector(Vector2Int vector)
     {
-        RemoveAllCells();
-        for (int i = 0; i < _size.y; i++)
+        foreach (UIItem item in _items)
         {
-            _space.Add(new List<Cell>());
-            for (int j = 0; j < _size.x; j++)
+            foreach (Vector2Int occupaceidCell in item.OccupiedSpace)
             {
-                Cell cell = Instantiate(_cell, transform);
-                _space[i].Add(cell);
+                if (item.CorectCords + occupaceidCell == vector)
+                {
+                    return item;
+                }
             }
         }
-    }
-    protected Cell GetCellByVector(Vector2Int _vector)
-    {
-        return _space[_vector.y][_vector.x];
+        return null;
     }
     protected void PutItem(UIItem item, Vector2Int cellCords)
     {
         item.CorectCords = cellCords;
         item.transform.SetParent(_itemsPlace);
         item.transform.localPosition = new Vector3(cellCords.x, cellCords.y) * CellSize;
-
-        foreach (Vector2Int cord in item.OccupiedSpace)
-        {
-            GetCellByVector(cord + cellCords).SetItemInvoke(item);
-        }
+        _items.Add(item);
     }
     private void SelectItem(Vector2Int cell)
     {
-        _selectedItem = GetCellByVector(cell).UIItem;
+        _selectedItem = GetUIItemByVector(cell);
         _selectedItem.transform.SetParent(_selectedItemPlace.transform);
         SelectedItemFollowMouse();
-
-        foreach (Vector2Int cord in _selectedItem.OccupiedSpace)
-        {
-            GetCellByVector(_selectedItem.CorectCords + cord).SetItemInvoke(null);
-        }
     }
     private bool CanPlaceItHere(UIItem item, Vector2Int cellCords)
     {
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).UIItem != null)
+            if (ItCellOnSpace(cellCords + cord) == false || GetUIItemByVector(cellCords + cord) != null)
             {
                 return false;
             }
@@ -145,23 +142,12 @@ public abstract class Container : MonoBehaviour
     {
         foreach (Vector2Int cord in item.OccupiedSpace)
         {
-            if (ItCellOnSpace(cellCords + cord) == false || GetCellByVector(cellCords + cord).UIItem != null)
+            if (ItCellOnSpace(cellCords + cord) == false || GetUIItemByVector(cellCords + cord) != null)
             {
                 return false;
             }
         }
         return true;
-    }
-    private void RemoveAllCells()
-    {
-        foreach (List<Cell> listCell in _space)
-        {
-            foreach (Cell cell in listCell)
-            {
-                Destroy(cell.gameObject);
-            }
-        }
-        _space.Clear();
     }
     private void SelectedItemFollowMouse()
     {
@@ -189,22 +175,40 @@ public abstract class Container : MonoBehaviour
     {
         foreach (OneItemCellRootParametrs parametr in _oneItemCells)
         {
-            List<Cell> cells = new();
+            List<Vector2Int> cells = new();
             for (int x = 0; x < parametr.Size.x; x++)
             {
                 for (int y = 0; y < parametr.Size.y; y++)
                 {
-                    cells.Add(GetCellByVector(parametr.Position + new Vector2Int(x, y)));
+                    cells.Add(parametr.Position + new Vector2Int(x, y));
                 }
             }
             _oneItemCellRoots.Add(new OneItemCellRoot(cells));
         }
     }
+    private void DrawOneItemCells()
+    {
+        foreach (OneItemCellRootParametrs parametr in _oneItemCells)
+        {
+            _imageDrawer.DrawCell(parametr.Position * CellSize, (parametr.Position + parametr.Size) * CellSize, _frameThickness, _backGround, _frameColor);
+        }
+    }
+    private void DrawGrid()
+    {
+        _imageDrawer.FillByColor(_backGround);
+        _imageDrawer.DrawGrid(new Vector2Int(-1, -1), _size * CellSize, CellSize, _frameThickness, _frameColor);
+        DrawOneItemCells();
+    }
     private void Awake()
     {
         _uiItemPrefab = _settings.UIItem;
-        _cell = _settings.Cell;
-        FillSpace();
+        if (_image == null)
+        {
+            _image = GetComponent<Image>();
+        }
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        _imageDrawer = new(_image, rectTransform);
         GenerateOneItemCells();
+        DrawGrid();
     }
 }

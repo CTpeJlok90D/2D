@@ -25,19 +25,16 @@ public class GroundItem : MonoBehaviour
         _rigidbody2D.isKinematic = true;
         transform.localPosition = Vector3.zero;
     }
-
     public void PickUp()
     {
         Destroy(gameObject);
     }
-
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<BoxCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
     private void Start()
     {
         Init(_item);

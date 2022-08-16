@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class OneItemCellRoot
 {
-    private List<Cell> _cells;
+    private List<Vector2Int> _cells;
 
-    public OneItemCellRoot(List<Cell> cells)
+    public OneItemCellRoot(List<Vector2Int> cells)
     {
         _cells = cells;
         _cells.ForEach((cell) =>
         {
-            cell.OnItemChange.AddListener(() => SetItemsToAll(cell.UIItem));
+            //cell.OnItemChange.AddListener(() => SetItemsToAll(cell.UIItem));
         });
     }
 
@@ -19,7 +19,7 @@ public class OneItemCellRoot
     {
         _cells.ForEach((cell) =>
         {
-            cell.SetItem(item);
+            //cell.SetItem(item);
         });
     }
 }

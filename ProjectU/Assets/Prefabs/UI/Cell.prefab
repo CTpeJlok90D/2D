@@ -90,6 +90,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _emptyColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
-  _fullColor: {r: 0.31764707, g: 0.31764707, b: 0.31764707, a: 1}
-  _fullSprite: {fileID: -1785584309, guid: 4dcaa2e128e67184db9c252551841a46, type: 3}
+  _fullColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+  _fullSprite: {fileID: -1452598249, guid: 515d04fd84503a246bc3a6fea3e42a2e, type: 3}
   _emptySprite: {fileID: 21300000, guid: b29e51d9bcd7b0149b925e6d50d0d717, type: 3}

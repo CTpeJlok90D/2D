@@ -18,6 +18,7 @@ public class Inventory : Container
         if (SelectedItem != null)
         {
             Instantiate(Settings.GroundItem, _owner.transform.position, new Quaternion()).Init(SelectedItem.Item);
+            DropItem(SelectedItem);
             Destroy(SelectedItem.gameObject);
         }
     }

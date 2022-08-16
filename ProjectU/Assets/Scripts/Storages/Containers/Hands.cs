@@ -12,7 +12,7 @@ public class Hands : Container
     {
         foreach (Vector2Int hand in _handsPosition) 
         {
-            GetCellByVector(hand).OnItemChange.AddListener(UpdateHandsItem);
+            //GetUIItemByVector(hand).OnItemChange.AddListener(UpdateHandsItem);
         }
     }
     private void UpdateHandsItem()
@@ -23,14 +23,14 @@ public class Hands : Container
         }
         _correctItems.Clear();
 
-        foreach (Vector2Int hand in _handsPosition)
-        {
-            if (GetCellByVector(hand).UIItem != null)
-            {
-                GroundItem item = Instantiate(Settings.GroundItem, _hands).Init(GetCellByVector(hand).UIItem.Item);
-                item.Equip();
-                _correctItems.Add(item);
-            }
-        }
+        //foreach (Vector2Int hand in _handsPosition)
+        //{
+        //    if (GetUIItemByVector(hand).UIItem != null)
+        //    {
+        //        GroundItem item = Instantiate(Settings.GroundItem, _hands).Init(GetUIItemByVector(hand).UIItem.Item);
+        //        item.Equip();
+        //        _correctItems.Add(item);
+        //    }
+        //}
     }
 }

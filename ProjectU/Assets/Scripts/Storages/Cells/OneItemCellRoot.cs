@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class OneItemCellRoot
 {
-    private List<Vector2Int> _cells;
+    private List<Cell> _cells;
 
-    public OneItemCellRoot(List<Vector2Int> cells)
+    public OneItemCellRoot(List<Cell> cells)
     {
         _cells = cells;
-        _cells.ForEach((cell) =>
+        foreach (Cell cell in _cells)
         {
-            //cell.OnItemChange.AddListener(() => SetItemsToAll(cell.UIItem));
-        });
+            cell.OnItemChange.AddListener(() => SetItemToAll(cell.Item));
+        }
     }
 
-    private void SetItemsToAll(UIItem item)
+    private void SetItemToAll(UIItem item)
     {
-        _cells.ForEach((cell) =>
+        foreach(Cell cell in _cells)
         {
-            //cell.SetItem(item);
-        });
+            cell.SetItemWithoutInvoke(item);
+        }
     }
 }
 

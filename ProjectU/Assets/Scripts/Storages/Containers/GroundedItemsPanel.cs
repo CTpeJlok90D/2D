@@ -44,6 +44,7 @@ public class GroundedItemsPanel : Container
         int height = 0;
         foreach (GroundItem groundItem in _groundItems)
         {
+            Debug.Log(UIItemPrefub);
             UIItem goundUIItem = Instantiate(UIItemPrefub).Init(groundItem.Item, groundItem);
             PutItem(goundUIItem, new Vector2Int(0, height));
             _uiItems.Add(goundUIItem);

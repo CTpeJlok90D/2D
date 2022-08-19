@@ -7,32 +7,31 @@ public class Specifications : MonoBehaviour
     [SerializeField] private int _maxHealth = 10;
     [SerializeField] private int _health = 10;
     [SerializeField] private UnityEvent _death;
-    [Header("Speed")]
-    [SerializeField] private float _speed = 1f;
+    [Header("Move")]
+    [SerializeField] private float _maxWalkSpeed = 1f;
+    [SerializeField] private float _maxSprintSpeed = 3f;
+    [SerializeField] private float _walkBoost = 0.8f;
+    [SerializeField] private float _sprintBoost = 1.1f;
+    [SerializeField] private float _brakingForce = 0.8f;
+    [SerializeField] private AnimationCurve _jumpForseCuvre;
     [Header("Shooting")]
     [SerializeField] private float _aimRecoilMultiply = 0.5f;
     [SerializeField] private float _aimSkill = 1f;
 
+    public float MaxWalkSpeed => _maxWalkSpeed;
+    public float MaxSprintSpeed => _maxSprintSpeed;
+    public float WalkBoost => _walkBoost;
+    public float SprintBoost => _sprintBoost;
+    public float BrakingForce => _brakingForce;
+    public AnimationCurve JumpForseCurve => _jumpForseCuvre;
+
     public int MaxHealth => _maxHealth;
     public int Health => _health;  
     public UnityEvent Death => _death;   
-    public float Speed => _speed;
+
     public float AimRecoilMultiply => _aimRecoilMultiply;
     public float AimSkill => _aimSkill;
 
-    public void MultiplyBaseSpeed(float Multiply)
-    {
-        _speed *= Multiply;
-    }
-    public void AddBaseSpeed(float addedSpeed)
-    {
-        if (_speed + addedSpeed > 0)
-        {
-            _speed += addedSpeed;
-            return;
-        }
-        _speed = 0;
-    }
     public void ApplyHealthValue(int healPointCount)
     {
         _health = Mathf.Clamp(_health + healPointCount, 0, _maxHealth);

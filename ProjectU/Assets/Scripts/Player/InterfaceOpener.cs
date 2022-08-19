@@ -5,7 +5,6 @@ public class InterfaceOpener : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;
     [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private Moving _moving;
     [SerializeField] private FollowerCursor _cursor;
 
     private bool _inventoryIsOpen = false;
@@ -14,7 +13,6 @@ public class InterfaceOpener : MonoBehaviour
     {
         if (context.started)
         {
-            _moving.StopMoving();
             InvertInventory();
             _playerInput.SwitchCurrentActionMap(ActionMaps.UI);
         }

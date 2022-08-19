@@ -10,7 +10,6 @@ public class PlayerShoot : MonoBehaviour
 
     private bool _aiming = false;
     private bool _shooting = false;
-    private SpriteRotator _spriteRotator;
     private Specifications _specifications;
 
     public bool Aiming => _aiming;
@@ -44,8 +43,6 @@ public class PlayerShoot : MonoBehaviour
     }
     private void Aim()
     {
-        _spriteRotator.RotateItems(_scope.transform.position, _weapon.Accusity);
-        _spriteRotator.InvertItems(_scope.transform.position.x - transform.position.x);
         if (Aiming)
         {
             _camera.SetTarget(_scope.transform);
@@ -59,14 +56,13 @@ public class PlayerShoot : MonoBehaviour
     {
         if (_weapon.CanShoot && _shooting)
         {
-            Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
+            //Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
             _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _specifications.AimRecoilMultiply : 1f));
             _weapon.Shoot();
         }
     }
     private void Awake()
     {
-        _spriteRotator = GetComponent<SpriteRotator>();
         _specifications = GetComponent<Specifications>();
         Cursor.visible = false;
     }

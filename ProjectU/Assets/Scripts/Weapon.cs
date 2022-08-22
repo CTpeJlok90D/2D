@@ -47,34 +47,22 @@ public class Weapon : MonoBehaviour
             _ammoIsOut.Invoke();
         }
     }
+
     public void Shoot()
     {
-        if (CanShoot)
+        if (CanShoot == false)
         {
-            _cantShootNextSeconds += _timeBetweenShoots;
-            _correctAmmoCount -= 1;
-            Instantiate(_bullet, _bulletSpawner.transform.position, _bulletSpawner.transform.rotation);
-            foreach (RaycastHit2D hit in OnGunPoint)
-            {
-                Instantiate(_hitEffect, hit.point, new Quaternion(hit.normal.x, hit.normal.y, 0, 0));
-                if (hit.transform.TryGetComponent(out Specifications specification))
-                {
-                    specification.ApplyHealthValue(-_damage);
-                }
-            }
             if (_correctAmmoCount <= 0)
             {
-                _ammoIsOut.Invoke();
+                NoAmmoEvent();
             }
             return;
         }
-        if (_correctAmmoCount <= 0)
-        {
-            _audioSource.clip = _noAmmoSound;
-            _audioSource.Play();
-            _ammoIsOut.Invoke();
-        }
+        _cantShootNextSeconds += _timeBetweenShoots;
+        _correctAmmoCount -= 1;
+        SpawnBullet();
     }
+
     public void Reload()
     {
         if (_reloading || _correctAmmoCount == _magazineSize)
@@ -88,6 +76,23 @@ public class Weapon : MonoBehaviour
         _audioSource.clip = _reloadSound;
         _audioSource.Play();
     }
+    
+    private void SpawnBullet()
+    {
+        Instantiate(_bullet, _bulletSpawner.transform.position, _bulletSpawner.transform.rotation);
+        foreach (RaycastHit2D hit in OnGunPoint)
+        {
+            Instantiate(_hitEffect, hit.point, new Quaternion(hit.normal.x, hit.normal.y, 0, 0));
+        }
+    }
+
+    private void NoAmmoEvent()
+    {
+        _audioSource.clip = _noAmmoSound;
+        _audioSource.Play();
+        _ammoIsOut.Invoke();
+    }
+
     private void FixedUpdate()
     {
         _cantShootNextSeconds = Mathf.Clamp(_cantShootNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);

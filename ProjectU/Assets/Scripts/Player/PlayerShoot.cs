@@ -1,19 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(SpriteRotator), typeof(Specifications))]
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : BaseShooting
 {
-    [SerializeField] private Scope _scope;
     [SerializeField] private SmoothCopyTransform _camera;
-    [SerializeField] private Weapon _weapon;
 
     private bool _aiming = false;
     private bool _shooting = false;
-    private Specifications _specifications;
 
     public bool Aiming => _aiming;
-    public bool Armed => _weapon != null;
 
     public void Aim(InputAction.CallbackContext context)
     {
@@ -24,6 +19,7 @@ public class PlayerShoot : MonoBehaviour
         }
         _aiming = true;
     }
+
     public void Shoot(InputAction.CallbackContext context)
     {
         if (context.canceled)
@@ -33,44 +29,33 @@ public class PlayerShoot : MonoBehaviour
         }
         _shooting = true;
     }
+
     public void Reload(InputAction.CallbackContext context)
     {
         if (!context.started)
         {
             return;
         }
-        _weapon.Reload();
+        Weapon.Reload();
     }
+
     private void Aim()
     {
         if (Aiming)
         {
-            _camera.SetTarget(_scope.transform);
+            _camera.SetTarget(Weapon.transform);
         }
         else
         {
             _camera.SetTarget(transform);
         }
     }
-    private void Shoot()
-    {
-        if (_weapon.CanShoot && _shooting)
-        {
-            //Camera.main.transform.position += new Vector3(-_weapon.CameraImpact.x * _spriteRotator.Direction, -_weapon.CameraImpact.y, 0);
-            _scope.AddRecoilPower(_weapon.Recoil * (Aiming ? _specifications.AimRecoilMultiply : 1f));
-            _weapon.Shoot();
-        }
-    }
-    private void Awake()
-    {
-        _specifications = GetComponent<Specifications>();
-        Cursor.visible = false;
-    }
+
     private void Update()
     {
-        if (Armed)
+        Aim();
+        if (_shooting)
         {
-            Aim();
             Shoot();
         }
     }

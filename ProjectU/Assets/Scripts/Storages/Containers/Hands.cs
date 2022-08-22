@@ -1,36 +1,51 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Hands : Container
 {
-    [SerializeField] private Vector2Int[] _handsPosition;
     [SerializeField] private Transform _hands;
-    private List<GroundItem> _correctItems = new();
+    [SerializeField] private List<GameObject> _handsItem;
 
-    private void Start()
+    public override void MouseClick(InputAction.CallbackContext context)
     {
-        foreach (Vector2Int hand in _handsPosition) 
+        if (context.canceled == false)
         {
-            //GetUIItemByVector(hand).OnItemChange.AddListener(UpdateHandsItem);
+            return;
+        }
+        if (SelectedItem != null && SelectedItem.Item is HandsItem)
+        {
+            if (CanPlaceItHere(SelectedItem, MouseCellOn))
+            {
+                TakeInHands(SelectedItem);
+                PutSelectedItem(MouseCellOn);
+            }
+            return;
+        }
+        if (CanSelectItemOnCell(MouseCellOn))
+        {
+            foreach (GameObject var in _handsItem.ToArray())
+            {
+                RemoveFromHands(var);
+            }
+            SelectItem(MouseCellOn);
         }
     }
-    private void UpdateHandsItem()
-    {
-        foreach (GroundItem item in _correctItems)
-        {
-            Destroy(item.gameObject);
-        }
-        _correctItems.Clear();
 
-        //foreach (Vector2Int hand in _handsPosition)
-        //{
-        //    if (GetUIItemByVector(hand).UIItem != null)
-        //    {
-        //        GroundItem item = Instantiate(Settings.GroundItem, _hands).Init(GetUIItemByVector(hand).UIItem.Item);
-        //        item.Equip();
-        //        _correctItems.Add(item);
-        //    }
-        //}
+    private void TakeInHands(UIItem uiItem)
+    {
+        if (uiItem.Item is HandsItem == false)
+        {
+            throw new Exception($"Can not be equpped -> {uiItem.name}");
+        }
+        HandsItem handsItem = (HandsItem)uiItem.Item;
+        _handsItem.Add(Instantiate(handsItem.InHandsPrefab, _hands));
+    }
+
+    private void RemoveFromHands(GameObject item)
+    {
+        _handsItem.Remove(item);
+        Destroy(item.gameObject);
     }
 }

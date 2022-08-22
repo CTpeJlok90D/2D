@@ -4,53 +4,73 @@ using UnityEngine.InputSystem;
 
 public class GroundedItemsPanel : Container
 {
-    private List<GroundItem> _groundItems = new();
-    private List<UIItem> _uiItems = new();
+    [SerializeField] private List<GroundItem> _groundItems = new();
+    [SerializeField] private Transform _owner;
+
+    public override void MouseClick(InputAction.CallbackContext context)
+    {
+        if (context.canceled == false)
+        {
+            return;
+        }
+        UpdateUIItemList();
+        if (CanSelectItemOnCell(MouseCellOn))
+        {
+            UIItem item = GetUIItemByVector(MouseCellOn);
+            PickUpItem(item.GroundItem);
+            SelectItem(item);
+            return;
+        }
+        if (MouseOnPanel && SelectedItem != null)
+        {
+            DropSelectedItem();
+        }
+    }
 
     public void AddItem(GroundItem grounditem)
     {
         _groundItems.Add(grounditem);
         UpdateUIItemList();
     }
+
     public void RemoveItem(GroundItem grounditem)
     {
         _groundItems.Remove(grounditem);
-        UpdateUIItemList();
     }
-    public override void MouseClick(InputAction.CallbackContext context)
+
+    public void DropSelectedItem()
     {
-        if (context.canceled && MouseOnPanel && SelectedItem == null)
+        if (SelectedItem != null)
         {
-            UIItem item = GetUIItemByVector(MouseCellOn);
-            TrySelectItem(MouseCellOn);
-            _uiItems.Remove(item);
-            if (item != null)
-            {
-                item.GroundItem.PickUp();
-                UpdateTexture();
-            }
-            UpdateUIItemList();
+            Instantiate(Settings.GroundItem, _owner.transform.position, new Quaternion()).Init(SelectedItem.Item);
+            Destroy(SelectedItem.gameObject);
         }
     }
+
+    private void PickUpItem(GroundItem item)
+    {
+        RemoveItem(item);
+        Destroy(item.gameObject);
+    }
+
     private void UpdateUIItemList()
     {
-        foreach (UIItem uiItem in _uiItems)
-        {
-            RemoveItem(uiItem);
-            Destroy(uiItem.gameObject);
-        }
-        _uiItems.Clear();
+        Clear();
 
         int height = 0;
         foreach (GroundItem groundItem in _groundItems)
         {
-            Debug.Log(UIItemPrefub);
             UIItem goundUIItem = Instantiate(UIItemPrefub).Init(groundItem.Item, groundItem);
             PutItem(goundUIItem, new Vector2Int(0, height));
-            _uiItems.Add(goundUIItem);
             height += groundItem.Item.Height;
         }
     }
+
+    private void OnEnable()
+    {
+        UpdateUIItemList();
+    }
+
     private void Start()
     {
         DrawGrid();

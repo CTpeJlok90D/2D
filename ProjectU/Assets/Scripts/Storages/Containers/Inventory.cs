@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Inventory : Container
 {
-    [SerializeField] private Transform _owner;
     [SerializeField] private Item[] _startItems;
 
     public void RotateSelectedItem(InputAction.CallbackContext context)
@@ -13,14 +12,7 @@ public class Inventory : Container
             SelectedItem.Rotate();
         }
     }
-    public void DropSelectedItem()
-    {
-        if (SelectedItem != null)
-        {
-            Instantiate(Settings.GroundItem, _owner.transform.position, new Quaternion()).Init(SelectedItem.Item);
-            Destroy(SelectedItem.gameObject);
-        }
-    }
+
     private void Start()
     {
         int height = 0;

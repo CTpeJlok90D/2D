@@ -1,36 +1,44 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D),typeof(Specifications))]
+[RequireComponent(typeof(Rigidbody2D),typeof(Collider2D),typeof(MoveSpecifications))]
 public class CharacterController2D : MonoBehaviour
 {
+    [SerializeField] private Vector2 _onGroundRayCastoffset;
     private Rigidbody2D _rigidbody2D;
-    private Specifications _specifications;
-    private float _correctMoveSpped = 0f;
-    private float _correctMaxMoveSpeed = 0;
-    private float _moveInput = 0f;
-    private float _correctBoost = 0f;
+    private MoveSpecifications _specifications;
     private float _jumpTime = 1f;
     private bool _isSprinting = false;
     private bool _canMove = true;
+    private bool _onGround = false;
+    private int _moveDirection;
+    private float _correctMoveSpped = 0f;
+    private float _correctMaxMoveSpeed = 0;
+    private float _correctBoost = 0f;
+    private float _correctJumpCooldown = 0f;
 
-    public void Move(InputAction.CallbackContext context)
+    protected bool OnGround => _onGround;
+
+    public void Walk(int Direction)
     {
-        _moveInput = (int)context.ReadValue<Vector2>().x;
+        _isSprinting = false;
+        _moveDirection = Direction;
     }
 
-    public void Sprint(InputAction.CallbackContext context)
+    public void Run(int Direction)
     {
-        _isSprinting = (context.canceled == false);
+        _isSprinting = true;
+        _moveDirection = Direction;
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    public void Stop()
     {
-        if (context.started)
-        {
-            StartCoroutine(nameof(JumpCorrutine));
-        }
+        _moveDirection = 0;
+    }
+
+    public void Jump()
+    {
+        StartCoroutine(nameof(JumpCorrutine));
     }
 
     private IEnumerator JumpCorrutine()
@@ -46,7 +54,7 @@ public class CharacterController2D : MonoBehaviour
     {
         CalculateBoost();
         CalculateMaxSpeed();
-        if (_moveInput != 0)
+        if (_moveDirection != 0)
         {
             _correctMoveSpped += _correctBoost * Time.fixedDeltaTime;
         }
@@ -60,7 +68,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void CalculateBoost()
     {
-        _correctBoost = (_isSprinting ? _specifications.SprintBoost : _specifications.WalkBoost) * _moveInput;
+        _correctBoost = (_isSprinting ? _specifications.SprintBoost : _specifications.WalkBoost) * _moveDirection;
     }
 
     private void CalculateMaxSpeed()
@@ -71,7 +79,7 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _specifications = GetComponent<Specifications>();
+        _specifications = GetComponent<MoveSpecifications>();
 
         _jumpTime = _specifications.JumpForseCurve.keys[_specifications.JumpForseCurve.keys.Length - 1].time;
     }
@@ -82,5 +90,21 @@ public class CharacterController2D : MonoBehaviour
         {
             Move();
         }
+        if (_correctJumpCooldown > 0 && _onGround)
+        {
+            _correctJumpCooldown = Mathf.Clamp(_correctJumpCooldown - Time.fixedDeltaTime, 0, Mathf.Infinity);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        StopCoroutine(nameof(JumpCorrutine));
+
+        _onGround = Physics2D.Raycast((Vector2)transform.position + _onGroundRayCastoffset, Vector2.down, 1f);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _onGround = false;
     }
 }

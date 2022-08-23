@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Use",
                     "type": "Button",
                     "id": "5197c1e7-845f-447f-aa6a-6b822f0e97ed",
                     "expectedControlType": "Button",
@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
+                    "name": "AltenativeUse",
                     "type": "Button",
                     "id": "45be6f9b-daa3-4ce1-89c5-de3ab74f5df4",
                     "expectedControlType": "Button",
@@ -132,7 +132,7 @@
                     "interactions": "Hold(duration=0.1,pressPoint=0.1)",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -143,7 +143,7 @@
                     "interactions": "Hold(duration=0.1,pressPoint=0.1)",
                     "processors": "",
                     "groups": "",
-                    "action": "Aim",
+                    "action": "AltenativeUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -12,7 +12,7 @@ public abstract class Container : MonoBehaviour
     [SerializeField] protected Vector2Int _size;
     [SerializeField] private Transform _selectedItemPlace;
     [SerializeField] private ContainerSettings _settings;
-    [SerializeField] private OneItemCellRootParametrs[] _oneItemCells;
+    [SerializeField] private List<OneItemCellRootParametrs> _oneItemCells;
 
     static private UIItem _selectedUIItem;
     private List<UIItem> _uiItems = new();

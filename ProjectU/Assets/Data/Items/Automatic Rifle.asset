@@ -17,11 +17,6 @@ MonoBehaviour:
   _wight: 6
   _localScale: {x: 0.2, y: 0.2}
   _colliderScale: {x: 1, y: 1}
-  UIItemPrefub: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
-  _inHandsPrefub: {fileID: 94562102414751991, guid: c5bfbdc065c25544b8c8b6cd9641a352, type: 3}
+  UIItemPrefub: {fileID: -60161321895590050, guid: 39833545d41774547ba88d4221677060, type: 3}
+  _inHandsPrefub: {fileID: 94562102414751990, guid: c5bfbdc065c25544b8c8b6cd9641a352, type: 3}
   _handOffset: {x: -0.2, y: -0.08}
-  _handAngles:
-  - 41.5
-  - 102
-  - 75
-  - 25

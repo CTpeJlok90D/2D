@@ -1,12 +1,14 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public sealed class Hands : Container
 {
     [SerializeField] private Transform _hands;
-    [SerializeField] private List<GameObject> _handsItems;
+    [SerializeField] private Scope _scope;
+
+    private UsebleItem _handsItem;
+    public UsebleItem UsebleItem => _handsItem;
 
     public override void MouseClick(InputAction.CallbackContext context)
     {
@@ -25,11 +27,11 @@ public sealed class Hands : Container
 
     private bool TryPutSelectedItem()
     {
-        if (SelectedUIItem != null && SelectedUIItem.Item is HandsItem)
+        if (SelectedUIItem != null && SelectedUIItem is HandsUIItem)
         {
             if (CanPlaceItHere(SelectedUIItem, MouseCellOn))
             {
-                TakeInHands(SelectedUIItem);
+                TakeInHands((HandsUIItem)SelectedUIItem);
                 PutSelectedItem(MouseCellOn);
             }
             return true;
@@ -41,26 +43,27 @@ public sealed class Hands : Container
     {
         if (CanSelectItemOnCell(cellCords))
         {
+            Destroy(_handsItem.gameObject);
             SelectItem(cellCords);
+            _scope.ResetAccusity();
             return true;
         }
         return false;
     }
 
-    private void TakeInHands(UIItem uiItem)
+    private void TakeInHands(HandsUIItem uiItem)
     {
-        if (uiItem.Item is HandsItem == false)
-        {
-            throw new Exception($"Can not be equpped -> {uiItem.name}");
-        }
-
         HandsItem handsItem = (HandsItem)uiItem.Item;
-        _handsItems.Add(handsItem.CreateInHandsPrefab(_hands));
-    }
+        UsebleItem InHandsItemGameObject = handsItem.CreateInHandsPrefab(_hands);
+        uiItem.InHandsItemGameObject = InHandsItemGameObject;
+        _handsItem = InHandsItemGameObject;
 
-    private void RemoveFromHands(GameObject item)
-    {
-        _handsItems.Remove(item);
-        Destroy(item.gameObject);
+        if (InHandsItemGameObject is Weapon)
+        {
+            Weapon weapon = (Weapon)InHandsItemGameObject;
+            weapon.Init(_scope);
+            _scope.SetAccusity(weapon);
+        }
+            
     }
 }

@@ -29,4 +29,19 @@ public class OneItemCellRootParametrs
 {
     public Vector2Int Position;
     public Vector2Int Size;
+
+    public OneItemCellRootParametrs(Vector2Int position, Vector2Int size)
+    {
+        Init(position, size);
+    }
+    public OneItemCellRootParametrs(int positionX, int positionY, int sizeX, int sizeY)
+    {
+        Init(new Vector2Int(positionX, positionY), new Vector2Int(sizeX, sizeY));
+    }
+    public OneItemCellRootParametrs(){}
+    private void Init(Vector2Int position, Vector2Int size)
+    {
+        Position = position;
+        Size = size;
+    }
 }

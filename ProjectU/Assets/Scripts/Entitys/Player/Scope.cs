@@ -5,6 +5,7 @@ public class Scope : MonoBehaviour
 {
     [SerializeField] private Transform _mainCharacter;
     [SerializeField] private Weapon _specifications;
+    [SerializeField] private float StandartMaxDistance = 5f;
 
     private float accusity;
     private float maxDistance;
@@ -40,6 +41,6 @@ public class Scope : MonoBehaviour
     private void Awake()
     {
         accusity = _specifications == null ? 0.9f : _specifications.Accusity;
-        maxDistance = _specifications == null ? 1f : _specifications.AimMaxDistanse;
+        maxDistance = _specifications == null ? StandartMaxDistance : _specifications.AimMaxDistanse;
     }
 }

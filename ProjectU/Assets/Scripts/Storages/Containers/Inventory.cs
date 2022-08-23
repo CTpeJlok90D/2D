@@ -7,9 +7,9 @@ public class Inventory : Container
 
     public void RotateSelectedItem(InputAction.CallbackContext context)
     {
-        if (context.started && SelectedItem != null)
+        if (context.started && SelectedUIItem != null)
         {
-            SelectedItem.Rotate();
+            SelectedUIItem.Rotate();
         }
     }
 

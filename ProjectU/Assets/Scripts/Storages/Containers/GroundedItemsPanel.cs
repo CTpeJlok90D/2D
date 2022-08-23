@@ -13,6 +13,7 @@ public class GroundedItemsPanel : Container
         {
             return;
         }
+
         UpdateUIItemList();
         if (CanSelectItemOnCell(MouseCellOn))
         {
@@ -21,7 +22,7 @@ public class GroundedItemsPanel : Container
             SelectItem(item);
             return;
         }
-        if (MouseOnPanel && SelectedItem != null)
+        if (MouseOnPanel && SelectedUIItem != null)
         {
             DropSelectedItem();
         }
@@ -40,10 +41,10 @@ public class GroundedItemsPanel : Container
 
     public void DropSelectedItem()
     {
-        if (SelectedItem != null)
+        if (SelectedUIItem != null)
         {
-            Instantiate(Settings.GroundItem, _owner.transform.position, new Quaternion()).Init(SelectedItem.Item);
-            Destroy(SelectedItem.gameObject);
+            Instantiate(Settings.GroundItem, _owner.transform.position, new Quaternion()).Init(SelectedUIItem.Item);
+            Destroy(SelectedUIItem.gameObject);
         }
     }
 
@@ -60,7 +61,7 @@ public class GroundedItemsPanel : Container
         int height = 0;
         foreach (GroundItem groundItem in _groundItems)
         {
-            UIItem goundUIItem = Instantiate(UIItemPrefub).Init(groundItem.Item, groundItem);
+            UIItem goundUIItem = groundItem.Item.CreateUIItem(groundItem);
             PutItem(goundUIItem, new Vector2Int(0, height));
             height += groundItem.Item.Height;
         }

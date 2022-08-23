@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Hands : Container
+public sealed class Hands : Container
 {
     [SerializeField] private Transform _hands;
-    [SerializeField] private List<GameObject> _handsItem;
+    [SerializeField] private List<GameObject> _handsItems;
 
     public override void MouseClick(InputAction.CallbackContext context)
     {
@@ -14,23 +14,37 @@ public class Hands : Container
         {
             return;
         }
-        if (SelectedItem != null && SelectedItem.Item is HandsItem)
+
+        if (TryPutSelectedItem())
         {
-            if (CanPlaceItHere(SelectedItem, MouseCellOn))
-            {
-                TakeInHands(SelectedItem);
-                PutSelectedItem(MouseCellOn);
-            }
             return;
         }
-        if (CanSelectItemOnCell(MouseCellOn))
+
+        TrySelectItemInCell(MouseCellOn);
+    }
+
+    private bool TryPutSelectedItem()
+    {
+        if (SelectedUIItem != null && SelectedUIItem.Item is HandsItem)
         {
-            foreach (GameObject var in _handsItem.ToArray())
+            if (CanPlaceItHere(SelectedUIItem, MouseCellOn))
             {
-                RemoveFromHands(var);
+                TakeInHands(SelectedUIItem);
+                PutSelectedItem(MouseCellOn);
             }
-            SelectItem(MouseCellOn);
+            return true;
         }
+        return false;
+    }
+
+    private bool TrySelectItemInCell(Vector2Int cellCords)
+    {
+        if (CanSelectItemOnCell(cellCords))
+        {
+            SelectItem(cellCords);
+            return true;
+        }
+        return false;
     }
 
     private void TakeInHands(UIItem uiItem)
@@ -39,13 +53,14 @@ public class Hands : Container
         {
             throw new Exception($"Can not be equpped -> {uiItem.name}");
         }
+
         HandsItem handsItem = (HandsItem)uiItem.Item;
-        _handsItem.Add(Instantiate(handsItem.InHandsPrefab, _hands));
+        _handsItems.Add(handsItem.CreateInHandsPrefab(_hands));
     }
 
     private void RemoveFromHands(GameObject item)
     {
-        _handsItem.Remove(item);
+        _handsItems.Remove(item);
         Destroy(item.gameObject);
     }
 }

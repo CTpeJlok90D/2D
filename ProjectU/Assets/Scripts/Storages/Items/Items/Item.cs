@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     [SerializeField] private int _wight = 1;
     [SerializeField] private Vector2 _localScale = Vector2.one;
     [SerializeField] private Vector2 _colliderScale = Vector2.one;
+    [SerializeField] private UIItem UIItemPrefub;
     private List<Vector2Int> _occupiedSpace = new();
 
     public int Height => _height;
@@ -18,12 +19,11 @@ public class Item : ScriptableObject
     public Vector2 LocalScale => _localScale;
     public Vector2 ColliderScale => _colliderScale;
 
-    private void OnValidate()
+    public virtual UIItem CreateUIItem(GroundItem groundItem = null)
     {
-        _height = (int)Mathf.Clamp(_height, 1, Mathf.Infinity);
-        _wight = (int)Mathf.Clamp(_wight, 1, Mathf.Infinity);
-        CalculateOccupiedSpace();
+        return Instantiate(UIItemPrefub).Init(this, groundItem);
     }
+
     private void CalculateOccupiedSpace()
     {
         _occupiedSpace.Clear();
@@ -34,5 +34,12 @@ public class Item : ScriptableObject
                 _occupiedSpace.Add(new Vector2Int(i, j));
             }
         }
+    }
+
+    private void OnValidate()
+    {
+        _height = (int)Mathf.Clamp(_height, 1, Mathf.Infinity);
+        _wight = (int)Mathf.Clamp(_wight, 1, Mathf.Infinity);
+        CalculateOccupiedSpace();
     }
 }

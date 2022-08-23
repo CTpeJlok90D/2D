@@ -17,3 +17,4 @@ MonoBehaviour:
   _wight: 2
   _localScale: {x: 0.2, y: 0.2}
   _colliderScale: {x: 1, y: 1}
+  UIItemPrefub: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}

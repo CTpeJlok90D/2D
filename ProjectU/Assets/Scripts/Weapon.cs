@@ -9,7 +9,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private AudioClip _reloadSound;
     [SerializeField] private AudioClip _noAmmoSound;
     [SerializeField] private GameObject _hitEffect;
-    [SerializeField] private SpriteRotator _spriteRotator;
 
     [SerializeField] private Vector2 _cameraImpact = new Vector2(0.2f,0);
     [SerializeField] private float _recoil = 0.1f;
@@ -19,7 +18,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _reloadTime = 2f;
     [SerializeField] private float _shootDistace = 15;
     [SerializeField] private int _magazineSize = 30;
-    [SerializeField] private int _damage = 1;
     [SerializeField] private UnityEvent _ammoIsOut = new();
 
     private AudioSource _audioSource;

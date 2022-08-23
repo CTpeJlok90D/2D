@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94562102414751991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.42673582, y: -0.0031831115, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 94562103657505476}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &94562102414751995
 SpriteRenderer:
@@ -200,7 +200,6 @@ MonoBehaviour:
   _reloadSound: {fileID: 8300000, guid: 3c5c1d4d7b9307c458890a4beb12e4ae, type: 3}
   _noAmmoSound: {fileID: 8300000, guid: 01d5f944020259248b89cdad55173949, type: 3}
   _hitEffect: {fileID: 8325781089529897262, guid: 404cb0f9395f70243a44bf11d9eebc51, type: 3}
-  _spriteRotator: {fileID: 0}
   _cameraImpact: {x: 0.2, y: 0}
   _recoil: 0.11
   _accusity: 0.7
@@ -209,6 +208,9 @@ MonoBehaviour:
   _reloadTime: 3
   _shootDistace: 10
   _magazineSize: 30
+  _ammoIsOut:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &94562102656804294
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +240,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 94562103657505476}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94562103657505477
 GameObject:
@@ -270,5 +272,5 @@ Transform:
   m_Children:
   - {fileID: 94562102656804297}
   m_Father: {fileID: 94562102414751993}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

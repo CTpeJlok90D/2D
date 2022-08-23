@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +6,13 @@ using UnityEngine.UI;
 public class UIItem : MonoBehaviour
 {
     [HideInInspector] public Vector2Int CorrectCords;
-
     [SerializeField] private Item _item;
     [SerializeField] private GroundItem _groundItem;
-
     [SerializeField] private List<Vector2Int> _occupiedSpace;
+
     private bool _rotated = false;
     private RectTransform _rectTransform;
-    
+
     public GroundItem GroundItem => _groundItem;
     public int Height => _item.Height;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
@@ -32,6 +30,7 @@ public class UIItem : MonoBehaviour
 
         return this;
     }
+
     public void Rotate()
     {
         _rotated = !_rotated;
@@ -42,6 +41,7 @@ public class UIItem : MonoBehaviour
             _occupiedSpace[i] = new Vector2Int(_occupiedSpace[i].y, _occupiedSpace[i].x);
         }
     }
+
     public List<Vector2Int> CorrectOccupiedSpace()
     {
         List<Vector2Int> result = new();
@@ -51,11 +51,18 @@ public class UIItem : MonoBehaviour
         }
         return result;
     }
+
+    protected void ClearItem()
+    {
+        _item = null;
+    }
+
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
         _rectTransform.pivot = new Vector2(0, 0f);
     }
+
     private void OnValidate()
     {
         _rectTransform = GetComponent<RectTransform>();

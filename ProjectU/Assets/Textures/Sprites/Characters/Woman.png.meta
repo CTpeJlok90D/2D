@@ -20,7 +20,6 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
@@ -64,7 +63,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -106,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Woman_0
+      name: Hair
       rect:
         serializedVersion: 2
         x: 54
@@ -127,7 +125,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_1
+      name: Head
       rect:
         serializedVersion: 2
         x: 104
@@ -148,7 +146,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_2
+      name: Neck
       rect:
         serializedVersion: 2
         x: 64
@@ -169,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_3
+      name: Body
       rect:
         serializedVersion: 2
         x: 94
@@ -190,7 +188,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_4
+      name: Arm
       rect:
         serializedVersion: 2
         x: 58
@@ -211,7 +209,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_5
+      name: Leg1
       rect:
         serializedVersion: 2
         x: 97
@@ -232,7 +230,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_6
+      name: AmrHand
       rect:
         serializedVersion: 2
         x: 58
@@ -253,7 +251,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_7
+      name: Hand
       rect:
         serializedVersion: 2
         x: 68
@@ -274,7 +272,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_8
+      name: Leg2
       rect:
         serializedVersion: 2
         x: 97
@@ -295,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Woman_9
+      name: Foot
       rect:
         serializedVersion: 2
         x: 97
@@ -326,18 +324,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Woman_5: -1500201171
-      Woman_0: -2129215241
-      Woman_7: -1612453394
-      Woman_2: -1865000955
-      Woman_1: -546675713
-      Woman_6: -1482274340
-      Woman_9: -1489841946
-      Woman_8: 260448652
-      Woman_4: -1956285685
-      Woman_3: -1570445680
+      Foot: -1489841946
+      Hair: -2129215241
+      Neck: -1865000955
+      Head: -546675713
+      AmrHand: -1482274340
+      Leg2: 260448652
+      Leg1: -1500201171
+      Arm: -1956285685
+      Hand: -1612453394
+      Body: -1570445680
   spritePackingTag: 
   pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

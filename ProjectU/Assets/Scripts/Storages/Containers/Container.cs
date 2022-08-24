@@ -24,7 +24,7 @@ public abstract class Container : MonoBehaviour
     private UIItem _uiItemPrefab;
     private ImageDrawer _imageDrawer;
 
-    static protected UIItem SelectedUIItem => _selectedUIItem;
+    static public UIItem SelectedUIItem => _selectedUIItem;
     public Vector2Int Size => _size;
     protected Vector2Int MouseCellOn => _mouseCellOn;
     protected bool MouseOnPanel => _mouseOnPanel;

@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform),typeof(Image))]
-public class UIItem : MonoBehaviour
+public class UIItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector] public Vector2Int CorrectCords;
+    [SerializeField] private ItemDescriptionFrame _descriptionFrame;
     [SerializeField] private Item _item;
-    [SerializeField] private GroundItem _groundItem;
-    [SerializeField] private List<Vector2Int> _occupiedSpace;
+
+    private GroundItem _groundItem;
+    private List<Vector2Int> _occupiedSpace;
 
     private bool _rotated = false;
     private RectTransform _rectTransform;
+    private ItemDescriptionFrame _descriptionFrameInstantiete;
 
     public GroundItem GroundItem => _groundItem;
     public int Height => _item.Height;
@@ -24,8 +28,7 @@ public class UIItem : MonoBehaviour
         _item = item;
         _occupiedSpace = _item.OccupiedSpace;
         GetComponent<Image>().sprite = _item.Sprite;
-        _rectTransform.sizeDelta = new Vector2(Container.CellSize, Container.CellSize);
-        _rectTransform.localScale = new Vector2(_item.Wight, _item.Height);
+        _rectTransform.sizeDelta = new Vector2(Container.CellSize * _item.Wight, Container.CellSize * _item.Height);
         _groundItem = groundItem;
 
         return this;
@@ -51,6 +54,23 @@ public class UIItem : MonoBehaviour
         }
         return result;
     }
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Container.SelectedUIItem != this)
+        {
+            _descriptionFrameInstantiete = Instantiate(_descriptionFrame, transform.parent).Init(_item);
+        }
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        if (_descriptionFrameInstantiete != null)
+        {
+            Destroy(_descriptionFrameInstantiete.gameObject);
+        }
+    }
+
 
     protected void ClearItem()
     {

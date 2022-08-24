@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43070365fcf820449f615cd863ea073, type: 3}
   m_Name: Bandage
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 21300000, guid: 7db929cfa16b91d4082faabe7420c3f7, type: 3}
+  _name: Bandage
+  _description: For medic
   _height: 1
   _wight: 1
   _localScale: {x: 0.2, y: 0.2}
   _colliderScale: {x: 1, y: 1}
   UIItemPrefub: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
+  _sprite: {fileID: 21300000, guid: 7db929cfa16b91d4082faabe7420c3f7, type: 3}

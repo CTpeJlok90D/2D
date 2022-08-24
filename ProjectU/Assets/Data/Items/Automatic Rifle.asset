@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076eeef7751c5f14bbdd2ee276669924, type: 3}
   m_Name: Automatic Rifle
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 21300000, guid: 396f3e1b604629d4fa06f3f8e0bcb0be, type: 3}
+  _name: Rifle
+  _description: Full automatic rifle
   _height: 2
   _wight: 6
   _localScale: {x: 0.2, y: 0.2}
   _colliderScale: {x: 1, y: 1}
   UIItemPrefub: {fileID: -60161321895590050, guid: 39833545d41774547ba88d4221677060, type: 3}
+  _sprite: {fileID: 21300000, guid: 396f3e1b604629d4fa06f3f8e0bcb0be, type: 3}
   _inHandsPrefub: {fileID: 94562102414751990, guid: c5bfbdc065c25544b8c8b6cd9641a352, type: 3}
   _handOffset: {x: -0.2, y: -0.08}

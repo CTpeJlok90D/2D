@@ -4,14 +4,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Item")]
 public class Item : ScriptableObject
 {
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private string _name;
+    [SerializeField] private string _description;
     [SerializeField] private int _height = 1;
     [SerializeField] private int _wight = 1;
     [SerializeField] private Vector2 _localScale = Vector2.one;
     [SerializeField] private Vector2 _colliderScale = Vector2.one;
     [SerializeField] private UIItem UIItemPrefub;
+    [SerializeField] private Sprite _sprite;
     private List<Vector2Int> _occupiedSpace = new();
 
+    public string Name => _name;
+    public string Description => _description;
     public int Height => _height;
     public int Wight => _wight;
     public Sprite Sprite => _sprite;

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43070365fcf820449f615cd863ea073, type: 3}
   m_Name: Stone
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 21300000, guid: 1e2e9b1828f76c547a3d1661b8ae28a0, type: 3}
+  _name: Stone
+  _description: Just stone. How do you wanna use it?
   _height: 2
   _wight: 2
   _localScale: {x: 1, y: 1}
   _colliderScale: {x: 0.5, y: 0.5}
   UIItemPrefub: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
+  _sprite: {fileID: 21300000, guid: 1e2e9b1828f76c547a3d1661b8ae28a0, type: 3}

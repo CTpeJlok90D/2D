@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 804874181748942525}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -90,7 +90,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CorrectCords: {x: 0, y: 0}
+  _descriptionFrame: {fileID: 7980582542008265153, guid: 190c7896e7bdf9b4994122428fadd46b, type: 3}
   _item: {fileID: 0}
-  _groundItem: {fileID: -5802723276981870988, guid: e9c2ae80f1bd0b74395f19629a4d4499, type: 3}
-  _occupiedSpace: []
   InHandsItemGameObject: {fileID: 0}

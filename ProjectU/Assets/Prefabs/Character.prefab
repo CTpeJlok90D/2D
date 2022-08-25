@@ -94,12 +94,9 @@ MonoBehaviour:
   _settings: {fileID: 11400000, guid: 810fd6eb4c1b32b458391f8c20e25fc6, type: 2}
   _oneItemCells:
   - Position: {x: 0, y: 0}
-    Size: {x: 5, y: 3}
-  - Position: {x: 5, y: 0}
-    Size: {x: 5, y: 3}
+    Size: {x: 10, y: 3}
   _hands: {fileID: 421010264}
-  _handsItem: {fileID: 0}
-  _playerRotator: {fileID: 0}
+  _scope: {fileID: 8494531996821834870}
 --- !u!1 &331132145
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +353,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1313,7 +1310,7 @@ MonoBehaviour:
   _rotatingItemsX: []
   _rotatingItemsY:
   - {fileID: 6760765991285510208}
-  WorldCursor: {fileID: 0}
+  WorldCursor: {fileID: 1860985004857347597}
 --- !u!114 &579631718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,7 +1493,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708604901938221155}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.038}
+  m_LocalPosition: {x: 0, y: -0.035, z: -0.009}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1684,7 +1681,7 @@ GameObject:
   - component: {fileID: 3596272453417465266}
   - component: {fileID: 8494531996821834870}
   m_Layer: 0
-  m_Name: Cursor (1)
+  m_Name: Scope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1769,9 +1766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afaaad7db054076429322ea4e44aaf45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {fileID: 0}
-  _specifications: {fileID: 0}
-  StandartMaxDistance: 5
+  _center: {fileID: 708604901635267111}
+  _standartMaxDistance: 7
 --- !u!1 &1092707202839488407
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,14 +1827,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719825312523087281}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.009, y: -0.336, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 708604900473036500}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8341594292622779516
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1915,7 +1911,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4187830074966671994}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.16600013, z: 0}
+  m_LocalPosition: {x: -0.045, y: 0.181, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2053,6 +2049,7 @@ GameObject:
   - component: {fileID: 4947852971419659451}
   - component: {fileID: 8867612452121787056}
   - component: {fileID: 842227188316681355}
+  - component: {fileID: 1209642709}
   m_Layer: 6
   m_Name: PlayerInput
   m_TagString: Untagged
@@ -2150,9 +2147,9 @@ MonoBehaviour:
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
-        m_MethodName: Shoot
+      - m_Target: {fileID: 1209642709}
+        m_TargetAssemblyTypeName: ItemUsing, Assembly-CSharp
+        m_MethodName: Use
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2166,9 +2163,9 @@ MonoBehaviour:
     m_ActionName: Player/Shoot[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
-        m_MethodName: Aim
+      - m_Target: {fileID: 1209642709}
+        m_TargetAssemblyTypeName: ItemUsing, Assembly-CSharp
+        m_MethodName: AlternativeUse
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2181,19 +2178,7 @@ MonoBehaviour:
     m_ActionId: 45be6f9b-daa3-4ce1-89c5-de3ab74f5df4
     m_ActionName: Player/Aim[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
-        m_MethodName: Reload
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 84805bea-5668-4055-828b-d5ff641bf076
     m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
@@ -2448,6 +2433,19 @@ MonoBehaviour:
   _inventory: {fileID: 682475897}
   _playerInput: {fileID: 9123989018370586170}
   _cursor: {fileID: 708604901843699721}
+--- !u!114 &1209642709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6754354045751892096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cb9dc3ec3a34c418579c770fd0ece6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hands: {fileID: 186833007}
 --- !u!1 &7726884982536485751
 GameObject:
   m_ObjectHideFlags: 0
@@ -2544,14 +2542,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8414928498366593267}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.009, y: -0.336, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1583876161138520504}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &939383485275298111
 SpriteRenderer:
   m_ObjectHideFlags: 0

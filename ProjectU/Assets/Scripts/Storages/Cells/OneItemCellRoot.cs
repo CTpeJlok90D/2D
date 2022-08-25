@@ -34,11 +34,14 @@ public class OneItemCellRootParametrs
     {
         Init(position, size);
     }
+
     public OneItemCellRootParametrs(int positionX, int positionY, int sizeX, int sizeY)
     {
         Init(new Vector2Int(positionX, positionY), new Vector2Int(sizeX, sizeY));
     }
+
     public OneItemCellRootParametrs(){}
+
     private void Init(Vector2Int position, Vector2Int size)
     {
         Position = position;

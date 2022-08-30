@@ -185,9 +185,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseClick",
+                    "name": "LeftMouseClick",
                     "type": "Button",
                     "id": "a69abc1f-547c-4044-98d5-80935d185839",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightMouseClick",
+                    "type": "Button",
+                    "id": "baab54ec-00de-4154-b0d1-68e25c35978f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -206,15 +215,6 @@
                     "name": "CloseInventory",
                     "type": "Button",
                     "id": "89e12b94-6ada-4ee1-b6eb-688f8dc89273",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ForceItem",
-                    "type": "Button",
-                    "id": "b4a5a587-aa49-4c72-8df3-5c9823b4444e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -240,7 +240,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseClick",
+                    "action": "LeftMouseClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -268,12 +268,12 @@
                 },
                 {
                     "name": "",
-                    "id": "714037a1-becc-4686-8807-6c19b3ab3aa9",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "925f92c9-ff35-4368-a013-e2938923be60",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ForceItem",
+                    "action": "RightMouseClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

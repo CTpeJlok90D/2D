@@ -8,6 +8,9 @@ public class PopUpElement
 {
     [SerializeField] private string _caption;
     [SerializeField] private UnityEvent _onClick;
+
+    public string Caption => _caption;
+    UnityEvent OnClick => _onClick;
 }
 
 [CustomEditor(typeof(PopUpElement))]

@@ -15,20 +15,19 @@ public abstract class Container : MonoBehaviour
     [SerializeField] private List<OneItemCellRootParametrs> _oneItemCells;
 
     static private UIItem _selectedUIItem;
+    private readonly Vector2 _selectedItemFollowMouseOffset = new Vector2(1,1);
     private List<UIItem> _uiItems = new();
     private List<List<Cell>> _cells = new();
     private bool _mouseOnPanel = false;
     private Vector2Int _mouseCellOn;
     private Vector2 _mouseCanvasPosition;
     private List<OneItemCellRoot> _oneItemCellRoots = new();
-    private UIItem _uiItemPrefab;
     private ImageDrawer _imageDrawer;
 
     static public UIItem SelectedUIItem => _selectedUIItem;
     public Vector2Int Size => _size;
     protected Vector2Int MouseCellOn => _mouseCellOn;
     protected bool MouseOnPanel => _mouseOnPanel;
-    protected UIItem UIItemPrefub => _uiItemPrefab;
     protected ContainerSettings Settings => _settings;
     protected List<UIItem> UIItems => new List<UIItem>(_uiItems);
 
@@ -215,7 +214,7 @@ public abstract class Container : MonoBehaviour
 
     private void SelectedItemFollowMouse()
     {
-        _selectedUIItem.transform.position = _mouseCanvasPosition;
+        _selectedUIItem.transform.position = _mouseCanvasPosition + _selectedItemFollowMouseOffset;
     }
 
     private bool HaveItCell(Vector2Int cellCord)
@@ -306,7 +305,6 @@ public abstract class Container : MonoBehaviour
 
     private void Awake()
     {
-        _uiItemPrefab = _settings.UIItem;
         Image image = GetComponent<Image>();
         RectTransform rectTransform = GetComponent<RectTransform>();
         _imageDrawer = new ImageDrawer(image, rectTransform);

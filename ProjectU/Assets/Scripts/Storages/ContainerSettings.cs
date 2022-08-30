@@ -4,7 +4,6 @@
 public class ContainerSettings : ScriptableObject
 {
     [Header("Prefabs")]
-    [SerializeField] private UIItem _uiItem;
     [SerializeField] private GroundItem _groundItem;
     [Header("Style")]
     [SerializeField] private Color _backGround;
@@ -12,7 +11,6 @@ public class ContainerSettings : ScriptableObject
     [SerializeField] private Color _filledColor;
     [SerializeField] private int _frameThickness = 1;
 
-    public UIItem UIItem => _uiItem;
     public GroundItem GroundItem => _groundItem;
     public Color BackgroundColor => _backGround;
     public Color FrameColor => _frameColor;

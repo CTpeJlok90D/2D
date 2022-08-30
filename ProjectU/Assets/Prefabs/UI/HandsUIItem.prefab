@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8478203779499230189}
   - component: {fileID: 8116627140813724205}
   - component: {fileID: -60161321895590050}
+  - component: {fileID: 4620085894868213031}
+  - component: {fileID: 8145651287082473360}
   m_Layer: 5
   m_Name: HandsUIItem
   m_TagString: Untagged
@@ -90,6 +92,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CorrectCords: {x: 0, y: 0}
-  _descriptionFrame: {fileID: 7980582542008265153, guid: 190c7896e7bdf9b4994122428fadd46b, type: 3}
   _item: {fileID: 0}
   InHandsItemGameObject: {fileID: 0}
+--- !u!114 &4620085894868213031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804874181748942525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8305698a1760eeb408aa29ca516fe948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopUpMenu: {fileID: 5618807480016426952, guid: 57ed06bd1013c944da494428ba312e8b, type: 3}
+--- !u!114 &8145651287082473360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804874181748942525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6511c5cc4a857d4e8f744723c671dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _descriptionFrame: {fileID: 7980582542008265153, guid: 190c7896e7bdf9b4994122428fadd46b, type: 3}

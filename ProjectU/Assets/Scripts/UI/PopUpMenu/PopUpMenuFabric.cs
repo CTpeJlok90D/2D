@@ -1,16 +1,11 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
-public class PopUpMenuFabric : MonoBehaviour, IPointerClickHandler
+public class PopUpMenuFabric : MonoBehaviour
 {
-    [SerializeField] private PopUpMenu _popUpMenu;
+    [SerializeField] private PopUpMenu PopUpMenu;
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void Create(PopUpElement[] elements)
     {
-        Vector2 MousePosition = Mouse.current.position.ReadValue();
-
-        PopUpMenu menu = Instantiate(_popUpMenu, MousePosition, Quaternion.identity);
-        menu.transform.SetParent(transform.parent);
+        PopUpMenu insantiateObject = Instantiate(PopUpMenu, transform.position, Quaternion.identity).Init(transform.parent, elements);
     }
 }

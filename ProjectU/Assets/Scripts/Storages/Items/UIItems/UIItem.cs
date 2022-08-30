@@ -1,37 +1,43 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RectTransform),typeof(Image))]
-public class UIItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(ObjectWithDescription),typeof(Image),typeof(PopUpMenuFabric))]
+public class UIItem : MonoBehaviour
 {
     [HideInInspector] public Vector2Int CorrectCords;
-    [SerializeField] private ItemDescriptionFrame _descriptionFrame;
     [SerializeField] private Item _item;
-
+    
     private GroundItem _groundItem;
     private List<Vector2Int> _occupiedSpace;
-
     private bool _rotated = false;
     private RectTransform _rectTransform;
-    private ItemDescriptionFrame _descriptionFrameInstantiete;
+    private PopUpMenuFabric _popUpMenuFabric;
+    private ObjectWithDescription _description;
 
     public GroundItem GroundItem => _groundItem;
     public int Height => _item.Height;
     public List<Vector2Int> OccupiedSpace => _occupiedSpace;
     public Item Item => _item;
     public RectTransform RectTransform => _rectTransform;
+    public PopUpMenuFabric PopUpMenuFabric => _popUpMenuFabric;
 
     public UIItem Init(Item item, GroundItem groundItem = null)
     {
         _item = item;
+        _groundItem = groundItem;
         _occupiedSpace = _item.OccupiedSpace;
         GetComponent<Image>().sprite = _item.Sprite;
         _rectTransform.sizeDelta = new Vector2(Container.CellSize * _item.Wight, Container.CellSize * _item.Height);
-        _groundItem = groundItem;
+        _description.Init(_item);
 
         return this;
+    }
+
+    public void OpenPopUpMenu()
+    {
+        _popUpMenuFabric.Create(Item.Actions);
     }
 
     public void Rotate()
@@ -55,23 +61,6 @@ public class UIItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         return result;
     }
 
-    public virtual void OnPointerEnter(PointerEventData eventData)
-    {
-        if (Container.SelectedUIItem != this)
-        {
-            _descriptionFrameInstantiete = Instantiate(_descriptionFrame, transform.parent).Init(_item);
-        }
-    }
-
-    public virtual void OnPointerExit(PointerEventData eventData)
-    {
-        if (_descriptionFrameInstantiete != null)
-        {
-            Destroy(_descriptionFrameInstantiete.gameObject);
-        }
-    }
-
-
     protected void ClearItem()
     {
         _item = null;
@@ -80,17 +69,9 @@ public class UIItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+        _popUpMenuFabric = GetComponent<PopUpMenuFabric>();
+        _description = GetComponent<ObjectWithDescription>();
+
         _rectTransform.pivot = new Vector2(0, 0f);
-    }
-
-    private void OnValidate()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-        if (_item != null)
-        {
-            Init(_item);
-            return;
-        }
-
     }
 }

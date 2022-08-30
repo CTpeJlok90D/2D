@@ -13,6 +13,21 @@ public class Inventory : Container
         }
     }
 
+    public void OpenPopUpMenu(InputAction.CallbackContext context)
+    {
+        if (context.canceled == false)
+        {
+            return;
+        }
+        UIItem uiItem = GetUIItemByVector(MouseCellOn);
+        if (uiItem == null)
+        {
+            return;
+        }
+
+        uiItem.OpenPopUpMenu();
+    }
+
     private void Start()
     {
         int height = 0;

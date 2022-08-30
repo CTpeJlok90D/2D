@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(menuName = "Item")]
 public class Item : ScriptableObject
@@ -12,6 +13,7 @@ public class Item : ScriptableObject
     [SerializeField] private Vector2 _colliderScale = Vector2.one;
     [SerializeField] private UIItem UIItemPrefub;
     [SerializeField] private Sprite _sprite;
+    [SerializeField] private PopUpElement[] _actions;
     private List<Vector2Int> _occupiedSpace = new();
 
     public string Name => _name;
@@ -22,6 +24,7 @@ public class Item : ScriptableObject
     public List<Vector2Int> OccupiedSpace => new(_occupiedSpace);
     public Vector2 LocalScale => _localScale;
     public Vector2 ColliderScale => _colliderScale;
+    public PopUpElement[] Actions => _actions;
 
     public virtual UIItem CreateUIItem(GroundItem groundItem = null)
     {

@@ -9,7 +9,7 @@ public class OneItemCellRootParametrsEditor : Editor
     private SerializedProperty _parametr1;
     private SerializedProperty _parametr2;
 
-    public void OnEnable()
+    private void OnEnable()
     {
         _parametr1 = serializedObject.FindProperty("Position");
         _parametr2 = serializedObject.FindProperty("Size");

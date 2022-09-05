@@ -1,16 +1,31 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class BodyPart
+public class Influence
 {
-    [SerializeField] private string _name;
-    [SerializeField] private float _givingBoodLevelPerSecond = 0f;
-    [SerializeField] private float _filteringBloodPerSecond = 0f;
-    [SerializeField] private float _bloodPumping = 0f;
-    [SerializeField] private float _givingOxygen = 0f;
-    [SerializeField] private float _givingOxygenStorage = 0f;
+    public float GivingBoodLevelPerSecond = 0f;
+    public float FilteringBloodPerSecond = 0f;
+    public float BloodPumping = 0f;
+    public float GivingOxygen = 0f;
+    public float GivingOxygenStorage = 0f;
+}
 
-    public float GivingOxygen => _givingOxygen;
-    public float GivingOxygenStorage => _givingOxygenStorage;
+public abstract class BodyPart
+{
+    private float _effency;
+
+    public float Effency => _effency;
+
+    public abstract Influence GetInfluence();
+}
+
+public class Lung : BodyPart
+{
+    private float _givingOxygen = 6f;
+    private float _givingOxygenStorage = 50f;
+
+    public override Influence GetInfluence()
+    {
+        return new() { GivingOxygen = _givingOxygen * Effency, GivingOxygenStorage = _givingOxygenStorage * Effency };
+    }
 }

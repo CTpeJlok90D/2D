@@ -104,7 +104,6 @@ public class LimitedValue
     static public LimitedValue operator *(LimitedValue a, float b) => new LimitedValue(a.Current * b, a.Max, a.Min);
     static public LimitedValue operator /(LimitedValue a, float b) => new LimitedValue(a.Current / b, a.Max, a.Min);
 
-
     static public float operator +(float a, LimitedValue b) => a + b.Current;
     static public float operator -(float a, LimitedValue b) => a - b.Current;
     static public float operator *(float a, LimitedValue b) => a * b.Current;

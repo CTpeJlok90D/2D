@@ -7,7 +7,7 @@ public abstract class UsebleItem : MonoBehaviour
 }
 public interface IAlternativeUsevleItem
 {
-    public abstract void AlternativeUse(InputAction.CallbackContext context);
+    public void AlternativeUse(InputAction.CallbackContext context);
 }
 public interface IReloadebleItem
 {

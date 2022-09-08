@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-public class Influence
+﻿public class Influence
 {
     public float GivingBoodLevelPerSecond = 0f;
     public float FilteringBloodPerSecond = 0f;

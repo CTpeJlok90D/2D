@@ -7,6 +7,8 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterController2D : MonoBehaviour
     {
+        public bool _nonTimeStun = false;
+
         [SerializeField] private float _speed;
         [SerializeField] private AnimationCurve _jumpCurve;
         [SerializeField] private float _jumpCooldown;
@@ -18,12 +20,26 @@ namespace Player
         private float _cantJumpNextTime = 0f;
         private Coroutine _jumpCoroutine;
         private bool _jumping;
+        private float _stunNextSeconds = 0f;
 
-        public bool Walking => _moveDirection != 0;
+        public bool Moving => CanMove && _moveDirection != 0;
         public bool CanJump => _cantJumpNextTime == 0;
         public bool OnGround => _rigidbody2D.velocity.y == 0 && Physics2D.Raycast((Vector2)transform.position + _groundRayCastOffcet, Vector2.down, 0.1f);
         public bool Jumping => _jumping;
         public float MoveDirection => _moveDirection;
+        private bool CanMove => _stunNextSeconds == 0 && _nonTimeStun == false;
+
+        public void Stun(float time)
+        {
+            _rigidbody2D.velocity = Vector2.zero;
+            _stunNextSeconds += time;
+        }
+
+        public void Kick(Vector2 velocity, float stunTime)
+        {
+            _stunNextSeconds += stunTime;
+            _rigidbody2D.velocity = velocity;
+        }
 
         protected void Move(float direction)
         {
@@ -53,7 +69,6 @@ namespace Player
             {
                 _jumpForse = _jumpCurve.Evaluate(i);
                 _cantJumpNextTime = _jumpCooldown;
-                _rigidbody2D.velocity += new Vector2(0, _jumpForse);
                yield return null;
             }
             _jumping = false;
@@ -67,11 +82,17 @@ namespace Player
 
         private void FixedUpdate()
         {
-            _rigidbody2D.velocity = new Vector2(_speed * _moveDirection, _rigidbody2D.velocity.y);
+            if (CanMove)
+            {
+                _rigidbody2D.velocity = new Vector2(_speed * _moveDirection, _rigidbody2D.velocity.y);
+                _rigidbody2D.velocity += new Vector2(0, _jumpForse);
+            }
+            
             if (OnGround && _cantJumpNextTime > 0)
             {
                 _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
             }
+            _stunNextSeconds = Mathf.Clamp(_stunNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
         }
     }
 }

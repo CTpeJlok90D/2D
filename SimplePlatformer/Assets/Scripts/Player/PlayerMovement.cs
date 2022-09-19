@@ -3,9 +3,8 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class Player : CharacterController2D
+    public class PlayerMovement : CharacterController2D
     {
-
         public void Move(InputAction.CallbackContext context)
         {
             Move(context.ReadValue<float>());

@@ -8,21 +8,11 @@ namespace Player
         private Animator _animator;
         private CharacterController2D _characterController2D;
         private SpriteRenderer _spriteRenderer;
-
-        public void Walk()
-        {
-            
-        }
-
-        public void IDE()
-        {
-            
-        }
         private void Update()
         {
             _animator.SetBool("Jumping", _characterController2D.Jumping);
             _animator.SetBool("Falling", _characterController2D.OnGround == false);
-            if (_characterController2D.Walking)
+            if (_characterController2D.Moving)
             {
                 _animator.SetBool("Walking", true);
                 _spriteRenderer.flipX = _characterController2D.MoveDirection == -1;

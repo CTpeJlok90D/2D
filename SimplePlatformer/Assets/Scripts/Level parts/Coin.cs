@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Monet : MonoBehaviour
+public class Coin : MonoBehaviour
 {
     [SerializeField] private int _amout = 1;
 

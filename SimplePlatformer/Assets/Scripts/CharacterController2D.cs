@@ -19,10 +19,11 @@ public class CharacterController2D : MonoBehaviour
     private Coroutine _jumpCoroutine;
     private bool _jumping;
     private float _stunNextSeconds = 0f;
+    private bool _onGround;
 
     public bool Moving => CanMove && _moveDirection != 0;
     public bool CanJump => _cantJumpNextTime == 0;
-    public bool OnGround => _rigidbody2D.velocity.y == 0 && Physics2D.Raycast((Vector2)transform.position + _groundRayCastOffcet, Vector2.down, 0.1f);
+    public bool OnGround => _onGround;
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
     private bool CanMove => _stunNextSeconds == 0 && _nonTimeStun == false;
@@ -91,5 +92,13 @@ public class CharacterController2D : MonoBehaviour
             _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
         }
         _stunNextSeconds = Mathf.Clamp(_stunNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
+    }
+    private void OnTriggerStay2D(Collider2D other) 
+    {
+        _onGround = true;   
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _onGround = false;
     }
 }

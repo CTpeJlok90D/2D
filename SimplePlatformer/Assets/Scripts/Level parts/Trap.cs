@@ -13,11 +13,13 @@ public class Trap : MonoBehaviour
         if (other.TryGetComponent(out EntityHealth health))
         {
             health.Damage(_damage);
-            CharacterController2D character = health.GetComponent<CharacterController2D>();
+        }
+        if (other.TryGetComponent(out CharacterController2D character))
+        {
+            character.AddEffect(new Stun(_stunTime));
             character.Kick(new Vector2(
                 _punchStrenth.x * Mathf.Sign(character.transform.position.x - transform.position.x),
-                _punchStrenth.y),
-                _stunTime);
+                _punchStrenth.y));
             _gotSomething.Invoke();
         }
     }

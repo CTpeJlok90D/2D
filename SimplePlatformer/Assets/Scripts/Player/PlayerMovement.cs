@@ -16,6 +16,10 @@ namespace Player
                 StopJump();
                 return;
             }
+            if (context.performed) 
+            {
+                return; 
+            }
             Jump();
         }
     }

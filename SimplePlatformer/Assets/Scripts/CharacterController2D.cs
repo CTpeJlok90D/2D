@@ -17,7 +17,6 @@ public class CharacterController2D : MonoBehaviour
     private float _cantJumpNextTime = 0f;
     private Coroutine _jumpCoroutine;
     private bool _jumping;
-    private float _stunNextSeconds = 0f;
     private List<Effect> _effects = new();
     private bool _onGround = true;
     private bool _stunned = false;
@@ -57,9 +56,13 @@ public class CharacterController2D : MonoBehaviour
 
     protected void StopJump()
     {
-        StopCoroutine(_jumpCoroutine);
-        _jumping = false;
-        _jumpForse = 0;
+        if (Jumping)
+        {
+            StopCoroutine(_jumpCoroutine);
+            _jumping = false;
+            _jumpForse = 0;
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
+        }
     }
 
     private IEnumerator JumpCorrutine()
@@ -133,16 +136,9 @@ public class CharacterController2D : MonoBehaviour
     private void ApplyVelocity()
     {
         _rigidbody2D.velocity = new Vector2(_speed * _moveDirection, _rigidbody2D.velocity.y);
-        _rigidbody2D.velocity += new Vector2(0, _jumpForse);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        _onGround = _rigidbody2D.velocity.y == 0 && Physics2D.Raycast((Vector2)transform.position + _groundRayCastOffcet, Vector2.down, 0.1f);
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        _onGround = _rigidbody2D.velocity.y == 0 && Physics2D.Raycast((Vector2)transform.position + _groundRayCastOffcet, Vector2.down, 0.1f);
+        if (Jumping)
+        {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForse);
+        }
     }
 }

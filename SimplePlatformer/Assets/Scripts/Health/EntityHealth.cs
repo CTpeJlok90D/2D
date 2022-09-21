@@ -8,7 +8,7 @@ namespace Health
         [SerializeField] private int _max = 3;
         [SerializeField] private int _current = 3;
         [SerializeField] private float _invulnerabilityAfterDamage = 1f;
-        [SerializeField] private bool _nonTimeInvulnerability = false;
+        [SerializeField] private bool _invulnerability = false;
         [SerializeField] private UnityEvent _death;
         [SerializeField] private UnityEvent _takeDamage;
         [SerializeField] private UnityEvent _gotHeal;
@@ -16,7 +16,7 @@ namespace Health
 
         private float _invulnerabilityNextSeconds = 0f;
 
-        public bool Invulnerability => _invulnerabilityNextSeconds > 0 || _nonTimeInvulnerability;
+        public bool Invulnerability => _invulnerabilityNextSeconds > 0 || _invulnerability;
         protected UnityEvent Death => _death;
         
         public int Current

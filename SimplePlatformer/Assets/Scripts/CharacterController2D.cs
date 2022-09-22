@@ -1,11 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
 {
+    public float SpeedMultiplier = 1f;
+    public float JumpForseMultiplier = 1f;
+
     [SerializeField] private float _speed;
     [SerializeField] private AnimationCurve _jumpCurve;
     [SerializeField] private float _jumpCooldown;
@@ -17,22 +18,18 @@ public class CharacterController2D : MonoBehaviour
     private float _cantJumpNextTime = 0f;
     private Coroutine _jumpCoroutine;
     private bool _jumping;
-    private List<Effect> _effects = new();
     private bool _onGround = true;
-    private bool _stunned = false;
-    private bool _stunImmunitete = false;
+    private bool _canMove = true;
 
-    public bool Moving => CanMove && _moveDirection != 0;
+    public bool Moving => _canMove && _moveDirection != 0;
     public bool CanJump => _cantJumpNextTime == 0;
     public bool OnGround => _onGround;
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
-    private bool CanMove => _stunned == false;
-    
-    public void AddEffect(Effect newEffect)
+
+    public void SetControlActive(bool value)
     {
-        _effects.Add(newEffect);
-        AppllyEffectsImpact();
+        _canMove = value;
     }
 
     public void Kick(Vector2 velocity)
@@ -85,16 +82,15 @@ public class CharacterController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (CanMove)
+        if (_canMove)
         {
-            ApplyVelocity();
+            ApplyMoveVelocity();
         }
         
         if (OnGround && _cantJumpNextTime > 0)
         {
             _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
         }
-        AppllyEffectsImpact();
     }
     private void OnTriggerStay2D(Collider2D other) 
     {
@@ -104,41 +100,12 @@ public class CharacterController2D : MonoBehaviour
     {
         _onGround = false;
     }
-    private void AppllyEffectsImpact()
+    private void ApplyMoveVelocity()
     {
-        ResetImpact();
-        foreach (Effect effect in _effects.ToArray())
-        {
-            effect.RemoveDiruration(Time.fixedDeltaTime);
-            if (effect.Diruration <= 0)
-            {
-                _effects.Remove(effect);
-            }
-            else
-            {
-                ApllyImpact(effect.GetEffectResult());
-            }
-        }
-    }
-
-    private void ResetImpact()
-    {
-        _stunned = false;
-        _stunImmunitete = false;
-    }
-
-    private void ApllyImpact(Impact impact)
-    {
-        _stunned = _stunned || impact.Stun;
-        _stunImmunitete = _stunImmunitete || impact.StunImmunitete;
-    }
-
-    private void ApplyVelocity()
-    {
-        _rigidbody2D.velocity = new Vector2(_speed * _moveDirection, _rigidbody2D.velocity.y);
+        _rigidbody2D.velocity = new Vector2(_speed * SpeedMultiplier * _moveDirection, _rigidbody2D.velocity.y);
         if (Jumping)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForse);
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForse * JumpForseMultiplier);
         }
     }
 }

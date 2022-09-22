@@ -7,12 +7,9 @@ public class Cash : MonoBehaviour
     [SerializeField] private UnityEvent _pickUpCoin;
     public int Current => _current;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void AddCoin(Coin coin)
     {
-        if (other.TryGetComponent(out Coin coin))
-        {
-            _current += coin.Take();
-            _pickUpCoin.Invoke();
-        }
+        _current += coin.Amout;
+        _pickUpCoin.Invoke();
     }
 }

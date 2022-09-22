@@ -2,7 +2,7 @@
 {
     public Stun(float dituratuin) : base(dituratuin){}
 
-    public override Impact GetEffectResult()
+    public override Impact GetImpact()
     {
         return new()
         {

@@ -21,9 +21,4 @@ public class LimitedValueEditor : Editor
         EditorGUILayout.PropertyField(_current);
         serializedObject.ApplyModifiedProperties();
     }
-
-    private void OnValidate()
-    {
-        
-    }
 }

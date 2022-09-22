@@ -6,7 +6,7 @@ namespace Health
     public class HealthView : MonoBehaviour 
     {
         [SerializeField] private Slider _slider;
-        [SerializeField] private EntityHealth _health;
+        [SerializeField] private CharacterHealth _health;
 
         public void UpdateSlider()
         {

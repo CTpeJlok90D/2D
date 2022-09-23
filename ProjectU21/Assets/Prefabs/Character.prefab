@@ -97,6 +97,82 @@ MonoBehaviour:
     Size: {x: 10, y: 3}
   _hands: {fileID: 421010264}
   _scope: {fileID: 8494531996821834870}
+--- !u!1 &205590107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205590108}
+  - component: {fileID: 205590110}
+  - component: {fileID: 205590109}
+  m_Layer: 0
+  m_Name: ManFront
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &205590108
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205590107}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3350156688740850322}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -39, y: 0}
+  m_SizeDelta: {x: 128, y: 378}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &205590110
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205590107}
+  m_CullTransparentMesh: 1
+--- !u!114 &205590109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205590107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2fc6a02d68760524cb65ad495b80312c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &331132145
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +294,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3350156688594983983}
   m_HandleRect: {fileID: 3350156688594983981}
   m_Direction: 0
-  m_Value: 0
+  m_Value: -0.00000018495501
   m_Size: 0.5875
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -530,13 +606,14 @@ GameObject:
   - component: {fileID: 1031360083}
   - component: {fileID: 1031360082}
   - component: {fileID: 1031360080}
+  - component: {fileID: 1004049304}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1031360084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -618,6 +695,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1bd8d0b406ea30c468784e22bea84d2d, type: 2}
   - {fileID: 11400000, guid: 48f702825f851e24796527474a8e9d6c, type: 2}
   - {fileID: 11400000, guid: 48f702825f851e24796527474a8e9d6c, type: 2}
+--- !u!114 &1004049304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031360079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8305698a1760eeb408aa29ca516fe948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopUpMenu: {fileID: 5618807480016426952, guid: 57ed06bd1013c944da494428ba312e8b, type: 3}
 --- !u!1 &1391086880
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1177,6 +1267,7 @@ GameObject:
   - component: {fileID: 545746988132704926}
   - component: {fileID: 579631718}
   - component: {fileID: 579631719}
+  - component: {fileID: 708604901746526186}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -1331,6 +1422,32 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &708604901746526186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708604901635267117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15283117605b2c469c741444fa126db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _current:
+    _max: 100
+    _min: 0
+    _current: 100
+  _damageMultiplier:
+    _max: 2
+    _min: 0.05
+    _current: 1
+  _death:
+    m_PersistentCalls:
+      m_Calls: []
+  _healtUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &708604901843699723
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,9 +1992,9 @@ RectTransform:
   m_Father: {fileID: 4461826358139983517}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 15, y: -65}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3350156688336469718
@@ -2067,7 +2184,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 205590108}
   m_Father: {fileID: 3350156688285540918}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2097,7 +2215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
+  m_Color: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 0.7058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2217,7 +2335,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2
+  m_text: H
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2482,9 +2600,9 @@ RectTransform:
   m_Father: {fileID: 4461826358139983517}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 15, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4461826357390906040
@@ -2630,7 +2748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2933,7 +3051,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: I
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3250,7 +3368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 95bec2643496de94b9965c0f31725df8, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 0cde57cfd29e1a544adf41190ee7ac70, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -3277,8 +3395,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 619b1e6d-5b95-4b52-adf4-68fd7f11b121
-    m_ActionName: Player/Move[/Keyboard/d,/Keyboard/a]
+    m_ActionId: e2a64cab-8c7e-4308-81dd-4a07ba581143
+    m_ActionName: Player/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 579631718}
@@ -3293,7 +3411,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 3b181e3a-3ed6-4a61-9eab-54926361b5bf
+    m_ActionId: d5e9042c-a781-4364-920c-e6c7806d8b04
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
@@ -3309,8 +3427,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 252eb995-bfcd-4747-aa53-d83452b008cc
-    m_ActionName: Player/Sprint[/Keyboard/leftShift]
+    m_ActionId: ee773860-1100-457a-a46c-e8734f22e028
+    m_ActionName: Player/Sprint[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1209642709}
@@ -3325,28 +3443,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 5197c1e7-845f-447f-aa6a-6b822f0e97ed
+    m_ActionId: e372103b-10a3-4d74-ba04-62ce2bc70efe
     m_ActionName: Player/Shoot[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1209642709}
-        m_TargetAssemblyTypeName: ItemUsing, Assembly-CSharp
-        m_MethodName: AlternativeUse
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 45be6f9b-daa3-4ce1-89c5-de3ab74f5df4
-    m_ActionName: Player/Aim[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 84805bea-5668-4055-828b-d5ff641bf076
-    m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 842227188316681355}
@@ -3361,47 +3459,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1031360080}
-        m_TargetAssemblyTypeName: Container, Assembly-CSharp
-        m_MethodName: OnInventoryOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1718938722}
-        m_TargetAssemblyTypeName: Container, Assembly-CSharp
-        m_MethodName: OnInventoryOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 186833007}
-        m_TargetAssemblyTypeName: Container, Assembly-CSharp
-        m_MethodName: OnInventoryOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7a913840-ea45-46e0-a557-32a43dc91cf4
+    m_ActionId: 862ea141-a473-4ffc-b767-6366a7dfeafd
     m_ActionName: Player/OpenInventory[/Keyboard/tab]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1031360080}
+      - m_Target: {fileID: 842227188316681355}
+        m_TargetAssemblyTypeName: InterfaceOpener, Assembly-CSharp
+        m_MethodName: CloseInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3345db0d-ce7e-4eb6-ab9e-04cf9404149b
+    m_ActionName: Inventory/Close Inventory[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1718938722}
         m_TargetAssemblyTypeName: Container, Assembly-CSharp
         m_MethodName: MouseMove
         m_Mode: 0
@@ -3413,7 +3491,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1718938722}
+      - m_Target: {fileID: 1031360080}
         m_TargetAssemblyTypeName: Container, Assembly-CSharp
         m_MethodName: MouseMove
         m_Mode: 0
@@ -3437,12 +3515,40 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 44fb0e96-348a-4a11-9816-3332d1877fee
-    m_ActionName: UI/MousePosition[/Mouse/position]
+    m_ActionId: fe0ca9ed-0894-445b-b7eb-9fd472e612b7
+    m_ActionName: Inventory/MouseMove[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1031360080}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: OpenPopUpMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c6f6ecf7-fa8c-415d-9750-fcb71292e738
+    m_ActionName: Inventory/RightMouseClick[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1031360080}
         m_TargetAssemblyTypeName: Container, Assembly-CSharp
+        m_MethodName: MouseClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 186833007}
+        m_TargetAssemblyTypeName: Hands, Assembly-CSharp
         m_MethodName: MouseClick
         m_Mode: 0
         m_Arguments:
@@ -3465,20 +3571,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 186833007}
-        m_TargetAssemblyTypeName: Container, Assembly-CSharp
-        m_MethodName: MouseClick
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a69abc1f-547c-4044-98d5-80935d185839
-    m_ActionName: UI/MouseClick[/Mouse/leftButton]
+    m_ActionId: 4501eda6-709b-4dbd-bcd2-8d4253b8bb7f
+    m_ActionName: Inventory/LeftMouseClick[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1031360080}
@@ -3493,60 +3587,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 1af3bed7-a37c-4535-850f-f35df453c4b5
-    m_ActionName: UI/RotateItem[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 842227188316681355}
-        m_TargetAssemblyTypeName: InterfaceOpener, Assembly-CSharp
-        m_MethodName: CloseInventory
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 89e12b94-6ada-4ee1-b6eb-688f8dc89273
-    m_ActionName: UI/CloseInventory[/Keyboard/tab]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 06081cde-4fb5-49ae-b803-6401f006ebfc
-    m_ActionName: GlobalMap/MouseDelta[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6b297193-8030-4f89-9595-d14a61772338
-    m_ActionName: GlobalMap/LeftMouseClick[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 167b7674-bda2-4dc6-b239-4ba5d589c0ac
-    m_ActionName: GlobalMap/MouseWheel[/Mouse/scroll/y]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f28c659c-35b8-4ea0-a357-913fe48f9901
-    m_ActionName: GlobalMap/RightMouseClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 11282024-1232-43f0-9672-faee733da1fc
-    m_ActionName: GlobalMap/MousePosition[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1031360080}
-        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: OpenPopUpMenu
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: baab54ec-00de-4154-b0d1-68e25c35978f
-    m_ActionName: UI/RightMouseClick[/Mouse/rightButton]
+    m_ActionId: d61d4789-6a2b-424e-a35e-ad4d7f5f0658
+    m_ActionName: Inventory/RotateItem
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -3596,6 +3638,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &842227188316681355
 MonoBehaviour:
   m_ObjectHideFlags: 0

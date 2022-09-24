@@ -4,7 +4,7 @@
     private bool _firstTick = true;
     public float Diruration => _dituratuin;
     public bool FirstTick => _firstTick;
-    
+    virtual public bool Visible => false;
 
     public Effect(float dituratuin)
     {
@@ -20,7 +20,7 @@
 
     abstract public Impact GetImpact();
     
-    protected virtual void FixedUpdate()
+    virtual protected void FixedUpdate()
     {
 
     }

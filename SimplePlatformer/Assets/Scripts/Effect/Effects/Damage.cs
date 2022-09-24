@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class Damage : Effect
+namespace Effects
 {
-    private float _timeBetweenDamage;
-    private int _damage;
-
-    public Damage(float dituratuin, float timeBetweenDamage, int damage) : base(dituratuin)
+    public class Damage : Effect
     {
-        _timeBetweenDamage = timeBetweenDamage;
-        _damage = -damage;
-    }
+        private float _timeBetweenDamage;
+        private int _damage;
 
-    public Damage(int damage) : base(0)
-    {
-        _timeBetweenDamage = Time.fixedDeltaTime;
-        _damage = -damage;
-    }
-
-    public override Impact GetImpact()
-    {
-        return new Impact()
+        public Damage(float dituratuin, float timeBetweenDamage, int damage) : base(dituratuin)
         {
-            HealValue = Diruration % _timeBetweenDamage == 0 ? _damage : 0
-        };
+            _timeBetweenDamage = timeBetweenDamage;
+            _damage = -damage;
+        }
+
+        public Damage(int damage) : base(0)
+        {
+            _timeBetweenDamage = Time.fixedDeltaTime;
+            _damage = -damage;
+        }
+
+        public override Impact GetImpact()
+        {
+            return new Impact()
+            {
+                HealValue = Diruration % _timeBetweenDamage == 0 ? _damage : 0
+            };
+        }
     }
 }

@@ -45,6 +45,7 @@ public class CharacterEffectList : MonoBehaviour
         if (resultImpact.Kick != Vector2.zero)
         {
             _characterController.Kick(resultImpact.Kick);
+            _characterController.SetControlActive(false);
         }
         _characterController.JumpForseMultiplier = resultImpact.JumpForseMultiplier;
         _characterController.SpeedMultiplier = resultImpact.SpeedMultiplier;

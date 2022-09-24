@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
-
-internal class Kick : Effect
+namespace Effects
 {
-    private Vector2 _kickDirection;
-
-    public Kick(Vector2 punchDirecton) : base(0)
+    internal class Kick : Effect
     {
-        _kickDirection = punchDirecton;
-    }
+        private Vector2 _kickDirection;
 
-    public override Impact GetImpact()
-    {
-        return new()
+        public Kick(Vector2 punchDirecton) : base(0)
         {
-            Kick = FirstTick ? _kickDirection : Vector2.zero,
-        };
+            _kickDirection = punchDirecton;
+        }
+
+        public override Impact GetImpact()
+        {
+            return new()
+            {
+                Kick = FirstTick ? _kickDirection : Vector2.zero,
+            };
+        }
     }
 }

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c0e773bc4f2c04b9de3c77c0bb5849, type: 3}
   m_Name: StandartContainer
   m_EditorClassIdentifier: 
-  _uiItem: {fileID: 5650978977657147195, guid: 13a799781291c4f4ab18071a8507be5c, type: 3}
   _groundItem: {fileID: -5802723276981870988, guid: e9c2ae80f1bd0b74395f19629a4d4499, type: 3}
   _backGround: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 0.6117647}
   _frameColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.36078432}

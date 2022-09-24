@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Effects;
+
 
 public class Trap : MonoBehaviour
 {

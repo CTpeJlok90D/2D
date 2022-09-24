@@ -442,6 +442,7 @@ Transform:
   m_Children:
   - {fileID: 829083418}
   - {fileID: 102772623}
+  - {fileID: 251536305}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -602,6 +603,76 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &251536304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 251536305}
+  - component: {fileID: 251536306}
+  m_Layer: 0
+  m_Name: Abilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &251536305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251536304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 108234201}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &251536306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251536304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b431ffde3544d44eac59d0ea5e58e4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coolDown: 1.2
+  _ownerEffectList: {fileID: 108234209}
+  _speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 15
+      inSlope: -12.5
+      outSlope: -12.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 10
+      inSlope: -12.5
+      outSlope: -12.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &406401336
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,15 +759,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amout: 1
-  _dituration: 0
-  _impact:
-    Stun: 0
-    StunImmunitete: 0
-    Invulnerability: 0
-    SpeedMultiplier: 0
-    JumpForseMultiplier: 0
-    HealValue: 1
-    Kick: {x: 0, y: 0}
 --- !u!212 &461531709
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -774,7 +836,7 @@ Animator:
   m_GameObject: {fileID: 461531706}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6529f3e22b7b73499b07c690f712f97, type: 2}
+  m_Controller: {fileID: 9100000, guid: feb3ebf623f9caa4eb1f61cc5d0b7fad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3240,6 +3302,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 251536306}
+        m_TargetAssemblyTypeName: Dash, Assembly-CSharp
+        m_MethodName: ReadMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 52a4af7d-b731-4889-a636-5615ccf135d1
     m_ActionName: Player/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -3258,6 +3332,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 235fc97d-c81b-45e8-89f3-90ac802584cf
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 251536306}
+        m_TargetAssemblyTypeName: Ability, Assembly-CSharp
+        m_MethodName: Use
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 72bc65a4-f74b-4238-9c25-b2487fc0e70a
+    m_ActionName: Player/Dash[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -3433,15 +3523,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amout: 1
-  _dituration: 3
-  _impact:
-    Stun: 0
-    StunImmunitete: 1
-    Invulnerability: 1
-    SpeedMultiplier: 0
-    JumpForseMultiplier: 0
-    HealValue: 3
-    Kick: {x: 0, y: 0}
 --- !u!212 &1100584964
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3841,15 +3922,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amout: 1
-  _dituration: 0
-  _impact:
-    Stun: 0
-    StunImmunitete: 0
-    Invulnerability: 0
-    SpeedMultiplier: 0
-    JumpForseMultiplier: 0
-    HealValue: 1
-    Kick: {x: 0, y: 0}
 --- !u!212 &1561825784
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3927,7 +3999,7 @@ Animator:
   m_GameObject: {fileID: 1561825781}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 956eb318783689f498ab42d02bb57237, type: 2}
+  m_Controller: {fileID: 9100000, guid: feb3ebf623f9caa4eb1f61cc5d0b7fad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4062,15 +4134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amout: 1
-  _dituration: 3
-  _impact:
-    Stun: 0
-    StunImmunitete: 1
-    Invulnerability: 1
-    SpeedMultiplier: 0
-    JumpForseMultiplier: 0
-    HealValue: 0
-    Kick: {x: 0, y: 0}
 --- !u!212 &1898013489
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4148,7 +4211,7 @@ Animator:
   m_GameObject: {fileID: 1898013486}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f573b57b84dbd2c429457c7f04db12a9, type: 2}
+  m_Controller: {fileID: 9100000, guid: feb3ebf623f9caa4eb1f61cc5d0b7fad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

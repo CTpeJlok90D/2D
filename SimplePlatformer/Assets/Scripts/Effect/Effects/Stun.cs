@@ -1,13 +1,16 @@
-﻿public class Stun : Effect
+﻿namespace Effects
 {
-    public Stun(float dituratuin) : base(dituratuin){}
-
-    public override Impact GetImpact()
+    public class Stun : Effect
     {
-        return new()
+        public Stun(float dituratuin) : base(dituratuin){}
+
+        public override Impact GetImpact()
         {
-            Stun = true,
-            StunImmunitete = true
-        };
+            return new()
+            {
+                Stun = true,
+                StunImmunitete = true
+            };
+        }
     }
 }

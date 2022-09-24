@@ -1,16 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-public class SimpleEffect : Effect
+namespace Effects
 {
-    private Impact _impact;
-    public SimpleEffect(float dituratuin, Impact impact) : base(dituratuin) 
-    {
-        _impact = impact;
-    }
 
-    public override Impact GetImpact()
+    public class SimpleEffect : Effect
     {
-        return _impact;
+        private Impact _impact;
+        public SimpleEffect(float dituratuin, Impact impact) : base(dituratuin) 
+        {
+            _impact = impact;
+        }
+
+        public override Impact GetImpact()
+        {
+            return _impact;
+        }
     }
 }

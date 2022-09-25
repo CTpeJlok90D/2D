@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmoothCopyTransform : CopyTransform
+public class SmoothCopyTransform : MonoBehaviour
 {
+	[SerializeField] protected Transform _target;
+	[SerializeField] protected bool x = true;
+	[SerializeField] protected bool y = true;
+	[SerializeField] protected bool z = false;
 	[SerializeField] protected float SmoothStrenth = 0.01f;
-	protected override void Update()
+	private void Update()
 	{
+		Vector3 offcet = Vector3.MoveTowards(transform.position, _target.position, SmoothStrenth * Vector3.Distance(transform.position, _target.position));
 		transform.position = new Vector3(
-			x ? Vector3.MoveTowards(transform.position, _target.position, SmoothStrenth * Vector3.Distance(transform.position, _target.position)).x : transform.position.x,
-			y ? Vector3.MoveTowards(transform.position, _target.position, SmoothStrenth * Vector3.Distance(transform.position, _target.position)).y : transform.position.y,
-			z ? Vector3.MoveTowards(transform.position, _target.position, SmoothStrenth * Vector3.Distance(transform.position, _target.position)).z : transform.position.z
+			x ? offcet.x : transform.position.x,
+			y ? offcet.y : transform.position.y,
+			z ? offcet.z : transform.position.z
 			);
 	}
 }

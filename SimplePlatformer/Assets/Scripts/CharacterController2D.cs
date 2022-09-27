@@ -23,13 +23,14 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     private bool _canMove = true;
     private int _lookDirection = 1;
     private UnityEvent _crashIntoSomething = new();
+    private float _controlBlockNextSeconds = 0f;
 
     public bool Moving => _canMove && _moveDirection != 0;
     public bool CanJump => _cantJumpNextTime == 0;
     public bool OnGround => _onGround;
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
-    public bool CanMove => _canMove;
+    public bool CanMove => _canMove && _controlBlockNextSeconds == 0;
     public UnityEvent CrashIntoSomething => _crashIntoSomething;
     public int Direction { get => _lookDirection; }
 
@@ -51,6 +52,10 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     public void DisableControl()
     {
         _canMove = false;
+    }
+    public void BlockControlOn(float seconds)
+    {
+        _controlBlockNextSeconds = seconds;
     }
 
     protected void Move(float direction)
@@ -82,7 +87,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     private IEnumerator JumpCorrutine()
     {
         _jumping = true;
-        for (float i = 0; i < _jumpCurve.length / 2; i += Time.fixedDeltaTime)
+        for (float i = 0; i < _jumpCurve.keys[_jumpCurve.keys.Length - 1].time / 2; i += Time.fixedDeltaTime)
         {
             _jumpForse = _jumpCurve.Evaluate(i);
             _cantJumpNextTime = _jumpCooldown;
@@ -126,6 +131,8 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         {
             _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
         }
+
+        _controlBlockNextSeconds = Mathf.Clamp(_controlBlockNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
     }
 
     private void OnTriggerStay2D(Collider2D other) 

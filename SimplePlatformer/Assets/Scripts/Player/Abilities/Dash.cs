@@ -34,15 +34,14 @@ public class Dash : Ability
     private IEnumerator DashCorrutine()
     {
         _dashing = true;
-        for (float i = 0; i < _speedCurve.length / 2; i += Time.fixedDeltaTime)
+        _characterController2D.BlockControlOn(_speedCurve.keys[_speedCurve.keys.Length - 1].time);
+        for (float i = 0; i < _speedCurve.keys[_speedCurve.keys.Length - 1].time; i += Time.fixedDeltaTime)
         {
             Vector2 kickDirection = new Vector2(_speedCurve.Evaluate(i) * _characterController2D.Direction, 0);
             _characterController2D.Kick(kickDirection);
-            _characterController2D.DisableControl();
             yield return null;
         }
         _dashing = false;
-        _characterController2D.EnableControl();
     }
 
     private void Awake()

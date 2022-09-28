@@ -15,7 +15,7 @@ namespace Effects
 
         public Damage(int damage) : base(0)
         {
-            _timeBetweenDamage = Time.fixedDeltaTime;
+            _timeBetweenDamage = Time.deltaTime;
             _damage = -damage;
         }
 

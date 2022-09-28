@@ -1,51 +1,47 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Effects;
 
-public class Dash : Ability
+namespace Abilitys
 {
-    [SerializeField] private CharacterController2D _characterController2D;
-    [SerializeField] private AnimationCurve _speedCurve;
-
-    private Coroutine _coroutine;
-    private bool _dashing = false;
-
-
-    public bool Dashing => _dashing;
-
-    public void StopDash()
+    public class Dash : Ability
     {
-        if (Dashing == false)
+        [SerializeField] private CharacterEffectList _characterEffectList;
+        [SerializeField] private AnimationCurve _speedCurve;
+
+        private Coroutine _coroutine;
+        private bool _dashing = false;
+        private int _direction = 0;
+        private DashEffect _dash;
+
+        public bool Dashing => _dashing;
+
+        public void StopDash()
         {
-            return;
+            if (Dashing == false)
+            {
+                return;
+            }
+            _dash.Remove();
+            _dashing = false;
         }
-        StopCoroutine(_coroutine);
-        _characterController2D.EnableControl();
-        _dashing = false;
-    }
 
-    protected override void Execute()
-    {
-        if (_characterController2D.CanMove)
+        public void ReadMove(InputAction.CallbackContext context)
         {
-            _coroutine = StartCoroutine(DashCorrutine());
+            int newValue = (int)context.ReadValue<float>(); 
+            if (newValue == 0)
+            {
+                return;
+            }
+            _direction = (int)newValue;
         }
-    }
-
-    private IEnumerator DashCorrutine()
-    {
-        _dashing = true;
-        _characterController2D.BlockControlOn(_speedCurve.keys[_speedCurve.keys.Length - 1].time);
-        for (float i = 0; i < _speedCurve.keys[_speedCurve.keys.Length - 1].time; i += Time.fixedDeltaTime)
+        
+        protected override void Execute()
         {
-            Vector2 kickDirection = new Vector2(_speedCurve.Evaluate(i) * _characterController2D.Direction, 0);
-            _characterController2D.Kick(kickDirection);
-            yield return null;
+            _dashing = true;
+            _dash = new DashEffect(_speedCurve, _direction);
+            _dash.OnDiturationEnd.AddListener(() => _dashing = false);
+            _characterEffectList.Add(_dash);
         }
-        _dashing = false;
-    }
-
-    private void Awake()
-    {
-        _characterController2D.CrashIntoSomething.AddListener(StopDash);
     }
 }

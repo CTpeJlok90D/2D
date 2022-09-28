@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -9,6 +8,7 @@ namespace Player
         {
             Move(context.ReadValue<float>());
         }
+
         public void Jump(InputAction.CallbackContext context)
         {
             if (context.canceled)
@@ -21,6 +21,16 @@ namespace Player
                 return; 
             }
             Jump();
+        }
+
+        public void Crouch(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+            {
+                StartCrouch();
+                return;
+            }
+            StopCrouch();
         }
     }
 }

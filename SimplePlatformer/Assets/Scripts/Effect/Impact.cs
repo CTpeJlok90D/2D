@@ -11,6 +11,7 @@ public class Impact
     public float JumpForseMultiplier = 0f;
     public int HealValue = 0;
     public Vector2 Kick = new();
+    public Vector2 ColliderSizeMultipy = Vector2.one;
 
     public static Impact operator +(Impact a, Impact b)
     {

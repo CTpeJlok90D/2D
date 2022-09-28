@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,34 +7,42 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
 {
     [HideInInspector] public float SpeedMultiplier = 1f;
     [HideInInspector] public float JumpForseMultiplier = 1f;
-
+    [Header("Move")]
     [SerializeField] private float _speed;
+    [Header("Jumping")]
     [SerializeField] private AnimationCurve _jumpCurve;
     [SerializeField] private float _jumpCooldown;
-    [SerializeField] private Vector2 _groundRayCastOffcet;
-
+    [SerializeField] private GroundCheker _groundCheker;
+    [Header("Crouch")]
+    [SerializeField] private CapsuleCollider2D _collider;
+    [SerializeField] private Vector2 _crouchColliderSize;
+    [SerializeField] private Vector2 _crouchColliderOffect;
+    [SerializeField] private float _crouchingSpeed;
+    private Rigidbody2D _rigidbody2D;
+    private Coroutine _jumpCoroutine;
     private float _moveDirection = 0f;
     private float _jumpForse = 0f;
-    private Rigidbody2D _rigidbody2D;
     private float _cantJumpNextTime = 0f;
-    private Coroutine _jumpCoroutine;
     private bool _jumping;
-    private bool _onGround = true;
     private bool _canMove = true;
+    private bool _crouching = false;
     private int _lookDirection = 1;
     private UnityEvent _crashIntoSomething = new();
     private float _controlBlockNextSeconds = 0f;
+    private Vector2 _startColliderSize;
+    private Vector2 _startColliderOffect;
 
     public bool Moving => _canMove && _moveDirection != 0;
     public bool CanJump => _cantJumpNextTime == 0;
-    public bool OnGround => _onGround;
+
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
     public bool CanMove => _canMove && _controlBlockNextSeconds == 0;
     public UnityEvent CrashIntoSomething => _crashIntoSomething;
-    public int Direction { get => _lookDirection; }
+    public int Direction => _lookDirection;
+    public bool Crouching => _crouching;
 
-    public void SetControlActive(bool value)
+    public void SetActiveControl(bool value)
     {
         _canMove = value;
     }
@@ -73,6 +81,20 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         _jumpCoroutine = StartCoroutine(nameof(JumpCorrutine));
     }
 
+    protected void StartCrouch()
+    {
+        _collider.size = _crouchColliderSize;
+        _collider.offset = _crouchColliderOffect;
+        _crouching = true;
+    }
+
+    protected void StopCrouch()
+    {
+        _collider.size = _startColliderSize;
+        _collider.offset = _startColliderOffect;
+        _crouching = false;
+    }
+
     protected void StopJump()
     {
         if (Jumping)
@@ -99,7 +121,8 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
 
     private void ApplyMoveVelocity()
     {
-        _rigidbody2D.velocity = new Vector2(_speed * SpeedMultiplier * _moveDirection, _rigidbody2D.velocity.y);
+        float currentSpeed = Crouching ? _crouchingSpeed : _speed;
+        _rigidbody2D.velocity = new Vector2(currentSpeed * SpeedMultiplier * _moveDirection, _rigidbody2D.velocity.y);
         if (Jumping)
         {
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForse * JumpForseMultiplier);
@@ -115,9 +138,11 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         _lookDirection = (int)MoveDirection;
     }
 
-    private void Start()
+    private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _startColliderSize = _collider.size;
+        _startColliderOffect = _collider.offset;
     }
 
     private void FixedUpdate()
@@ -127,22 +152,12 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
             ApplyMoveVelocity();
         }
         
-        if (OnGround && _cantJumpNextTime > 0)
+        if (_groundCheker.OnGround && _cantJumpNextTime > 0)
         {
             _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
         }
 
         _controlBlockNextSeconds = Mathf.Clamp(_controlBlockNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
-    }
-
-    private void OnTriggerStay2D(Collider2D other) 
-    {
-        _onGround = true;   
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        _onGround = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

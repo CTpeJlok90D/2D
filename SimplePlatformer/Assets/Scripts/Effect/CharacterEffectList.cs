@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Health;
+using Effects;
 
 public class CharacterEffectList : MonoBehaviour
 {
     [SerializeField] private CharacterController2D _characterController;
     [SerializeField] private CharacterHealth _health;
 
-    private Impact resultImpact = new();
+    private Impact _resultImpact = new();
     private List<Effect> _effects = new();
 
     public void Add(Effect newEffect)
@@ -17,10 +18,10 @@ public class CharacterEffectList : MonoBehaviour
 
     private void AppllyEffectsImpact()
     {
-        resultImpact = new() { SpeedMultiplier = 1f, JumpForseMultiplier = 1f };
+        _resultImpact = new() { SpeedMultiplier = 1f, JumpForseMultiplier = 1f };
         foreach (Effect effect in _effects)
         {
-            resultImpact += effect.GetImpact();
+            _resultImpact += effect.GetImpact();
         }
         ApplyResultImpact();
     }
@@ -29,7 +30,7 @@ public class CharacterEffectList : MonoBehaviour
     {
         foreach (Effect effect in _effects.ToArray())
         {
-            effect.RemoveDiruration(Time.fixedDeltaTime);
+            effect.RemoveDiruration(Time.deltaTime);
             if (effect.Diruration <= 0)
             {
                 _effects.Remove(effect);
@@ -39,19 +40,21 @@ public class CharacterEffectList : MonoBehaviour
 
     private void ApplyResultImpact()
     {
-        _characterController.SetControlActive(resultImpact.Stun == false);
-        _health.Invulnerability = resultImpact.Invulnerability;
-        _health.Current += resultImpact.HealValue;
-        if (resultImpact.Kick != Vector2.zero)
+        _characterController.SetActiveControl(_resultImpact.Stun == false);
+        if (_health.Invulnerability == false)
         {
-            _characterController.Kick(resultImpact.Kick);
-            _characterController.SetControlActive(false);
+            _health.Current += _resultImpact.HealValue;
         }
-        _characterController.JumpForseMultiplier = resultImpact.JumpForseMultiplier;
-        _characterController.SpeedMultiplier = resultImpact.SpeedMultiplier;
+        _health.Invulnerability = _resultImpact.Invulnerability;
+        if (_resultImpact.Kick != Vector2.zero)
+        {
+            _characterController.Kick(_resultImpact.Kick);
+        }
+        _characterController.JumpForseMultiplier = _resultImpact.JumpForseMultiplier;
+        _characterController.SpeedMultiplier = _resultImpact.SpeedMultiplier;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         AppllyEffectsImpact();
         ReduseEffectCoolDown();

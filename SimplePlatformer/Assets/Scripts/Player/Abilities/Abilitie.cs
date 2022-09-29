@@ -9,14 +9,17 @@ namespace Abilitys
         [SerializeField] private float _coolDown = 3f;
         [SerializeField] private float _prepairTime = 0f;
         [SerializeField] private UnityEvent _prepearStarted = new();
+        [SerializeField] private UnityEvent _prepearCanceled = new();
         private float _currentCooldown = 0f;
         private float _currentPrepairingTime = 0f;
         private Coroutine _prepair;
 
         public bool Prepearing => _currentPrepairingTime > 0;
+        protected float PrepairTime => _prepairTime;
         protected bool CanUse => _currentCooldown == 0f;
         protected float CurrentCooldown => _currentCooldown;
         protected UnityEvent PrepearStarted => _prepearStarted;
+        protected UnityEvent PrepaerCanceled => _prepearCanceled;
         protected virtual bool ReduceCooldownCondiction => true;
 
         public void Use()
@@ -52,6 +55,7 @@ namespace Abilitys
             {
                 return;
             }
+            PrepaerCanceled.Invoke();
             StopCoroutine(_prepair);
             _currentPrepairingTime = 0;
         }

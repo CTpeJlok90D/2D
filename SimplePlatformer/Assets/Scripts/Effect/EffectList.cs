@@ -3,7 +3,7 @@ using UnityEngine;
 using Health;
 using Effects;
 
-public class CharacterEffectList : MonoBehaviour
+public class EffectList : MonoBehaviour
 {
     [SerializeField] private CharacterController2D _characterController;
     [SerializeField] private CharacterHealth _health;

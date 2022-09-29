@@ -12,7 +12,7 @@ public class Trap : MonoBehaviour
     [SerializeField] private UnityEvent _gotSomething;
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.TryGetComponent(out CharacterEffectList effectList))
+        if (other.TryGetComponent(out EffectList effectList))
         {
             effectList.Add(new Stun(_stunTime));
             effectList.Add(new Damage(_damage));

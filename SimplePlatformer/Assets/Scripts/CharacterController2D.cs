@@ -34,7 +34,6 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
 
     public bool Moving => _canMove && _moveDirection != 0;
     public bool CanJump => _cantJumpNextTime == 0;
-
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
     public bool CanMove => _canMove && _controlBlockNextSeconds == 0;
@@ -61,6 +60,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     {
         _canMove = false;
     }
+    
     public void BlockControlOn(float seconds)
     {
         _controlBlockNextSeconds = seconds;
@@ -83,6 +83,10 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
 
     protected void StartCrouch()
     {
+        if(_groundCheker.OnGround == false)
+        {
+            return;
+        }
         _collider.size = _crouchColliderSize;
         _collider.offset = _crouchColliderOffect;
         _crouching = true;
@@ -145,7 +149,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         _startColliderOffect = _collider.offset;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (CanMove)
         {
@@ -154,10 +158,10 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         
         if (_groundCheker.OnGround && _cantJumpNextTime > 0)
         {
-            _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.fixedDeltaTime, 0, Mathf.Infinity);
+            _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.deltaTime, 0, Mathf.Infinity);
         }
 
-        _controlBlockNextSeconds = Mathf.Clamp(_controlBlockNextSeconds - Time.fixedDeltaTime, 0, Mathf.Infinity);
+        _controlBlockNextSeconds = Mathf.Clamp(_controlBlockNextSeconds - Time.deltaTime, 0, Mathf.Infinity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

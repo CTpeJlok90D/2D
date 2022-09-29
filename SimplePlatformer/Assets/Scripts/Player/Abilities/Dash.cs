@@ -6,7 +6,7 @@ namespace Abilitys
 {
     public class Dash : Ability
     {
-        [SerializeField] private CharacterEffectList _characterEffectList;
+        [SerializeField] private EffectList _characterEffectList;
         [SerializeField] private AnimationCurve _speedCurve;
 
         private Coroutine _coroutine;

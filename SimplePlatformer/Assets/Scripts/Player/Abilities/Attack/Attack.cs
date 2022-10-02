@@ -12,7 +12,8 @@ namespace Abilitys
         protected override void Execute()
         {
             Vector3 offcet = new(_attackDistance * _character.Direction, 0);
-            Instantiate(_attackPrefub, _character.transform.position + offcet, Quaternion.identity);
+            GameObject AttackMesh = Instantiate(_attackPrefub, _character.transform.position + offcet, Quaternion.identity);
+            AttackMesh.transform.SetParent(_character.transform);
         }
     }
 }

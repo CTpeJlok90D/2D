@@ -45,11 +45,11 @@ public class EffectList : MonoBehaviour
         {
             _health.Current += _resultImpact.HealValue;
         }
-        _health.Invulnerability = _resultImpact.Invulnerability;
-        if (_resultImpact.Kick != Vector2.zero)
+        if (_resultImpact.Kick != Vector2.zero && _health.Invulnerability == false)
         {
             _characterController.Kick(_resultImpact.Kick);
         }
+        _health.Invulnerability = _resultImpact.Invulnerability;
         _characterController.JumpForseMultiplier = _resultImpact.JumpForseMultiplier;
         _characterController.SpeedMultiplier = _resultImpact.SpeedMultiplier;
     }

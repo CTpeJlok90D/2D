@@ -10,15 +10,21 @@ public class Trap : MonoBehaviour
     [SerializeField] private float _invulnerabilityTime = 2.0f;
     [SerializeField] private Vector2 _punchStrenth = new Vector2(1,1);
     [SerializeField] private UnityEvent _gotSomething;
-    private void OnTriggerEnter2D(Collider2D other) 
+
+    private void GiveDamage(EffectList effectList)
+    {
+        effectList.Add(new Damage(_damage));
+        effectList.Add(new Stun(_stunTime));
+        effectList.Add(new Invulnerability(_invulnerabilityTime));
+        effectList.Add(new Kick(new Vector2(_punchStrenth.x * Mathf.Sign(effectList.transform.position.x - transform.position.x), _punchStrenth.y)));
+        _gotSomething.Invoke();
+    }
+
+    private void OnTriggerStay2D(Collider2D other) 
     {
         if (other.TryGetComponent(out EffectList effectList))
         {
-            effectList.Add(new Stun(_stunTime));
-            effectList.Add(new Damage(_damage));
-            effectList.Add(new Invulnerability(_invulnerabilityTime));
-            effectList.Add(new Kick(new Vector2(_punchStrenth.x * Mathf.Sign(effectList.transform.position.x - transform.position.x),_punchStrenth.y)));
+            GiveDamage(effectList);
         }
-        _gotSomething.Invoke();
     }
 }

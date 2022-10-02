@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 
 [CustomEditor(typeof(Impact))]
-public class ImpactInspector : Editor
+internal class ImpactInspector : Editor
 {
     private SerializedProperty _stun;
     private SerializedProperty _stunImmunitete;

@@ -26,11 +26,6 @@ namespace Player
             _animator.SetBool("Crouching", _characterController2D.Crouching);
             _animator.SetBool("AttackPrepair", _attack.Prepearing);
             _animator.SetBool("AttackPrepairCanceled", false);
-
-            if (_characterController2D.Moving)
-            {
-                _spriteRenderer.flipX = _characterController2D.MoveDirection == -1;
-            }
         }
     }
 }

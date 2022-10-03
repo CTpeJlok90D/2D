@@ -21,11 +21,13 @@ namespace AI
             {
                 float side = Mathf.Sign(target.x - transform.position.x);
                 Move(side);
+                _onPoint = false;
             }
             else
             {
                 OnPointArriaval.Invoke();
                 Move(0);
+                _onPoint = true;
             }
         }
     }

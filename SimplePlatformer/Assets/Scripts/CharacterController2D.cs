@@ -69,10 +69,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     protected void Move(float direction)
     {
         _moveDirection = direction;
-        if (CanMove)
-        {
-            UpdateLookDirection();
-        }
+        UpdateLookDirection();
     }
 
     protected void Jump()
@@ -143,7 +140,6 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
             return;
         }
         _lookDirection = (int)MoveDirection;
-        transform.rotation = new Quaternion(0, _lookDirection == 1 ? 0 : 180,0,0);
     }
 
     private void Awake()
@@ -158,6 +154,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         if (CanMove)
         {
             ApplyMoveVelocity();
+            transform.rotation = new Quaternion(0, _lookDirection == 1 ? 0 : 180, 0, 0);
         }
         
         if (_groundCheker.OnGround && _cantJumpNextTime > 0)

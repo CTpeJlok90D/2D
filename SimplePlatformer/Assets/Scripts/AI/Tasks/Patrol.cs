@@ -1,37 +1,46 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AI.Tasks
+namespace AI.tasks
 {
-    [Serializable]
-    public class Patrol : ITask
+    public class Patrol : Task
     {
-        [SerializeField] private List<Vector2> _patrolPoints;
         [SerializeField] private Mover _mover;
-        private int _currentPointIndex;
+        [SerializeField] private List<Vector2> _points;
+        [SerializeField] private float _timeBetweenPoints = 1f;
+        private int _currentPointIndex = 0;
         private Vector2 _currentPoint;
+        private float _currentTimeOnPoint = 0;
+        public override int Priority => 1;
 
-        public Patrol(Mover mover)
+        public override void Execute()
         {
-            _mover.OnPoint.AddListener(ChangePoint);
+            if (_currentTimeOnPoint == 0)
+            {
+                _mover.Move(_currentPoint);
+            }
         }
 
-        public int Priority => 1;
-
-        public void Execute()
+        private void OnPoint()
         {
-            _mover.Move(_currentPoint);
-        }
-
-        private void ChangePoint()
-        {
+            _currentTimeOnPoint = _timeBetweenPoints;
             _currentPointIndex++;
-            if (_patrolPoints.Count >= _currentPointIndex)
+            if (_currentPointIndex >= _points.Count) 
             {
                 _currentPointIndex = 0;
             }
-            _currentPoint = _patrolPoints[_currentPointIndex];
+            _currentPoint = _points[_currentPointIndex];
+        }
+
+        private void Awake()
+        {
+            _currentPoint = _points[0];
+            _mover.OnPointArriaval.AddListener(OnPoint);
+        }
+
+        private void Update()
+        {
+            _currentTimeOnPoint = Mathf.Clamp(_currentTimeOnPoint - Time.deltaTime, 0, Mathf.Infinity);
         }
     }
 }

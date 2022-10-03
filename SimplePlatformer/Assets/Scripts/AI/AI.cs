@@ -1,20 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
-using AI.Tasks;
+using AI.tasks;
+using System.Collections;
 
 namespace AI
 {
     public class AI : MonoBehaviour
     {
         [SerializeField] private Transform _moveTarget;
-        [SerializeField] private Mover _mover;
-        [SerializeField] private Patrol _patrol;
-
-        private List<ITask> _tasks = new();
+        [SerializeField] private List<Task> _tasks;
 
         private void Update()
         {
-            _patrol.Execute();
+            _tasks[0].Execute();
         }
     }
 }

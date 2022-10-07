@@ -11,15 +11,14 @@ namespace AI.tasks
 
         public override int Priority => 1;
 
-        private void Awake()
-        {
-            _mover.OnPointArriaval.AddListener(_attackAbility.Use);
-        }
-
         public override void Execute()
         {
             _keepDistance.SetTarget(_target);
             _keepDistance.Execute();
+            if (_mover.OnPoint)
+            {
+                _attackAbility.Use();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AI.tasks
+namespace AI.Tasks
 {
     public class Attack : Task
     {

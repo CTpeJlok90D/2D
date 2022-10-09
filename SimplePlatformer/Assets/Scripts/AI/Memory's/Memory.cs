@@ -1,14 +1,17 @@
 using UnityEngine;
 using AI.Tasks;
+using System;
 
 namespace AI.Memory
 {
-    public class Memory : MonoBehaviour
+    [Serializable]
+    public class Memory
     {
+        [SerializeField] float _coefficient;
         [SerializeField] private Task _task;
-        protected float _dituration;
+        [SerializeField] private float _dituration;
 
-        public void Init(float dituration, Task task)
+        public Memory(float dituration, Task task)
         {
             _dituration = dituration;
             _task = task;
@@ -16,9 +19,13 @@ namespace AI.Memory
 
         public float Dituration => _dituration;
 
-        public void ReduseDituration(float value)
+        public Memory Copy()
         {
-            _dituration = Mathf.Clamp(_dituration - value, 0, Mathf.Infinity);
+            return new Memory(_dituration, _task);
+        }
+        public void Update()
+        {
+            _dituration = Mathf.Clamp(_dituration - Time.deltaTime, 0, Mathf.Infinity);
         }
     }   
 }

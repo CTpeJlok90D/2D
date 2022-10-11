@@ -6,8 +6,8 @@ namespace AI.Tasks
 {
     public abstract class Task : MonoBehaviour
     {
-        public abstract int Priority { get; }
+        public int Priority;
 
-        public abstract void Execute();
+        public abstract void Execute();        
     }
 }

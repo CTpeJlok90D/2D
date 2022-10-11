@@ -11,8 +11,6 @@ namespace AI.Tasks
         [SerializeField] private float _distance;
         [SerializeField] private Transform _target;
 
-        public override int Priority => 1;
-
         public void SetTarget(Transform target)
         {
             _target = target;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace AI.Memory
@@ -9,19 +8,61 @@ namespace AI.Memory
         [SerializeField] private List<Memory> _memorys = new();
         [SerializeField] private List<MemoryDictionarity> _reactions = new();
 
-        private Dictionary<Factor, Memory> _reactionDictionarity = new();
+        private Dictionary<Factor, List<Memory>> _reactionDictionarity = new();
 
         public void Awake()
         {
             foreach (MemoryDictionarity reaction in _reactions)
             {
-                _reactionDictionarity.Add(reaction.Factor, reaction.Memory);
+                _reactionDictionarity.Add(reaction.Factor, reaction.Memorys);
             }
         }
 
         public void AddFactor(Factor factor)
         {
-            _memorys.Add(_reactionDictionarity[factor].Copy());
+            foreach (Memory memory in _reactionDictionarity[factor]) 
+            {
+                foreach (Memory memoryIterator in _memorys)
+                {
+                    if (memoryIterator == memory)
+                    {
+                        memoryIterator.UpdateDituration(memory.Dituration);
+                        return;
+                    }
+                }
+                _memorys.Add(memory.Copy());
+                memory.ImpactOnPriority();
+            }
+        }
+
+        private void Update()
+        {
+            ReduceDetiration(Time.deltaTime);
+        }
+
+        private bool HaveItMemory(Memory memory)
+        {
+            foreach (Memory memoryIterator in _memorys)
+            {
+                if (memoryIterator == memory)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void ReduceDetiration(float time)
+        {
+            foreach (Memory memory in _memorys.ToArray())
+            {
+                memory.ReduceCooldown(time);
+                if (memory.Dituration <= 0)
+                {
+                    memory.RemoveImpactOnPriority();
+                    _memorys.Remove(memory);
+                }
+            }
         }
     }
 }

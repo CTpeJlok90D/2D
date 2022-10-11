@@ -13,6 +13,7 @@ namespace Abilitys
         {
             Vector3 offcet = new(_attackDistance * _character.Direction, 0);
             GameObject AttackMesh = Instantiate(_attackPrefub, _character.transform.position + offcet, Quaternion.identity);
+            AttackMesh.transform.rotation = _character.transform.rotation;
             AttackMesh.transform.SetParent(_character.transform);
         }
     }

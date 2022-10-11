@@ -9,8 +9,6 @@ namespace AI.Tasks
         [SerializeField] private Transform _target;
         [SerializeField] private KeepDistance _keepDistance;
 
-        public override int Priority => 1;
-
         public override void Execute()
         {
             _keepDistance.SetTarget(_target);

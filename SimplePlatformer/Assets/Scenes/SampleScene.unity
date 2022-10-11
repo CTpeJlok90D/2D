@@ -242,9 +242,9 @@ MonoBehaviour:
   _reactions:
   - _factor: 0
     _reaction:
-      _coefficient: 5
+    - _priorityChange: 10
       _task: {fileID: 701874279}
-      _dituration: 10
+      _dituration: 4
 --- !u!1 &102772622
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coolDown: 0.25
-  _prepairTime: 0.15
+  _prepairTime: 0.7
   _prepearStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -893,7 +893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224325961}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.549999, y: 2.87, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1631,6 +1631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67b50c69f6db734db199e5bc1e2a62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Priority: 5
   _mover: {fileID: 874255496}
   _points:
   - {x: 0, y: 0}
@@ -1664,9 +1665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c74f3ec79d2ee449765012cd339cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Priority: 0
   _owner: {fileID: 200469051}
   _mover: {fileID: 874255496}
-  _distance: 1
+  _distance: 1.5
   _target: {fileID: 108234201}
 --- !u!114 &701874279
 MonoBehaviour:
@@ -1680,6 +1682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a4fedc89311be4689c9bf36c2cb1b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Priority: 0
   _attackAbility: {fileID: 224325962}
   _mover: {fileID: 874255496}
   _target: {fileID: 108234201}
@@ -4458,7 +4461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9a94cd42a010346a1ae3a6cc354850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objects: []
+  _visionObjects: []
   _brain: {fileID: 61625534}
 --- !u!61 &800469300
 BoxCollider2D:
@@ -4997,7 +5000,7 @@ MonoBehaviour:
   _crouchColliderSize: {x: 1, y: 1}
   _crouchColliderOffect: {x: 0, y: 0}
   _crouchingSpeed: 0.5
-  _minDistanceToTarget: 1
+  _minDistanceToTarget: 1.5
   _onPointArrival:
     m_PersistentCalls:
       m_Calls: []
@@ -5008,7 +5011,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874255488}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b292018b3b546f4a8e6c7ab99dd8263, type: 3}
   m_Name: 

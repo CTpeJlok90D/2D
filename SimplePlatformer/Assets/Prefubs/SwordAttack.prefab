@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -9183817161720030967}
   - component: {fileID: 7878457204951816292}
   - component: {fileID: 6319912491447300750}
-  - component: {fileID: 5504278701953614989}
+  - component: {fileID: 6903575078464493336}
   m_Layer: 0
   m_Name: SwordAttack
   m_TagString: Untagged
@@ -126,7 +126,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5504278701953614989
+--- !u!114 &6903575078464493336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 1
+  _stunTime: 0.4
+  _punchVelocity: {x: 1.8, y: 3}

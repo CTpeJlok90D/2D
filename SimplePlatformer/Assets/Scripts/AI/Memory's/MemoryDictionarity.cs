@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AI.Memory
@@ -7,9 +8,9 @@ namespace AI.Memory
     public class MemoryDictionarity
     {
         [SerializeField] private Factor _factor;
-        [SerializeField] private Memory _reaction;
+        [SerializeField] private List<Memory> _reaction;
 
         public Factor Factor => _factor;
-        public Memory Memory => _reaction;
+        public List<Memory> Memorys => _reaction;
     }
 }

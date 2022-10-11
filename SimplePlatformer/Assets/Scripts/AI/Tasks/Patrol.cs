@@ -11,7 +11,6 @@ namespace AI.Tasks
         private int _currentPointIndex = 0;
         private Vector2 _currentPoint;
         private float _currentTimeOnPoint = 0;
-        public override int Priority => 1;
 
         public override void Execute()
         {

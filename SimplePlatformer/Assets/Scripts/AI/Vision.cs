@@ -1,25 +1,33 @@
 using AI.Memory;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Vision : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _objects;
+    [SerializeField] private List<AIreaction> _visionObjects;
     [SerializeField] private Brain _brain;
-
-    public GameObject[] Objects => _objects.ToArray();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out AIreaction reaction))
         {
-            _brain.AddFactor(reaction.Factor);
+            _visionObjects.Add(reaction);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _objects.Remove(collision.gameObject);
+        if (collision.TryGetComponent(out AIreaction reaction))
+        {
+            _visionObjects.Remove(reaction);
+        }
+    }
+
+    private void Update()
+    {
+        foreach (AIreaction reaction in _visionObjects)
+        {
+            _brain.AddFactor(reaction.Factor);
+        }
     }
 }

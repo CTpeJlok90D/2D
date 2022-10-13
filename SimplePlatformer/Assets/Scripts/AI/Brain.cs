@@ -22,16 +22,20 @@ namespace AI.Memory
         {
             foreach (Memory memory in _reactionDictionarity[factor]) 
             {
+                bool added = false;
                 foreach (Memory memoryIterator in _memorys)
                 {
                     if (memoryIterator == memory)
                     {
                         memoryIterator.UpdateDituration(memory.Dituration);
-                        return;
+                        added = true;
                     }
                 }
-                _memorys.Add(memory.Copy());
-                memory.ImpactOnPriority();
+                if (added == false)
+                {
+                    _memorys.Add(memory.Copy());
+                    memory.ImpactOnPriority();
+                }
             }
         }
 

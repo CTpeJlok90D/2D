@@ -10,6 +10,9 @@ public class EffectList : MonoBehaviour
 
     private Impact _resultImpact = new();
     private List<Effect> _effects = new();
+    private bool _stunned = false;
+
+    public bool Stunned => _stunned;
 
     public void Add(Effect newEffect)
     {
@@ -40,7 +43,8 @@ public class EffectList : MonoBehaviour
 
     private void ApplyResultImpact()
     {
-        _characterController.SetActiveControl(_resultImpact.Stun == false);
+        _stunned = _resultImpact.Stun;
+        _characterController.SetActiveControl(_stunned == false);
         if (_health.Invulnerability == false)
         {
             _health.Current += _resultImpact.HealValue;

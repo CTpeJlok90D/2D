@@ -30,5 +30,10 @@ namespace AI
                 _onPoint = true;
             }
         }
+
+        public void StopMoving()
+        {
+            Move(0);
+        }
     }
 }

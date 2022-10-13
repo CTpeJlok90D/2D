@@ -28,7 +28,6 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     private bool _crouching = false;
     private int _lookDirection = 1;
     private UnityEvent _crashIntoSomething = new();
-    private float _controlBlockNextSeconds = 0f;
     private Vector2 _startColliderSize;
     private Vector2 _startColliderOffect;
 
@@ -36,7 +35,7 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     public bool CanJump => _cantJumpNextTime == 0;
     public bool Jumping => _jumping;
     public float MoveDirection => _moveDirection;
-    public bool CanMove => _canMove && _controlBlockNextSeconds == 0;
+    public bool CanMove => _canMove;
     public UnityEvent CrashIntoSomething => _crashIntoSomething;
     public int Direction => _lookDirection;
     public bool Crouching => _crouching;
@@ -49,21 +48,6 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
     public void Kick(Vector2 velocity)
     {
         _rigidbody2D.velocity = velocity;
-    }
-
-    public void EnableControl()
-    {
-        _canMove = true;
-    }
-
-    public void DisableControl()
-    {
-        _canMove = false;
-    }
-    
-    public void BlockControlOn(float seconds)
-    {
-        _controlBlockNextSeconds = seconds;
     }
 
     protected void Move(float direction)
@@ -161,8 +145,6 @@ public class CharacterController2D : MonoBehaviour, IHaveDirection
         {
             _cantJumpNextTime = Mathf.Clamp(_cantJumpNextTime - Time.deltaTime, 0, Mathf.Infinity);
         }
-
-        _controlBlockNextSeconds = Mathf.Clamp(_controlBlockNextSeconds - Time.deltaTime, 0, Mathf.Infinity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

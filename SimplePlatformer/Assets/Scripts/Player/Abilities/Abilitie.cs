@@ -16,18 +16,20 @@ namespace Abilitys
 
         public bool Prepearing => _currentPrepairingTime > 0;
         protected float PrepairTime => _prepairTime;
-        protected bool CanUse => _currentCooldown == 0f;
+        protected bool CanUse => _currentCooldown == 0f && _currentPrepairingTime == 0;
         protected float CurrentCooldown => _currentCooldown;
         protected UnityEvent PrepearStarted => _prepearStarted;
         protected UnityEvent PrepaerCanceled => _prepearCanceled;
         protected virtual bool ReduceCooldownCondiction => true;
+        protected virtual bool UseCondiction => true;
 
         public void Use()
         {
-            if (Prepearing)
+            if (CanUse == false && UseCondiction)
             {
                 return;   
             }
+            _currentPrepairingTime = _prepairTime;
             _prepair = StartCoroutine(PrepairTimeCorutine());
         }
         

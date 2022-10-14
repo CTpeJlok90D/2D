@@ -5,7 +5,7 @@ namespace AI.Tasks
     public class Attack : Task
     {
         [SerializeField] private Abilitys.Attack _attackAbility;
-        [SerializeField] private Mover _mover;
+        [SerializeField] private AINavigation _mover;
         [SerializeField] private Transform _target;
         [SerializeField] private KeepDistance _keepDistance;
 

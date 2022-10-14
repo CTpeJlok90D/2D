@@ -7,7 +7,7 @@ namespace AI.Tasks
     public class KeepDistance : Task
     {
         [SerializeField] private Transform _owner;
-        [SerializeField] private Mover _mover;
+        [SerializeField] private AINavigation _mover;
         [SerializeField] private float _distance;
         [SerializeField] private Transform _target;
 

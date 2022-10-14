@@ -5,7 +5,7 @@ namespace AI.Tasks
 {
     public class Patrol : Task
     {
-        [SerializeField] private Mover _mover;
+        [SerializeField] private AINavigation _mover;
         [SerializeField] private List<Vector2> _points;
         [SerializeField] private float _timeBetweenPoints = 1f;
         private int _currentPointIndex = 0;

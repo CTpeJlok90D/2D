@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace AI
 {
-    public class Mover : CharacterController2D
+    public class AINavigation : CharacterController2D
     {
         [Header("AI Mover settings")]
         [SerializeField] private float _minDistanceToTarget;

@@ -4,7 +4,7 @@ namespace AI.Tasks
 {
     public class Wait : Task
     {
-        [SerializeField] private Mover _characterController;
+        [SerializeField] private AINavigation _characterController;
         public override void Execute()
         {
             _characterController.StopMoving();

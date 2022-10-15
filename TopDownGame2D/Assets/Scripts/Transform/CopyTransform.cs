@@ -11,7 +11,7 @@ public class CopyTransform : MonoBehaviour
     {
         _target = newTarget;
     }
-    protected virtual void Update()
+    private void Update()
     {
         transform.position = new Vector3(
             x ? _target.position.x : transform.position.x,

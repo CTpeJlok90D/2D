@@ -5,7 +5,7 @@ using UnityEngine;
 public class SmoothCopyTransform : CopyTransform
 {
 	[SerializeField] protected float SmoothStrenth = 0.01f;
-	protected override void Update()
+	private void Update()
 	{
 		transform.position = new Vector3(
 			x ? Vector3.MoveTowards(transform.position, _target.position, SmoothStrenth * Vector3.Distance(transform.position, _target.position)).x : transform.position.x,

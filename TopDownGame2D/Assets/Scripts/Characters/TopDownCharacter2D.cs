@@ -32,10 +32,5 @@ namespace Character
         {
             transform.up = position - (Vector2)transform.position;
         }
-
-        public void LateUpdate()
-        {
-            Debug.Log(_currentSpeed);
-        }
     }
 }

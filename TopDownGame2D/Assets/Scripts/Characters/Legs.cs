@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -7,13 +8,11 @@ namespace Character
     public class Legs : MonoBehaviour
     {
         [SerializeField] private TopDownCharacter2D _ownerCharacter;
+        [SerializeField] private float _smoothStrench;
 
         private void Update()
         {
-            if (_ownerCharacter.MoveDirection != Vector2.zero)
-            {
-                transform.up = (_ownerCharacter.MoveDirection + (Vector2)transform.position) - (Vector2)transform.position;
-            }
+            transform.up = Vector3.MoveTowards(transform.up, _ownerCharacter.MoveDirection, 1 / _smoothStrench);
         }
     }
 }

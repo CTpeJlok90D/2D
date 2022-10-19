@@ -8,29 +8,31 @@ namespace Weapons
         [SerializeField] private Weapon _currentWeapon;
 
         public Weapon CurrentWeapon => _currentWeapon;
+        public bool CanShoot => _currentWeapon != null;
+
 
         public void Attack(InputAction.CallbackContext context)
         {
-            if (context.started) 
+            if (context.started == false || CanShoot == false) 
             {
-                _currentWeapon.Use();
+                return;
             }
+            _currentWeapon.Shoot();
         }
 
         public void DropWeapon()
         {
             if (_currentWeapon != null)
             {
-                _currentWeapon.transform.SetParent(null);
+                _currentWeapon.Drop();
+                _currentWeapon = null;
             }
         }
 
         public void TakeWeapon(Weapon weapon) 
         {
             DropWeapon();
-            weapon.transform.SetParent(transform);
-            weapon.transform.localPosition = Vector3.zero;
-            weapon.transform.localRotation = Quaternion.identity;
+            weapon.Take(transform);
             _currentWeapon = weapon;
         }
     }

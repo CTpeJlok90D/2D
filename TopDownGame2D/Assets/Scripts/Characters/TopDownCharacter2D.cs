@@ -12,6 +12,7 @@ namespace Character
 
         private float _currentSpeed => Mathf.Sqrt(Mathf.Pow(_rigidBody.velocity.x, 2) + Mathf.Pow(_rigidBody.velocity.y, 2));
 
+        public bool IsMoving => _moveDirection != Vector2.zero;
         public Vector2 MoveDirection => _moveDirection;
 
         protected void Move(Vector2 direction)

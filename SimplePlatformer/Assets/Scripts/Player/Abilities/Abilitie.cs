@@ -25,7 +25,7 @@ namespace Abilitys
 
         public void Use()
         {
-            if (CanUse == false && UseCondiction)
+            if (CanUse == false || UseCondiction == false)
             {
                 return;   
             }

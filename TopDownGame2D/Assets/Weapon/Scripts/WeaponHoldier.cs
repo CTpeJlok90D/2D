@@ -6,14 +6,33 @@ namespace Weapons
     public class WeaponHoldier : MonoBehaviour
     {
         [SerializeField] private Weapon _currentWeapon;
+        private Input.PlayerInput _input;
 
         public Weapon CurrentWeapon => _currentWeapon;
         public bool CanShoot => _currentWeapon != null;
 
+        private void Awake()
+        {
+            _input = new Input.PlayerInput();
+            _input.WorldMovement.Shoot.started += Attack;
+        }
+
+        private void OnEnable()
+        {
+            _input.WorldMovement.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _input.WorldMovement.Disable();
+        }
 
         public void Attack(InputAction.CallbackContext context)
         {
-            _currentWeapon.Use(context.phase);
+            if (CanShoot)
+            {
+                _currentWeapon.Use(context.phase);
+            }
         }
 
         public void DropWeapon()
@@ -25,10 +44,10 @@ namespace Weapons
             }
         }
 
-        public void TakeWeapon(Weapon weapon) 
+        public void PutWeapon(Weapon weapon) 
         {
             DropWeapon();
-            weapon.Take(transform);
+            weapon.PickUp(transform);
             _currentWeapon = weapon;
         }
     }

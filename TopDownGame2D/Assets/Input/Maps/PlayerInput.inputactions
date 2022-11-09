@@ -1,8 +1,8 @@
 {
-    "name": "Player",
+    "name": "PlayerInput",
     "maps": [
         {
-            "name": "Player",
+            "name": "WorldMovement",
             "id": "fc12c675-1983-4c2a-929f-611dfa0c3cf1",
             "actions": [
                 {
@@ -45,6 +45,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "8ff4b3ac-9424-4b9c-b56b-72b62185895a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DropWeapon",
+                    "type": "Button",
+                    "id": "765ae9ce-3941-4b49-8cc7-cb0ff4fffa8b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -203,6 +212,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a804eee2-2056-4c02-8301-0b8f564034a3",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DropWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Dialog",
+            "id": "2ccbf557-50b5-41e5-b30a-6cc35054031c",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "f2509254-cb69-494f-aa5c-9402a09ec627",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "68a7257a-631c-49da-addb-77213e7f2c1a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

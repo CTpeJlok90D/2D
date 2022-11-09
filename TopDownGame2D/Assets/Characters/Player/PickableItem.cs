@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Player
 {
-    public abstract class PickableItem : MonoBehaviour
+    public abstract class PickableItem : MonoBehaviour, IInteracteble
     {
         [SerializeField] private UnityEvent _onDrop = new UnityEvent();
         [SerializeField] private UnityEvent<Transform> _onPickUp = new UnityEvent<Transform>();
@@ -17,15 +17,21 @@ namespace Player
         public void Drop()
         {
             _onFloor = true;
-
+            transform.SetParent(null);
             _onDrop.Invoke();
         }
 
-        public void Take(Transform ownerWeaponHandler)
+        public void Interact(Transform ownerTransform)
+        {
+            PickUp(ownerTransform);
+        }
+
+        public void PickUp(Transform ownerTransform)
         {
             _onFloor = false;
-
-            _onPickUp.Invoke(ownerWeaponHandler);
+            transform.SetParent(ownerTransform);
+            transform.localPosition = Vector3.zero;
+            _onPickUp.Invoke(ownerTransform);
         }
     }
 }

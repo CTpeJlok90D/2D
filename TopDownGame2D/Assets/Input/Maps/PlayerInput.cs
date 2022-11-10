@@ -257,7 +257,7 @@ namespace Input
             ""id"": ""2ccbf557-50b5-41e5-b30a-6cc35054031c"",
             ""actions"": [
                 {
-                    ""name"": ""Click"",
+                    ""name"": ""NextStory"",
                     ""type"": ""Button"",
                     ""id"": ""f2509254-cb69-494f-aa5c-9402a09ec627"",
                     ""expectedControlType"": ""Button"",
@@ -274,7 +274,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Click"",
+                    ""action"": ""NextStory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -293,7 +293,7 @@ namespace Input
             m_WorldMovement_DropWeapon = m_WorldMovement.FindAction("DropWeapon", throwIfNotFound: true);
             // Dialog
             m_Dialog = asset.FindActionMap("Dialog", throwIfNotFound: true);
-            m_Dialog_Click = m_Dialog.FindAction("Click", throwIfNotFound: true);
+            m_Dialog_NextStory = m_Dialog.FindAction("NextStory", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -426,12 +426,12 @@ namespace Input
         // Dialog
         private readonly InputActionMap m_Dialog;
         private IDialogActions m_DialogActionsCallbackInterface;
-        private readonly InputAction m_Dialog_Click;
+        private readonly InputAction m_Dialog_NextStory;
         public struct DialogActions
         {
             private @PlayerInput m_Wrapper;
             public DialogActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Click => m_Wrapper.m_Dialog_Click;
+            public InputAction @NextStory => m_Wrapper.m_Dialog_NextStory;
             public InputActionMap Get() { return m_Wrapper.m_Dialog; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -441,16 +441,16 @@ namespace Input
             {
                 if (m_Wrapper.m_DialogActionsCallbackInterface != null)
                 {
-                    @Click.started -= m_Wrapper.m_DialogActionsCallbackInterface.OnClick;
-                    @Click.performed -= m_Wrapper.m_DialogActionsCallbackInterface.OnClick;
-                    @Click.canceled -= m_Wrapper.m_DialogActionsCallbackInterface.OnClick;
+                    @NextStory.started -= m_Wrapper.m_DialogActionsCallbackInterface.OnNextStory;
+                    @NextStory.performed -= m_Wrapper.m_DialogActionsCallbackInterface.OnNextStory;
+                    @NextStory.canceled -= m_Wrapper.m_DialogActionsCallbackInterface.OnNextStory;
                 }
                 m_Wrapper.m_DialogActionsCallbackInterface = instance;
                 if (instance != null)
                 {
-                    @Click.started += instance.OnClick;
-                    @Click.performed += instance.OnClick;
-                    @Click.canceled += instance.OnClick;
+                    @NextStory.started += instance.OnNextStory;
+                    @NextStory.performed += instance.OnNextStory;
+                    @NextStory.canceled += instance.OnNextStory;
                 }
             }
         }
@@ -466,7 +466,7 @@ namespace Input
         }
         public interface IDialogActions
         {
-            void OnClick(InputAction.CallbackContext context);
+            void OnNextStory(InputAction.CallbackContext context);
         }
     }
 }

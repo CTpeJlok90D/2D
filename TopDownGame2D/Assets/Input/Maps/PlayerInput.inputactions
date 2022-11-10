@@ -233,7 +233,7 @@
             "id": "2ccbf557-50b5-41e5-b30a-6cc35054031c",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "NextStory",
                     "type": "Button",
                     "id": "f2509254-cb69-494f-aa5c-9402a09ec627",
                     "expectedControlType": "Button",
@@ -250,7 +250,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Click",
+                    "action": "NextStory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -2,5 +2,5 @@
 
 internal interface IInteracteble
 {
-    public void Interact(Transform itemPlace);
+    public void Interact(InteractInfo interactInfo);
 }

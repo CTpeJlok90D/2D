@@ -1,17 +1,30 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Weapons;
+using Dialog;
 
 namespace Player 
 {
     public class InteractHandler : MonoBehaviour
     {
         [SerializeField] private WeaponHoldier _weaponHolder;
+        [SerializeField] private DialogView _dialogView;
+        [SerializeField] private Player _player;
 
         private IInteracteble _lastInteractebleInZone;
-        
-        public void Interact()
+
+        private void Awake()
         {
-            _lastInteractebleInZone.Interact(_weaponHolder.transform);
+            InputHandler.Input.WorldMovement.Interact.started += Interact;
+        }
+
+        public void Interact(InputAction.CallbackContext context)
+        {
+            _lastInteractebleInZone?.Interact(new InteractInfo()
+            {
+                WeaponHoldier = _weaponHolder,
+                DialogView = _dialogView
+            });
         }
 
         private void OnTriggerEnter2D(Collider2D other)

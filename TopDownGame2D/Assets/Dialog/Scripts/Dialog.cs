@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Dialog
 {
     [Serializable]
-    public struct Dialog
+    public class Dialog
     {
         [SerializeField] private string[] _story;
         [SerializeField] private Answer[] _answers;

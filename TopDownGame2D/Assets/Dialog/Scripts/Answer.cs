@@ -4,12 +4,12 @@ using UnityEngine;
 namespace Dialog
 {
     [Serializable]
-    public struct Answer
+    public class Answer
     {
         [SerializeField] private string _text;
         [SerializeField] private Dialog _nextDialog;
 
         public string Text => _text;
-        public Dialog Dialog => _nextDialog;
+        public Dialog NextDialog => _nextDialog;
     }
 }

@@ -1,12 +1,14 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Dialog
 {
-    public class DialogView : MonoBehaviour
+    public class Dialoger : MonoBehaviour
     {
-        [SerializeField] private GameObject _dialogWindow;
+        [SerializeField] private Transform _dialogWindow;
+        [SerializeField] private Image _characterImage;
         [SerializeField] private TMP_Text _dialogTextPlace;
         [SerializeField] private Transform _answerContainer;
         [SerializeField] private AnswerView _answerPrefub;
@@ -14,20 +16,27 @@ namespace Dialog
         private int _currentStoryNumber;
         private Dialog _currentDialog;
 
+        private void Awake()
+        {
+            InputHandler.Input.Dialog.NextStory.started += (InputAction.CallbackContext context) => { NextStory(); };
+        }
+
         public void FinishDialog()
         {
             InputHandler.Input.WorldMovement.Enable();
             InputHandler.Input.Dialog.Disable();
             _currentDialog = null;
-            _dialogWindow.SetActive(false);
+            _characterImage.sprite = null;
+            _dialogWindow.gameObject.SetActive(false);
         }
 
         private void NextStory()
         {
             _currentStoryNumber++;
             InputHandler.Input.Dialog.Enable();
-            if (_currentStoryNumber >= _currentDialog.Story.Length)
+            if (_currentStoryNumber >= _currentDialog.Storys.Length)
             {
+                _currentDialog.StoryEnded.Invoke();
                 if (_currentDialog.Answers.Length == 0)
                 {
                     FinishDialog();
@@ -37,7 +46,11 @@ namespace Dialog
                 ShowAnswers(_currentDialog.Answers);
                 return;
             }
-            _dialogTextPlace.text = _currentDialog.Story[_currentStoryNumber];
+            _dialogTextPlace.text = _currentDialog.Storys[_currentStoryNumber].Text;
+            if (_currentDialog.Storys[_currentStoryNumber].IntercolutorSprite != null)
+            {
+                _characterImage.sprite = _currentDialog.Storys[_currentStoryNumber].IntercolutorSprite;
+            }
         }
 
         public void StartDialog(Dialog dialog)
@@ -48,13 +61,8 @@ namespace Dialog
             {
                 Destroy(answer.gameObject);
             }
-            _dialogWindow.SetActive(true);
+            _dialogWindow.gameObject.SetActive(true);
             NextStory();
-        }
-
-        private void Awake()
-        {
-            InputHandler.Input.Dialog.NextStory.started += (InputAction.CallbackContext context) => { NextStory(); };
         }
 
         private void ShowAnswers(Answer[] answers)

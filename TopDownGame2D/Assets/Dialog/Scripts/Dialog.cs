@@ -1,15 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dialog
 {
-    [Serializable]
-    public class Dialog
+    [CreateAssetMenu()]
+    public class Dialog : ScriptableObject
     {
-        [SerializeField] private string[] _story;
+        [SerializeField] private Story[] _storys;
         [SerializeField] private Answer[] _answers;
-
-        public string[] Story => _story;
+        [SerializeField] private UnityEvent _storyEnded;
+        public Story[] Storys => _storys;
         public Answer[] Answers => _answers;
+        public UnityEvent StoryEnded => _storyEnded;
     }
 }

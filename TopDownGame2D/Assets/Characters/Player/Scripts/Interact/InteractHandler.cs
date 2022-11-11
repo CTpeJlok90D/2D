@@ -8,7 +8,7 @@ namespace Player
     public class InteractHandler : MonoBehaviour
     {
         [SerializeField] private WeaponHoldier _weaponHolder;
-        [SerializeField] private DialogView _dialogView;
+        [SerializeField] private Dialoger _dialogView;
         [SerializeField] private Player _player;
 
         private IInteracteble _lastInteractebleInZone;

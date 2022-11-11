@@ -82,6 +82,15 @@ namespace Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""61f11b7b-1b98-442b-af87-0e765d62c15a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -249,6 +258,17 @@ namespace Input
                     ""action"": ""DropWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e6ac765-97ff-4fc1-8855-015212de4547"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -291,6 +311,7 @@ namespace Input
             m_WorldMovement_Shoot = m_WorldMovement.FindAction("Shoot", throwIfNotFound: true);
             m_WorldMovement_Interact = m_WorldMovement.FindAction("Interact", throwIfNotFound: true);
             m_WorldMovement_DropWeapon = m_WorldMovement.FindAction("DropWeapon", throwIfNotFound: true);
+            m_WorldMovement_Reload = m_WorldMovement.FindAction("Reload", throwIfNotFound: true);
             // Dialog
             m_Dialog = asset.FindActionMap("Dialog", throwIfNotFound: true);
             m_Dialog_NextStory = m_Dialog.FindAction("NextStory", throwIfNotFound: true);
@@ -359,6 +380,7 @@ namespace Input
         private readonly InputAction m_WorldMovement_Shoot;
         private readonly InputAction m_WorldMovement_Interact;
         private readonly InputAction m_WorldMovement_DropWeapon;
+        private readonly InputAction m_WorldMovement_Reload;
         public struct WorldMovementActions
         {
             private @PlayerInput m_Wrapper;
@@ -369,6 +391,7 @@ namespace Input
             public InputAction @Shoot => m_Wrapper.m_WorldMovement_Shoot;
             public InputAction @Interact => m_Wrapper.m_WorldMovement_Interact;
             public InputAction @DropWeapon => m_Wrapper.m_WorldMovement_DropWeapon;
+            public InputAction @Reload => m_Wrapper.m_WorldMovement_Reload;
             public InputActionMap Get() { return m_Wrapper.m_WorldMovement; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -396,6 +419,9 @@ namespace Input
                     @DropWeapon.started -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnDropWeapon;
                     @DropWeapon.performed -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnDropWeapon;
                     @DropWeapon.canceled -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnDropWeapon;
+                    @Reload.started -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnReload;
+                    @Reload.performed -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnReload;
+                    @Reload.canceled -= m_Wrapper.m_WorldMovementActionsCallbackInterface.OnReload;
                 }
                 m_Wrapper.m_WorldMovementActionsCallbackInterface = instance;
                 if (instance != null)
@@ -418,6 +444,9 @@ namespace Input
                     @DropWeapon.started += instance.OnDropWeapon;
                     @DropWeapon.performed += instance.OnDropWeapon;
                     @DropWeapon.canceled += instance.OnDropWeapon;
+                    @Reload.started += instance.OnReload;
+                    @Reload.performed += instance.OnReload;
+                    @Reload.canceled += instance.OnReload;
                 }
             }
         }
@@ -463,6 +492,7 @@ namespace Input
             void OnShoot(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnDropWeapon(InputAction.CallbackContext context);
+            void OnReload(InputAction.CallbackContext context);
         }
         public interface IDialogActions
         {

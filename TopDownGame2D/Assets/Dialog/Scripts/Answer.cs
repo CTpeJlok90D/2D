@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Dialog
 {
-    [Serializable]
-    public class Answer
+    [CreateAssetMenu()]
+    public class Answer : ScriptableObject
     {
         [SerializeField] private string _text;
         [SerializeField] private Dialog _nextDialog;

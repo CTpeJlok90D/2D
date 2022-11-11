@@ -2,18 +2,20 @@ using UnityEngine;
 using UnityEngine.Events;
 using Player;
 using UnityEngine.InputSystem;
+using Weapon;
 
 namespace Weapons 
 {
     public abstract class Weapon : PickableItem, IInteracteble
     {
+        [Header("Shoot")]
         [SerializeField] private UnityEvent _onShoot = new UnityEvent();
         [SerializeField] private float _timeBetweenShoots = 0.1f;
-        [SerializeField] private int _ammoCount = 30;
-        
+        [SerializeField] protected int ammoCount = 30;
+
         private float _cantShootNextSeconds = 0;
 
-        public bool CanShoot => _cantShootNextSeconds == 0 && _ammoCount > 0;
+        public bool CanShoot => _cantShootNextSeconds == 0 && ammoCount > 0;
 
         protected abstract void ForsetShoot();
         public abstract void Use(InputActionPhase phase);
@@ -31,9 +33,14 @@ namespace Weapons
             }
 
             _cantShootNextSeconds += _timeBetweenShoots;
-            _ammoCount -= 1;
+            ammoCount -= 1;
             ForsetShoot();
             _onShoot.Invoke();
+        }
+
+        protected void AddCantShootTime(float time)
+        {
+            _cantShootNextSeconds += time;
         }
 
         protected virtual void Update()

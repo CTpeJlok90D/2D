@@ -11,9 +11,9 @@ TagManager:
   - Item
   - Water
   - UI
-  - ItemScanner
-  - 
-  - 
+  - InteractTrigger
+  - Bullet
+  - Character
   - 
   - 
   - 

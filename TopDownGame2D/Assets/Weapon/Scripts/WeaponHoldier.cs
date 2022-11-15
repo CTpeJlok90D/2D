@@ -6,18 +6,20 @@ namespace Weapons
 {
     public class WeaponHoldier : MonoBehaviour
     {
+        [Header("Weapon holdier")]
         [SerializeField] private Weapon _currentWeapon;
+        [SerializeField] private XPcontainer _owenerXPContainter;
 
         public Weapon CurrentWeapon => _currentWeapon;
         public bool CanShoot => _currentWeapon != null;
 
         public void Awake()
         {
-            InputHandler.Input.WorldMovement.Shoot.started += Attack;
-            InputHandler.Input.WorldMovement.Shoot.canceled += Attack;
-            InputHandler.Input.WorldMovement.Shoot.performed += Attack;
-            InputHandler.Input.WorldMovement.Reload.started += (InputAction.CallbackContext context) => Reload();
-            InputHandler.Input.WorldMovement.DropWeapon.started += (InputAction.CallbackContext context) => DropWeapon();
+            InputHandler.Singletone.WorldMovement.Shoot.started += Attack;
+            InputHandler.Singletone.WorldMovement.Shoot.canceled += Attack;
+            InputHandler.Singletone.WorldMovement.Shoot.performed += Attack;
+            InputHandler.Singletone.WorldMovement.Reload.started += (InputAction.CallbackContext context) => Reload();
+            InputHandler.Singletone.WorldMovement.DropWeapon.started += (InputAction.CallbackContext context) => DropWeapon();
         }
 
         public void Attack(InputAction.CallbackContext context)
@@ -39,6 +41,10 @@ namespace Weapons
         public void DropWeapon()
         {
             _currentWeapon?.Drop();
+            if (_currentWeapon != null)
+            {
+                _currentWeapon.OwnerXpContainer = null;
+            }
             _currentWeapon = null;
         }
 
@@ -46,7 +52,8 @@ namespace Weapons
         {
             DropWeapon();
             _currentWeapon = weapon;
-            weapon.PickUp(transform);
+            _currentWeapon.OwnerXpContainer = _owenerXPContainter;
+            weapon.PickUp(gameObject);
         }
     }
 }

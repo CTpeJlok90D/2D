@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Health;
 using Effects;
-using Character;
+using UnityEngine.Events;
 
 public class EffectList : MonoBehaviour
 {
-    [SerializeField] private TopDownCharacter2D _characterController;
-    [SerializeField] private CharacterHealth _health;
+    [SerializeField] private UnityEvent<Impact> _effectTick;
 
     private Impact _resultImpact = new Impact();
     private List<Effect> _effects = new List<Effect>();
@@ -19,7 +17,7 @@ public class EffectList : MonoBehaviour
 
     private void AppllyEffectsImpact()
     {
-        _resultImpact = new Impact() { SpeedMultiplier = 1f, JumpForseMultiplier = 1f };
+        _resultImpact = new Impact() { };
         foreach (Effect effect in _effects)
         {
             _resultImpact += effect.GetImpact();
@@ -27,7 +25,7 @@ public class EffectList : MonoBehaviour
         ApplyResultImpact();
     }
 
-    private void ReduseEffectCoolDown()
+    private void ReduseEffectCooldown()
     {
         foreach (Effect effect in _effects.ToArray())
         {
@@ -41,12 +39,12 @@ public class EffectList : MonoBehaviour
 
     private void ApplyResultImpact()
     {
-        
+        _effectTick.Invoke(_resultImpact);
     }
 
     private void Update()
     {
         AppllyEffectsImpact();
-        ReduseEffectCoolDown();
+        ReduseEffectCooldown();
     }
 }

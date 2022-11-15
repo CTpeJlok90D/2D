@@ -15,16 +15,20 @@ namespace Dialog
 
         private int _currentStoryNumber;
         private Dialog _currentDialog;
+        private bool _chosingAnswers = false;
+
+        public bool InDialog => _currentDialog != null;
+        public bool ChosingAnswers => _chosingAnswers;
 
         private void Awake()
         {
-            InputHandler.Input.Dialog.NextStory.started += (InputAction.CallbackContext context) => { NextStory(); };
+            InputHandler.Singletone.Dialog.NextStory.started += (InputAction.CallbackContext context) => { NextStory(); };
         }
 
         public void FinishDialog()
         {
-            InputHandler.Input.WorldMovement.Enable();
-            InputHandler.Input.Dialog.Disable();
+            InputHandler.Singletone.WorldMovement.Enable();
+            InputHandler.Singletone.Dialog.Disable();
             _currentDialog = null;
             _characterImage.sprite = null;
             _dialogWindow.gameObject.SetActive(false);
@@ -32,8 +36,11 @@ namespace Dialog
 
         private void NextStory()
         {
+            if (ChosingAnswers)
+            {
+                return;
+            }
             _currentStoryNumber++;
-            InputHandler.Input.Dialog.Enable();
             if (_currentStoryNumber >= _currentDialog.Storys.Length)
             {
                 _currentDialog.StoryEnded.Invoke();
@@ -42,7 +49,6 @@ namespace Dialog
                     FinishDialog();
                     return;
                 }
-                InputHandler.Input.Dialog.Disable();
                 ShowAnswers(_currentDialog.Answers);
                 return;
             }
@@ -55,6 +61,7 @@ namespace Dialog
 
         public void StartDialog(Dialog dialog)
         {
+            _chosingAnswers = false;
             _currentDialog = dialog;
             _currentStoryNumber = -1;
             foreach (Transform answer in _answerContainer)
@@ -69,6 +76,7 @@ namespace Dialog
         {
             _dialogTextPlace.text = "";
             int currentAnswerNumber = 0;
+            _chosingAnswers = true;
             foreach (Answer answer in answers)
             {
                 int copyCurrentAnswerNumber = currentAnswerNumber;

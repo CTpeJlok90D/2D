@@ -10,7 +10,7 @@ public class AnswerView : MonoBehaviour
 
     public void Awake()
     {
-        _button.onClick.AddListener(InputHandler.Input.Dialog.Enable);
+        _button.onClick.AddListener(InputHandler.Singletone.Dialog.Enable);
     }
 
     public AnswerView Init(string answerText, Action onClick)

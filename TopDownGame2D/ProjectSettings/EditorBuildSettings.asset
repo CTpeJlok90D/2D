@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Characters/Player/PlayerMoveTest.unity
+    path: Assets/Main Menu/MainMenu.unity
+    guid: fbdf82fc64ac1ac4b99d3bb1e35f3dd8
+  - enabled: 1
+    path: Assets/Weapon/PlayerWeaponTest.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Dialog/DialogTest.unity
+    guid: 33fb0549c6e904d4f994fe0cbed1fc9b
   m_configObjects: {}

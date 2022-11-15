@@ -9,20 +9,25 @@ namespace Player
         [SerializeField] private Transform _head;
         private Vector2 _currentDirection;
 
-        public bool CanMove => InputHandler.Input.WorldMovement.enabled;
+        public bool CanMove => InputHandler.Singletone.WorldMovement.enabled;
+
+        private void Start()
+        {
+            InputHandler.Singletone.WorldMovement.Enable();
+        }
 
         private void OnEnable()
         {
-            InputHandler.Input.WorldMovement.Move.started += Move;
-            InputHandler.Input.WorldMovement.Move.performed += Move;
-            InputHandler.Input.WorldMovement.Move.canceled += Move;
+            InputHandler.Singletone.WorldMovement.Move.started += Move;
+            InputHandler.Singletone.WorldMovement.Move.performed += Move;
+            InputHandler.Singletone.WorldMovement.Move.canceled += Move;
         }
 
         private void OnDisable()
         {
-            InputHandler.Input.WorldMovement.Move.started -= Move;
-            InputHandler.Input.WorldMovement.Move.performed -= Move;
-            InputHandler.Input.WorldMovement.Move.canceled -= Move;
+            InputHandler.Singletone.WorldMovement.Move.started -= Move;
+            InputHandler.Singletone.WorldMovement.Move.performed -= Move;
+            InputHandler.Singletone.WorldMovement.Move.canceled -= Move;
         }
 
         private void UpdateHeadRotate()

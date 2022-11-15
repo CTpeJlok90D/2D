@@ -11,8 +11,8 @@ namespace Dialog
 
         public void Interact(InteractInfo interactInfo)
         {
-            InputHandler.Input.WorldMovement.Disable();
-            InputHandler.Input.Dialog.Enable();
+            InputHandler.Singletone.WorldMovement.Disable();
+            InputHandler.Singletone.Dialog.Enable();
             interactInfo.DialogView.StartDialog(_dialog);
         }
     }

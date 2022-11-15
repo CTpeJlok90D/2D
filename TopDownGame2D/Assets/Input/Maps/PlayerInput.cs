@@ -299,6 +299,34 @@ namespace Input
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PauseMenu"",
+            ""id"": ""483d5134-5a84-4bcc-ab78-94c68ba64aa5"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenClose"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ee22f64-5171-45b9-abcf-f570b58a3f8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""69979d1b-e82e-43cc-bf5b-23f49d58fd85"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -315,6 +343,9 @@ namespace Input
             // Dialog
             m_Dialog = asset.FindActionMap("Dialog", throwIfNotFound: true);
             m_Dialog_NextStory = m_Dialog.FindAction("NextStory", throwIfNotFound: true);
+            // PauseMenu
+            m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
+            m_PauseMenu_OpenClose = m_PauseMenu.FindAction("OpenClose", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -484,6 +515,39 @@ namespace Input
             }
         }
         public DialogActions @Dialog => new DialogActions(this);
+
+        // PauseMenu
+        private readonly InputActionMap m_PauseMenu;
+        private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
+        private readonly InputAction m_PauseMenu_OpenClose;
+        public struct PauseMenuActions
+        {
+            private @PlayerInput m_Wrapper;
+            public PauseMenuActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+            public InputAction @OpenClose => m_Wrapper.m_PauseMenu_OpenClose;
+            public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
+            public void SetCallbacks(IPauseMenuActions instance)
+            {
+                if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
+                {
+                    @OpenClose.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnOpenClose;
+                    @OpenClose.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnOpenClose;
+                    @OpenClose.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnOpenClose;
+                }
+                m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @OpenClose.started += instance.OnOpenClose;
+                    @OpenClose.performed += instance.OnOpenClose;
+                    @OpenClose.canceled += instance.OnOpenClose;
+                }
+            }
+        }
+        public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
         public interface IWorldMovementActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -497,6 +561,10 @@ namespace Input
         public interface IDialogActions
         {
             void OnNextStory(InputAction.CallbackContext context);
+        }
+        public interface IPauseMenuActions
+        {
+            void OnOpenClose(InputAction.CallbackContext context);
         }
     }
 }

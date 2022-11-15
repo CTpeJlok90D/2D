@@ -15,7 +15,7 @@ namespace Player
 
         private void Awake()
         {
-            InputHandler.Input.WorldMovement.Interact.started += Interact;
+            InputHandler.Singletone.WorldMovement.Interact.started += Interact;
         }
 
         public void Interact(InputAction.CallbackContext context)

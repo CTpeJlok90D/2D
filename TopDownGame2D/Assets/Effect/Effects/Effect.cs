@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Effects
 {
-    abstract public class Effect
+    public abstract class Effect
     {
         private float _dituration;
         private bool _firstTick = true;
@@ -11,8 +12,8 @@ namespace Effects
         public float Diruration => _dituration;
         public bool FirstTick => _firstTick;
         public UnityEvent OnDiturationEnd => _onDiturationEnd;
-        virtual public bool Visible => false;
-        virtual public bool Permanent => false;
+        public virtual bool Visible => false;
+        public virtual bool Permanent => false;
 
         public Effect(float dituratuin)
         {
@@ -34,6 +35,6 @@ namespace Effects
             _dituration = 0;
         }
 
-        abstract public Impact GetImpact();
+        public abstract Impact GetImpact();
     }
 }

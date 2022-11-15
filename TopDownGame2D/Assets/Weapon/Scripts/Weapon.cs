@@ -2,55 +2,63 @@ using UnityEngine;
 using UnityEngine.Events;
 using Player;
 using UnityEngine.InputSystem;
-using Weapon;
 
 namespace Weapons 
 {
     public abstract class Weapon : PickableItem, IInteracteble
     {
-        [Header("Shoot")]
-        [SerializeField] private UnityEvent _onShoot = new UnityEvent();
-        [SerializeField] private float _timeBetweenShoots = 0.1f;
-        [SerializeField] protected int ammoCount = 30;
+        [HideInInspector] public XPcontainer OwnerXpContainer;
 
-        private float _cantShootNextSeconds = 0;
+        [Header("Weapon")]
+        [SerializeField] private UnityEvent _onAttack = new UnityEvent();
+        [SerializeField] private float _timeBetweenAttacks = 0.1f;
 
-        public bool CanShoot => _cantShootNextSeconds == 0 && ammoCount > 0;
+        private float _cantAttackNextSeconds = 0;
+        private UnityEvent<InputActionPhase> _weaponIsed = new();
+        private UnityEvent _update = new();
 
-        protected abstract void ForsetShoot();
-        public abstract void Use(InputActionPhase phase);
+        public bool CanAttack => _cantAttackNextSeconds == 0 && AttackCodiction;
+        protected UnityEvent UpdateEvent => _update;
+        protected UnityEvent<InputActionPhase> WeaponUsed => _weaponIsed;
+
+        protected virtual bool AttackCodiction => true;
+        protected abstract void ForsetAttack();
+        public void Use(InputActionPhase phase)
+        {
+            _weaponIsed.Invoke(phase);
+        }
 
         public void Interact(InteractInfo info)
         {
             info.WeaponHoldier.PutWeapon(this);
         }
 
-        protected void Shoot()
+        protected void Attack()
         {
-            if (CanShoot == false)
+            if (CanAttack == false)
             {
                 return;
             }
 
-            _cantShootNextSeconds += _timeBetweenShoots;
-            ammoCount -= 1;
-            ForsetShoot();
-            _onShoot.Invoke();
+            _cantAttackNextSeconds += _timeBetweenAttacks;
+            ForsetAttack();
+            _onAttack.Invoke();
         }
 
         protected void AddCantShootTime(float time)
         {
-            _cantShootNextSeconds += time;
-        }
-
-        protected virtual void Update()
-        {
-            ReduceCoolDown(Time.deltaTime);
+            _cantAttackNextSeconds += time;
         }
 
         protected void ReduceCoolDown(float value)
         {
-            _cantShootNextSeconds = Mathf.Clamp(_cantShootNextSeconds - value, 0, Mathf.Infinity);
+            _cantAttackNextSeconds = Mathf.Clamp(_cantAttackNextSeconds - value, 0, Mathf.Infinity);
+        }
+
+        protected void Update()
+        {
+            ReduceCoolDown(Time.deltaTime);
+            UpdateEvent.Invoke();
         }
     }
 }
